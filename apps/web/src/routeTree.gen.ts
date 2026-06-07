@@ -37,8 +37,13 @@ import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminSiteConfigRouteImport } from './routes/admin/site-config'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin/testimonials/index'
+import { Route as AdminGalleryIndexRouteImport } from './routes/admin/gallery/index'
+import { Route as AdminAlumniIndexRouteImport } from './routes/admin/alumni/index'
 import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AdminTestimonialsIdRouteImport } from './routes/admin/testimonials/$id'
+import { Route as AdminAlumniIdRouteImport } from './routes/admin/alumni/$id'
 
 const TestimoniRoute = TestimoniRouteImport.update({
   id: '/testimoni',
@@ -180,6 +185,21 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminTestimonialsIndexRoute = AdminTestimonialsIndexRouteImport.update({
+  id: '/testimonials/',
+  path: '/testimonials/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
+  id: '/gallery/',
+  path: '/gallery/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAlumniIndexRoute = AdminAlumniIndexRouteImport.update({
+  id: '/alumni/',
+  path: '/alumni/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: '/api/rpc/$',
   path: '/api/rpc/$',
@@ -189,6 +209,16 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTestimonialsIdRoute = AdminTestimonialsIdRouteImport.update({
+  id: '/testimonials/$id',
+  path: '/testimonials/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAlumniIdRoute = AdminAlumniIdRouteImport.update({
+  id: '/alumni/$id',
+  path: '/alumni/$id',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -220,8 +250,13 @@ export interface FileRoutesByFullPath {
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/admin/alumni/$id': typeof AdminAlumniIdRoute
+  '/admin/testimonials/$id': typeof AdminTestimonialsIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/admin/alumni/': typeof AdminAlumniIndexRoute
+  '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -250,8 +285,13 @@ export interface FileRoutesByTo {
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/programs': typeof ProgramsIndexRoute
+  '/admin/alumni/$id': typeof AdminAlumniIdRoute
+  '/admin/testimonials/$id': typeof AdminTestimonialsIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/admin/alumni': typeof AdminAlumniIndexRoute
+  '/admin/gallery': typeof AdminGalleryIndexRoute
+  '/admin/testimonials': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -283,8 +323,13 @@ export interface FileRoutesById {
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/admin/alumni/$id': typeof AdminAlumniIdRoute
+  '/admin/testimonials/$id': typeof AdminTestimonialsIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/admin/alumni/': typeof AdminAlumniIndexRoute
+  '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -317,8 +362,13 @@ export interface FileRouteTypes {
     | '/programs/$slug'
     | '/admin/'
     | '/programs/'
+    | '/admin/alumni/$id'
+    | '/admin/testimonials/$id'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/admin/alumni/'
+    | '/admin/gallery/'
+    | '/admin/testimonials/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -347,8 +397,13 @@ export interface FileRouteTypes {
     | '/programs/$slug'
     | '/admin'
     | '/programs'
+    | '/admin/alumni/$id'
+    | '/admin/testimonials/$id'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/admin/alumni'
+    | '/admin/gallery'
+    | '/admin/testimonials'
   id:
     | '__root__'
     | '/'
@@ -379,8 +434,13 @@ export interface FileRouteTypes {
     | '/programs/$slug'
     | '/admin/'
     | '/programs/'
+    | '/admin/alumni/$id'
+    | '/admin/testimonials/$id'
     | '/api/auth/$'
     | '/api/rpc/$'
+    | '/admin/alumni/'
+    | '/admin/gallery/'
+    | '/admin/testimonials/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -607,6 +667,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/testimonials/': {
+      id: '/admin/testimonials/'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials/'
+      preLoaderRoute: typeof AdminTestimonialsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/gallery/': {
+      id: '/admin/gallery/'
+      path: '/gallery'
+      fullPath: '/admin/gallery/'
+      preLoaderRoute: typeof AdminGalleryIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/alumni/': {
+      id: '/admin/alumni/'
+      path: '/alumni'
+      fullPath: '/admin/alumni/'
+      preLoaderRoute: typeof AdminAlumniIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/api/rpc/$': {
       id: '/api/rpc/$'
       path: '/api/rpc/$'
@@ -621,6 +702,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/testimonials/$id': {
+      id: '/admin/testimonials/$id'
+      path: '/testimonials/$id'
+      fullPath: '/admin/testimonials/$id'
+      preLoaderRoute: typeof AdminTestimonialsIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/alumni/$id': {
+      id: '/admin/alumni/$id'
+      path: '/alumni/$id'
+      fullPath: '/admin/alumni/$id'
+      preLoaderRoute: typeof AdminAlumniIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 
@@ -630,6 +725,11 @@ interface AdminRouteRouteChildren {
   AdminSiteConfigRoute: typeof AdminSiteConfigRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminAlumniIdRoute: typeof AdminAlumniIdRoute
+  AdminTestimonialsIdRoute: typeof AdminTestimonialsIdRoute
+  AdminAlumniIndexRoute: typeof AdminAlumniIndexRoute
+  AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
+  AdminTestimonialsIndexRoute: typeof AdminTestimonialsIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
@@ -638,6 +738,11 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminSiteConfigRoute: AdminSiteConfigRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminAlumniIdRoute: AdminAlumniIdRoute,
+  AdminTestimonialsIdRoute: AdminTestimonialsIdRoute,
+  AdminAlumniIndexRoute: AdminAlumniIndexRoute,
+  AdminGalleryIndexRoute: AdminGalleryIndexRoute,
+  AdminTestimonialsIndexRoute: AdminTestimonialsIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(

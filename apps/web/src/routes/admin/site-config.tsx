@@ -16,10 +16,10 @@ import {
 	Clock,
 	User,
 	Building2,
-	Instagram,
-	Youtube,
-	Facebook,
 	Music2,
+	Share2,
+	Play,
+	ThumbsUp,
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/site-config")({
@@ -67,10 +67,10 @@ const KEY_ICON: Record<string, React.FC<{ className?: string }>> = {
 	email: ({ className }) => <Mail className={className} />,
 	address: ({ className }) => <MapPin className={className} />,
 	operating_hours: ({ className }) => <Clock className={className} />,
-	instagram_url: ({ className }) => <Instagram className={className} />,
+	instagram_url: ({ className }) => <Share2 className={className} />,
 	tiktok_url: ({ className }) => <Music2 className={className} />,
-	youtube_url: ({ className }) => <Youtube className={className} />,
-	facebook_url: ({ className }) => <Facebook className={className} />,
+	youtube_url: ({ className }) => <Play className={className} />,
+	facebook_url: ({ className }) => <ThumbsUp className={className} />,
 };
 
 const GROUP_ORDER = ["general", "contact", "social"];
