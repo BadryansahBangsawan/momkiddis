@@ -1,5 +1,5 @@
 import { user } from "@momkiddis/db/schema";
-import { eq, desc, ne } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { z } from "zod";
 import { superAdminProcedure } from "../../index";
 import { logActivity } from "../../utils/log-activity";

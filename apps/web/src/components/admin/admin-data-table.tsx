@@ -138,7 +138,7 @@ export function AdminDataTable<T extends { id: string }>({
 					<Select
 						key={filter.key}
 						value={filterValues?.[filter.key] ?? ""}
-						onValueChange={(val) => onFilterChange?.(filter.key, val)}
+						onValueChange={(val) => onFilterChange?.(filter.key, val ?? "")}
 					>
 						<SelectTrigger className="w-[160px]">
 							<SelectValue placeholder={filter.label} />

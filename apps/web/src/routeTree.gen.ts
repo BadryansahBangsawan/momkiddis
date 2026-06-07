@@ -33,6 +33,8 @@ import { Route as ProgramsIndexRouteImport } from './routes/programs/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ProgramsSlugRouteImport } from './routes/programs/$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
@@ -157,6 +159,16 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -195,6 +207,8 @@ export interface FileRoutesByFullPath {
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -222,6 +236,8 @@ export interface FileRoutesByTo {
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin': typeof AdminIndexRoute
@@ -252,6 +268,8 @@ export interface FileRoutesById {
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -283,6 +301,8 @@ export interface FileRouteTypes {
     | '/syarat-ketentuan'
     | '/testimoni'
     | '/admin/login'
+    | '/admin/settings'
+    | '/admin/users'
     | '/api/chat'
     | '/programs/$slug'
     | '/admin/'
@@ -310,6 +330,8 @@ export interface FileRouteTypes {
     | '/syarat-ketentuan'
     | '/testimoni'
     | '/admin/login'
+    | '/admin/settings'
+    | '/admin/users'
     | '/api/chat'
     | '/programs/$slug'
     | '/admin'
@@ -339,6 +361,8 @@ export interface FileRouteTypes {
     | '/syarat-ketentuan'
     | '/testimoni'
     | '/admin/login'
+    | '/admin/settings'
+    | '/admin/users'
     | '/api/chat'
     | '/programs/$slug'
     | '/admin/'
@@ -543,6 +567,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -569,11 +607,15 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 

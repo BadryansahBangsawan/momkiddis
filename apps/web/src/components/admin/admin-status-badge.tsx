@@ -1,5 +1,3 @@
-import { Badge } from "@momkiddis/ui/components/badge";
-
 type Status =
 	| "published"
 	| "draft"

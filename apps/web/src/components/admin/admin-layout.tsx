@@ -1,7 +1,7 @@
 import { AdminSidebar } from "./admin-sidebar";
 import { AdminHeader } from "./admin-header";
 import { Sheet, SheetContent, SheetTrigger } from "@momkiddis/ui/components/sheet";
-import { Button } from "@momkiddis/ui/components/button";
+import { buttonVariants } from "@momkiddis/ui/components/button";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
@@ -53,10 +53,8 @@ export function AdminLayout({ session, role, isSuperAdmin, menuConfig, unreadCon
 				<div className="flex items-center gap-2">
 					<div className="lg:hidden pl-2 py-2">
 						<Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-							<SheetTrigger asChild>
-								<Button variant="ghost" size="icon">
-									<Menu className="h-5 w-5" />
-								</Button>
+							<SheetTrigger className={buttonVariants({ variant: "ghost", size: "icon" })}>
+								<Menu className="h-5 w-5" />
 							</SheetTrigger>
 						</Sheet>
 					</div>

@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -6,10 +6,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@momkiddis/ui/components/dropdown-menu";
-import { Button } from "@momkiddis/ui/components/button";
+import { buttonVariants } from "@momkiddis/ui/components/button";
+import { cn } from "@momkiddis/ui/lib/utils";
 import { ChevronDown, ExternalLink, LogOut } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "@tanstack/react-router";
 
 interface AdminHeaderProps {
 	userName: string;
@@ -17,7 +17,7 @@ interface AdminHeaderProps {
 }
 
 export function AdminHeader({ userName, role }: AdminHeaderProps) {
-	const router = useRouter();
+	const navigate = useNavigate();
 	const routerState = useRouterState();
 	const pathname = routerState.location.pathname;
 
@@ -25,7 +25,7 @@ export function AdminHeader({ userName, role }: AdminHeaderProps) {
 
 	const handleLogout = async () => {
 		await authClient.signOut();
-		router.navigate({ to: "/admin/login" });
+		navigate({ to: "/admin/login" });
 	};
 
 	return (
@@ -47,31 +47,32 @@ export function AdminHeader({ userName, role }: AdminHeaderProps) {
 
 			{/* User menu */}
 			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button variant="ghost" size="sm" className="gap-2">
-						<span
-							className={`rounded-full px-1.5 py-0.5 text-xs font-medium ${
-								role === "superadmin"
-									? "bg-orange-100 text-orange-800"
-									: "bg-blue-100 text-blue-800"
-							}`}
-						>
-							{role === "superadmin" ? "Super Admin" : "Admin"}
-						</span>
-						<span className="max-w-[120px] truncate text-sm font-medium">{userName}</span>
-						<ChevronDown className="h-3 w-3" />
-					</Button>
+				<DropdownMenuTrigger
+					className={cn(
+						buttonVariants({ variant: "ghost", size: "sm" }),
+						"gap-2",
+					)}
+				>
+					<span
+						className={`rounded-full px-1.5 py-0.5 text-xs font-medium ${
+							role === "superadmin"
+								? "bg-orange-100 text-orange-800"
+								: "bg-blue-100 text-blue-800"
+						}`}
+					>
+						{role === "superadmin" ? "Super Admin" : "Admin"}
+					</span>
+					<span className="max-w-[120px] truncate text-sm font-medium">{userName}</span>
+					<ChevronDown className="h-3 w-3" />
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" className="w-48">
-					<DropdownMenuItem asChild>
-						<Link to="/" target="_blank" className="flex items-center gap-2 cursor-pointer">
-							<ExternalLink className="h-4 w-4" />
-							Lihat Website
-						</Link>
+					<DropdownMenuItem onSelect={() => window.open("/", "_blank")}>
+						<ExternalLink className="mr-2 h-4 w-4" />
+						Lihat Website
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem
-						onClick={handleLogout}
+						onSelect={handleLogout}
 						className="text-destructive focus:text-destructive cursor-pointer"
 					>
 						<LogOut className="mr-2 h-4 w-4" />
