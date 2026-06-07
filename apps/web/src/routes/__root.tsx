@@ -6,6 +6,7 @@ import {
 	Outlet,
 	Scripts,
 	createRootRouteWithContext,
+	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
@@ -56,6 +57,24 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 });
 
 function RootDocument() {
+	const routerState = useRouterState();
+	const isAdmin = routerState.location.pathname.startsWith("/admin");
+
+	if (isAdmin) {
+		return (
+			<html lang="id">
+				<head>
+					<HeadContent />
+				</head>
+				<body>
+					<Outlet />
+					<Toaster richColors />
+					<Scripts />
+				</body>
+			</html>
+		);
+	}
+
 	return (
 		<html lang="id">
 			<head>

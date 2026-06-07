@@ -5,3 +5,7 @@ export * from "./gallery_items";
 export * from "./events";
 export * from "./resources";
 export * from "./promos";
+export * from "./admin-menu-settings";
+export * from "./contact-submissions";
+export * from "./activity-logs";
+export * from "./site-config";

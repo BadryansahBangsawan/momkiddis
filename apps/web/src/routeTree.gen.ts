@@ -16,7 +16,6 @@ import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as PromoRouteImport } from './routes/promo'
 import { Route as MitraRouteImport } from './routes/mitra'
 import { Route as MetodeRouteImport } from './routes/metode'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as KontakRouteImport } from './routes/kontak'
 import { Route as KebijakanPrivasiRouteImport } from './routes/kebijakan-privasi'
 import { Route as JadwalRouteImport } from './routes/jadwal'
@@ -28,13 +27,13 @@ import { Route as CaraDaftarRouteImport } from './routes/cara-daftar'
 import { Route as AlumniRouteImport } from './routes/alumni'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ProgramsRouteRouteImport } from './routes/programs/route'
-import { Route as AuthRouteRouteImport } from './routes/_auth/route'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIndexRouteImport } from './routes/programs/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ProgramsSlugRouteImport } from './routes/programs/$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
-import { Route as AuthProfileRouteImport } from './routes/_auth/profile'
-import { Route as AuthDashboardRouteImport } from './routes/_auth/dashboard'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
@@ -71,11 +70,6 @@ const MitraRoute = MitraRouteImport.update({
 const MetodeRoute = MetodeRouteImport.update({
   id: '/metode',
   path: '/metode',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontakRoute = KontakRouteImport.update({
@@ -133,8 +127,9 @@ const ProgramsRouteRoute = ProgramsRouteRouteImport.update({
   path: '/programs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRouteRoute = AuthRouteRouteImport.update({
-  id: '/_auth',
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -147,6 +142,11 @@ const ProgramsIndexRoute = ProgramsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProgramsRouteRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const ProgramsSlugRoute = ProgramsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -157,15 +157,10 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthProfileRoute = AuthProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
-const AuthDashboardRoute = AuthDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthRouteRoute,
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: '/api/rpc/$',
@@ -180,6 +175,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/programs': typeof ProgramsRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/alumni': typeof AlumniRoute
@@ -191,7 +187,6 @@ export interface FileRoutesByFullPath {
   '/jadwal': typeof JadwalRoute
   '/kebijakan-privasi': typeof KebijakanPrivasiRoute
   '/kontak': typeof KontakRoute
-  '/login': typeof LoginRoute
   '/metode': typeof MetodeRoute
   '/mitra': typeof MitraRoute
   '/promo': typeof PromoRoute
@@ -199,10 +194,10 @@ export interface FileRoutesByFullPath {
   '/sertifikasi': typeof SertifikasiRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
-  '/dashboard': typeof AuthDashboardRoute
-  '/profile': typeof AuthProfileRoute
+  '/admin/login': typeof AdminLoginRoute
   '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
@@ -219,7 +214,6 @@ export interface FileRoutesByTo {
   '/jadwal': typeof JadwalRoute
   '/kebijakan-privasi': typeof KebijakanPrivasiRoute
   '/kontak': typeof KontakRoute
-  '/login': typeof LoginRoute
   '/metode': typeof MetodeRoute
   '/mitra': typeof MitraRoute
   '/promo': typeof PromoRoute
@@ -227,10 +221,10 @@ export interface FileRoutesByTo {
   '/sertifikasi': typeof SertifikasiRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
-  '/dashboard': typeof AuthDashboardRoute
-  '/profile': typeof AuthProfileRoute
+  '/admin/login': typeof AdminLoginRoute
   '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/programs': typeof ProgramsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
@@ -238,7 +232,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteRouteWithChildren
+  '/admin': typeof AdminRouteRouteWithChildren
   '/programs': typeof ProgramsRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/alumni': typeof AlumniRoute
@@ -250,7 +244,6 @@ export interface FileRoutesById {
   '/jadwal': typeof JadwalRoute
   '/kebijakan-privasi': typeof KebijakanPrivasiRoute
   '/kontak': typeof KontakRoute
-  '/login': typeof LoginRoute
   '/metode': typeof MetodeRoute
   '/mitra': typeof MitraRoute
   '/promo': typeof PromoRoute
@@ -258,10 +251,10 @@ export interface FileRoutesById {
   '/sertifikasi': typeof SertifikasiRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
-  '/_auth/dashboard': typeof AuthDashboardRoute
-  '/_auth/profile': typeof AuthProfileRoute
+  '/admin/login': typeof AdminLoginRoute
   '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
@@ -270,6 +263,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/programs'
     | '/about'
     | '/alumni'
@@ -281,7 +275,6 @@ export interface FileRouteTypes {
     | '/jadwal'
     | '/kebijakan-privasi'
     | '/kontak'
-    | '/login'
     | '/metode'
     | '/mitra'
     | '/promo'
@@ -289,10 +282,10 @@ export interface FileRouteTypes {
     | '/sertifikasi'
     | '/syarat-ketentuan'
     | '/testimoni'
-    | '/dashboard'
-    | '/profile'
+    | '/admin/login'
     | '/api/chat'
     | '/programs/$slug'
+    | '/admin/'
     | '/programs/'
     | '/api/auth/$'
     | '/api/rpc/$'
@@ -309,7 +302,6 @@ export interface FileRouteTypes {
     | '/jadwal'
     | '/kebijakan-privasi'
     | '/kontak'
-    | '/login'
     | '/metode'
     | '/mitra'
     | '/promo'
@@ -317,17 +309,17 @@ export interface FileRouteTypes {
     | '/sertifikasi'
     | '/syarat-ketentuan'
     | '/testimoni'
-    | '/dashboard'
-    | '/profile'
+    | '/admin/login'
     | '/api/chat'
     | '/programs/$slug'
+    | '/admin'
     | '/programs'
     | '/api/auth/$'
     | '/api/rpc/$'
   id:
     | '__root__'
     | '/'
-    | '/_auth'
+    | '/admin'
     | '/programs'
     | '/about'
     | '/alumni'
@@ -339,7 +331,6 @@ export interface FileRouteTypes {
     | '/jadwal'
     | '/kebijakan-privasi'
     | '/kontak'
-    | '/login'
     | '/metode'
     | '/mitra'
     | '/promo'
@@ -347,10 +338,10 @@ export interface FileRouteTypes {
     | '/sertifikasi'
     | '/syarat-ketentuan'
     | '/testimoni'
-    | '/_auth/dashboard'
-    | '/_auth/profile'
+    | '/admin/login'
     | '/api/chat'
     | '/programs/$slug'
+    | '/admin/'
     | '/programs/'
     | '/api/auth/$'
     | '/api/rpc/$'
@@ -358,7 +349,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   ProgramsRouteRoute: typeof ProgramsRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AlumniRoute: typeof AlumniRoute
@@ -370,7 +361,6 @@ export interface RootRouteChildren {
   JadwalRoute: typeof JadwalRoute
   KebijakanPrivasiRoute: typeof KebijakanPrivasiRoute
   KontakRoute: typeof KontakRoute
-  LoginRoute: typeof LoginRoute
   MetodeRoute: typeof MetodeRoute
   MitraRoute: typeof MitraRoute
   PromoRoute: typeof PromoRoute
@@ -432,13 +422,6 @@ declare module '@tanstack/react-router' {
       path: '/metode'
       fullPath: '/metode'
       preLoaderRoute: typeof MetodeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kontak': {
@@ -518,11 +501,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgramsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth': {
-      id: '/_auth'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthRouteRouteImport
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -539,6 +522,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgramsIndexRouteImport
       parentRoute: typeof ProgramsRouteRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/programs/$slug': {
       id: '/programs/$slug'
       path: '/$slug'
@@ -553,19 +543,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/profile': {
-      id: '/_auth/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthProfileRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
-    '/_auth/dashboard': {
-      id: '/_auth/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthDashboardRouteImport
-      parentRoute: typeof AuthRouteRoute
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/api/rpc/$': {
       id: '/api/rpc/$'
@@ -584,18 +567,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthRouteRouteChildren {
-  AuthDashboardRoute: typeof AuthDashboardRoute
-  AuthProfileRoute: typeof AuthProfileRoute
+interface AdminRouteRouteChildren {
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
-const AuthRouteRouteChildren: AuthRouteRouteChildren = {
-  AuthDashboardRoute: AuthDashboardRoute,
-  AuthProfileRoute: AuthProfileRoute,
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminLoginRoute: AdminLoginRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
-const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
-  AuthRouteRouteChildren,
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
 )
 
 interface ProgramsRouteRouteChildren {
@@ -614,7 +597,7 @@ const ProgramsRouteRouteWithChildren = ProgramsRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRouteRoute: AuthRouteRouteWithChildren,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   ProgramsRouteRoute: ProgramsRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AlumniRoute: AlumniRoute,
@@ -626,7 +609,6 @@ const rootRouteChildren: RootRouteChildren = {
   JadwalRoute: JadwalRoute,
   KebijakanPrivasiRoute: KebijakanPrivasiRoute,
   KontakRoute: KontakRoute,
-  LoginRoute: LoginRoute,
   MetodeRoute: MetodeRoute,
   MitraRoute: MitraRoute,
   PromoRoute: PromoRoute,
