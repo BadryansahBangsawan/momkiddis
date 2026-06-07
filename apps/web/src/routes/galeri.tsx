@@ -139,7 +139,7 @@ function GaleriPage() {
 			/>
 
 			<div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5 lg:gap-3">
 					{VIDEOS.map((video) => (
 						<VideoCard key={video.id} video={video} />
 					))}
