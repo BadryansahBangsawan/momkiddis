@@ -66,7 +66,7 @@ export default function ProgramCard({ program, index = 0 }: ProgramCardProps) {
 			<Card
 				size="sm"
 				className={cn(
-					"relative h-full !gap-0 overflow-hidden rounded-[1.6rem] border bg-primary/10 !py-0 text-card-foreground shadow-sm transition-all duration-200 group-hover:shadow-xl",
+					"relative h-full !gap-0 overflow-hidden rounded-[1.25rem] border bg-primary/10 !py-0 text-card-foreground shadow-sm transition-all duration-200 group-hover:shadow-xl sm:rounded-[1.6rem]",
 					colors.border,
 				)}
 			>
@@ -82,21 +82,21 @@ export default function ProgramCard({ program, index = 0 }: ProgramCardProps) {
 						<div className="flex size-full items-center justify-center bg-secondary">
 							<div
 								className={cn(
-									"flex size-16 items-center justify-center rounded-2xl shadow-sm",
+									"flex size-10 items-center justify-center rounded-2xl shadow-sm sm:size-16",
 									colors.icon,
 								)}
 							>
-								<Icon className="size-8" />
+								<Icon className="size-5 sm:size-8" />
 							</div>
 						</div>
 					)}
 				</div>
 
-				<CardContent className="relative -mt-7 flex flex-1 flex-col gap-4 rounded-t-[1.75rem] bg-card px-5 pb-6 pt-5 shadow-[0_-18px_36px_rgba(15,23,42,0.10)]">
-					<div className="flex flex-wrap items-center gap-2">
+				<CardContent className="relative -mt-5 flex flex-1 flex-col gap-2 rounded-t-[1.25rem] bg-card px-3 pb-3 pt-3 shadow-[0_-18px_36px_rgba(15,23,42,0.10)] sm:-mt-7 sm:gap-4 sm:rounded-t-[1.75rem] sm:px-5 sm:pb-6 sm:pt-5">
+					<div className="flex flex-wrap items-center gap-1.5">
 						<Badge
 							className={cn(
-								"h-6 rounded-full px-3 text-[10px] font-bold",
+								"h-5 rounded-full px-2 text-[9px] font-bold sm:h-6 sm:px-3 sm:text-[10px]",
 								colors.badge,
 							)}
 						>
@@ -105,15 +105,15 @@ export default function ProgramCard({ program, index = 0 }: ProgramCardProps) {
 					</div>
 
 					<div>
-						<CardTitle className="text-[1.45rem] font-extrabold leading-tight tracking-normal text-foreground">
+						<CardTitle className="text-sm font-bold leading-tight tracking-normal text-foreground sm:text-[1.45rem] sm:font-extrabold">
 							{program.shortTitle}
 						</CardTitle>
-						<p className="mt-1.5 min-h-[4.75rem] text-sm font-medium leading-relaxed text-muted-foreground">
+						<p className="mt-1 line-clamp-2 text-[11px] font-medium leading-relaxed text-muted-foreground sm:mt-1.5 sm:line-clamp-none sm:min-h-[4.75rem] sm:text-sm">
 							{program.subtitle}
 						</p>
 					</div>
 
-					<span className="inline-flex h-14 items-center justify-center rounded-full bg-accent px-5 text-base font-extrabold text-accent-foreground shadow-sm transition-transform duration-150 group-active:scale-[0.97]">
+					<span className="inline-flex h-9 items-center justify-center rounded-full bg-accent px-3 text-xs font-extrabold text-accent-foreground shadow-sm transition-transform duration-150 group-active:scale-[0.97] sm:h-14 sm:px-5 sm:text-base">
 						Daftar Sekarang
 					</span>
 

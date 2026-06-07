@@ -74,7 +74,7 @@ function ProgramsPage() {
 				<AnimatePresence mode="wait">
 					<motion.div
 						key={active}
-						className="mt-8 grid grid-cols-1 justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+						className="mt-8 grid grid-cols-2 justify-center gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5"
 						initial="hidden"
 						animate="visible"
 						exit="hidden"

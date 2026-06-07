@@ -141,7 +141,7 @@ function AboutTeaser() {
 
 /* ─── Programs Section ──────────────────────────── */
 function ProgramsSection() {
-	const featuredPrograms = PROGRAM_LIST;
+	const featuredPrograms = PROGRAM_LIST.slice(0, 5);
 
 	return (
 		<section className="bg-muted/30 px-4 py-16 sm:px-6 lg:px-8">
@@ -179,11 +179,11 @@ function ProgramsSection() {
 				</motion.div>
 
 				{/* Grid */}
-				<div className="mt-8 grid grid-cols-1 justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+				<div className="mt-8 grid grid-cols-2 justify-center gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
 					{featuredPrograms.map((program, i) => (
 						<motion.div
 							key={program.slug}
-							className="h-full"
+							className={i === 4 ? "hidden lg:block h-full" : "h-full"}
 							initial={{ opacity: 0, y: 30 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true, margin: "-60px" }}
