@@ -335,7 +335,33 @@ function TestimoniSection() {
 					</Link>
 				</motion.div>
 
-				<div className="mt-6 grid gap-2 lg:grid-cols-3">
+				{/* Mobile: horizontal scroll — 3 cards */}
+				<div className="mt-5 flex gap-3 overflow-x-auto pb-2 sm:hidden">
+					{[t1, t2, t3].map((t) => (
+						<div
+							key={t.id}
+							className="w-72 flex-none rounded-xl border border-border bg-card p-4"
+						>
+							<p className="text-sm leading-relaxed text-foreground/80">
+								"{t.content}"
+							</p>
+							<div className="mt-4 flex items-center gap-3">
+								<img
+									src={t.avatarSrc}
+									alt={t.name}
+									className="size-9 rounded-lg object-cover"
+								/>
+								<div>
+									<p className="text-sm font-semibold text-foreground">{t.name}</p>
+									<p className="text-xs text-muted-foreground">{t.role}</p>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+
+				{/* Desktop: bento grid */}
+				<div className="mt-6 hidden gap-2 sm:grid lg:grid-cols-3">
 					{/* Col 1 */}
 					<div className="flex flex-col gap-2">
 						<BentoCard {...t1} animIndex={0} variant="light" className="relative flex-[7]" />

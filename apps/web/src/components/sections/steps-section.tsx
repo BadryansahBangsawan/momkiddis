@@ -24,7 +24,26 @@ export default function StepsSection({ steps }: StepsSectionProps) {
 					</p>
 				</motion.div>
 
-				<div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+				{/* Mobile: horizontal scroll */}
+				<div className="mt-8 flex gap-4 overflow-x-auto pb-3 sm:hidden">
+					{steps.map(({ step, title, description }) => (
+						<div
+							key={step}
+							className="flex w-36 flex-none flex-col items-center text-center"
+						>
+							<div className="flex size-10 items-center justify-center rounded-full bg-primary/10 ring-2 ring-primary/20">
+								<span className="text-sm font-bold text-primary">{step}</span>
+							</div>
+							<h3 className="mt-3 text-xs font-semibold text-foreground">{title}</h3>
+							<p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+								{description}
+							</p>
+						</div>
+					))}
+				</div>
+
+				{/* Desktop: grid */}
+				<div className="mt-10 hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4">
 					{steps.map(({ step, title, description }, i) => (
 						<motion.div
 							key={step}

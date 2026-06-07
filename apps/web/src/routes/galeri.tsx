@@ -1,54 +1,135 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 import PageHero from "@/components/sections/page-hero";
-import { orpc } from "@/utils/orpc";
-import { Camera } from "lucide-react";
 
-// Fallback items for when DB is empty or not yet seeded
-const PLACEHOLDER_ITEMS = Array.from({ length: 6 }, (_, i) => ({
-	id: String(i + 1),
-	imageUrl: null as string | null,
-	caption: [
-		"Praktik Mengajar Momsky Class",
-		"Belajar Seru Kiddis Class",
-		"Latihan Komunikasi Teenager Class",
-		"Mentoring Professional Class",
-		"Latihan IELTS & TOEFL Class",
-		"E-Certificate Momkiddis Batch 5",
-	][i],
-	event: [
-		"Momsky Class",
-		"Kiddis Class",
-		"Teenager Class",
-		"Professional Class",
-		"IELTS & TOEFL Class",
-		"E-Certificate",
-	][i],
-	takenAt: null as number | null,
-}));
+const VIDEOS = [
+	{
+		id: "1",
+		src: "/vidio/1.mp4",
+		caption: "Praktik Mengajar Momsky Class",
+		event: "Momsky Class",
+	},
+	{
+		id: "2",
+		src: "/vidio/2.mp4",
+		caption: "Belajar Seru Kiddis Class",
+		event: "Kiddis Class",
+	},
+	{
+		id: "3",
+		src: "/vidio/3.mp4",
+		caption: "Latihan Komunikasi Teenager Class",
+		event: "Teenager Class",
+	},
+	{
+		id: "4",
+		src: "/vidio/4.mp4",
+		caption: "Mentoring Professional Class",
+		event: "Professional Class",
+	},
+	{
+		id: "5",
+		src: "/vidio/5.mp4",
+		caption: "Latihan IELTS & TOEFL Class",
+		event: "IELTS & TOEFL",
+	},
+	{
+		id: "6",
+		src: "/vidio/6.mp4",
+		caption: "E-Certificate Momkiddis Batch 5",
+		event: "E-Certificate",
+	},
+];
 
 export const Route = createFileRoute("/galeri")({
-	loader: async ({ context: { queryClient } }) => {
-		void queryClient.prefetchQuery(orpc.gallery.list.queryOptions());
-	},
 	component: GaleriPage,
 });
 
-function formatDate(ts: Date | number | null | undefined) {
-	if (!ts) return "";
-	return new Intl.DateTimeFormat("id-ID", {
-		month: "short",
-		year: "numeric",
-	}).format(ts instanceof Date ? ts : new Date(ts));
+function VideoCard({ video }: { video: (typeof VIDEOS)[number] }) {
+	const ref = useRef<HTMLVideoElement>(null);
+	const [playing, setPlaying] = useState(false);
+	const [muted, setMuted] = useState(false);
+
+	function togglePlay() {
+		const el = ref.current;
+		if (!el) return;
+		if (el.paused) {
+			el.play();
+			setPlaying(true);
+		} else {
+			el.pause();
+			setPlaying(false);
+		}
+	}
+
+	function toggleMute(e: React.MouseEvent) {
+		e.stopPropagation();
+		const el = ref.current;
+		if (!el) return;
+		el.muted = !el.muted;
+		setMuted(el.muted);
+	}
+
+	return (
+		<div
+			className="group relative cursor-pointer overflow-hidden rounded-2xl bg-black shadow-sm"
+			onClick={togglePlay}
+		>
+			<video
+				ref={ref}
+				src={video.src}
+				className="aspect-[9/16] w-full object-cover"
+				loop
+				playsInline
+				onEnded={() => setPlaying(false)}
+			/>
+
+			{/* Play button — tampil saat belum play */}
+			{!playing && (
+				<div className="absolute inset-0 flex items-center justify-center bg-black/30">
+					<div className="flex size-14 items-center justify-center rounded-full bg-white/90 shadow-lg backdrop-blur-sm transition-transform duration-150 active:scale-95">
+						<Play className="size-6 translate-x-0.5 text-black" fill="black" />
+					</div>
+				</div>
+			)}
+
+			{/* Bottom overlay — caption + controls */}
+			<div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent px-3 pb-3 pt-10 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+				<p className="text-xs font-semibold leading-snug text-white">
+					{video.caption}
+				</p>
+				<div className="mt-1.5 flex items-center justify-between">
+					<span className="inline-block rounded-full bg-white/20 px-2 py-0.5 text-[10px] text-white/90 backdrop-blur-sm">
+						{video.event}
+					</span>
+
+					{/* Pause + mute buttons — hanya tampil saat playing */}
+					{playing && (
+						<div className="flex items-center gap-1.5">
+							<button
+								type="button"
+								onClick={toggleMute}
+								className="flex size-6 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/30"
+							>
+								{muted ? <VolumeX className="size-3" /> : <Volume2 className="size-3" />}
+							</button>
+							<button
+								type="button"
+								onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+								className="flex size-6 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/30"
+							>
+								<Pause className="size-3" fill="white" />
+							</button>
+						</div>
+					)}
+				</div>
+			</div>
+		</div>
+	);
 }
 
 function GaleriPage() {
-	const { data, isLoading } = useQuery(orpc.gallery.list.queryOptions());
-
-	const items =
-		!isLoading && data && data.length > 0 ? data : PLACEHOLDER_ITEMS;
-	const isLive = !isLoading && data && data.length > 0;
-
 	return (
 		<>
 			<PageHero
@@ -57,62 +138,12 @@ function GaleriPage() {
 				breadcrumbs={[{ label: "Galeri" }]}
 			/>
 
-			<div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-				{isLoading ? (
-					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{Array.from({ length: 6 }).map((_, i) => (
-							<div
-								key={i}
-								className="aspect-video animate-pulse rounded-xl bg-muted"
-							/>
-						))}
-					</div>
-				) : (
-					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{items.map((item, i) => (
-							<div
-								key={item.id}
-								className="group overflow-hidden rounded-xl border border-border bg-card"
-								style={{ animationDelay: `${i * 60}ms` }}
-							>
-								{/* Image or placeholder */}
-								{isLive && item.imageUrl ? (
-									<img
-										src={item.imageUrl}
-										alt={item.caption}
-										className="aspect-video w-full object-cover"
-									/>
-								) : (
-									<div className="flex aspect-video items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10">
-										<Camera className="size-8 text-primary/30" />
-									</div>
-								)}
-
-								<div className="p-3">
-									<p className="text-xs font-medium text-foreground line-clamp-1">
-										{item.caption}
-									</p>
-									<div className="mt-1 flex items-center justify-between">
-										<span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-											{item.event}
-										</span>
-										{item.takenAt && (
-											<span className="text-xs text-muted-foreground">
-												{formatDate(item.takenAt)}
-											</span>
-										)}
-									</div>
-								</div>
-							</div>
-						))}
-					</div>
-				)}
-
-				{!isLive && !isLoading && (
-					<p className="mt-6 text-center text-xs text-muted-foreground">
-						Foto kegiatan nyata akan segera ditambahkan.
-					</p>
-				)}
+			<div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+					{VIDEOS.map((video) => (
+						<VideoCard key={video.id} video={video} />
+					))}
+				</div>
 
 				{/* Instagram CTA */}
 				<div className="mt-10 rounded-xl border border-border bg-card p-6 text-center">
@@ -126,7 +157,7 @@ function GaleriPage() {
 						href="https://instagram.com/momkiddy.education"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="mt-4 inline-flex items-center gap-2 rounded-full border border-pink-200 bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-2 text-sm font-semibold text-pink-700 transition-opacity duration-150 active:scale-[0.97] hover:opacity-80"
+						className="mt-4 inline-flex items-center gap-2 rounded-full border border-pink-200 bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-2 text-sm font-semibold text-pink-700 transition-opacity duration-150 hover:opacity-80 active:scale-[0.97]"
 					>
 						@momkiddy.education
 					</a>
