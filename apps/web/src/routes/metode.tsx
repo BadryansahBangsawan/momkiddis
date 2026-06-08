@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import PageHero from "@/components/sections/page-hero";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import {
 	BookOpen,
 	FileText,
@@ -66,7 +66,8 @@ export const Route = createFileRoute("/metode")({
 });
 
 function MetodePage() {
-	const waUrl = getWhatsAppUrl();
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl();
 
 	return (
 		<>

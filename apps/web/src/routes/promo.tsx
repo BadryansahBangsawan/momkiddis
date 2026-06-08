@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import PageHero from "@/components/sections/page-hero";
 import WhatsAppCta from "@/components/sections/whatsapp-cta";
 import { orpc } from "@/utils/orpc";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { Tag, CalendarDays, Sparkles } from "lucide-react";
 
 // Placeholder saat DB kosong
@@ -53,6 +53,7 @@ export const Route = createFileRoute("/promo")({
 });
 
 function PromoPage() {
+	const { getWaUrl } = useSiteConfig();
 	const { data = [] } = useQuery(orpc.promos.listActive.queryOptions());
 
 	const items = data.length > 0
@@ -139,7 +140,7 @@ function PromoPage() {
 
 									<div className="mt-4">
 										<a
-											href={getWhatsAppUrl(`promo ${promo.title}`)}
+											href={getWaUrl(`promo ${promo.title}`)}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white transition-opacity active:scale-[0.97] hover:opacity-90"

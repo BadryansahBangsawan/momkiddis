@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@momkiddis/ui/components/button";
 import { MessageCircleIcon } from "lucide-react";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 interface WhatsAppCtaProps {
 	program?: string;
@@ -18,7 +18,8 @@ export default function WhatsAppCta({
 	size = "default",
 	variant = "inline",
 }: WhatsAppCtaProps) {
-	const url = getWhatsAppUrl(program);
+	const { getWaUrl } = useSiteConfig();
+	const url = getWaUrl(program);
 
 	if (variant === "full") {
 		return (

@@ -6,7 +6,7 @@ import {
 	PROGRAM_CATEGORY_LABELS,
 	PROGRAM_LIST,
 } from "@/lib/programs-content";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { CalendarDays, Clock, Gift, Monitor, Star } from "lucide-react";
 
 export const Route = createFileRoute("/jadwal")({
@@ -14,7 +14,8 @@ export const Route = createFileRoute("/jadwal")({
 });
 
 function JadwalPage() {
-	const waUrl = getWhatsAppUrl();
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl();
 
 	return (
 		<>

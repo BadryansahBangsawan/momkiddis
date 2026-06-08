@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import PageHero from "@/components/sections/page-hero";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { HandshakeIcon, Users, Building2, Megaphone } from "lucide-react";
 
 const TYPES = [
@@ -39,7 +39,8 @@ export const Route = createFileRoute("/mitra")({
 });
 
 function MitraPage() {
-	const waUrl = getWhatsAppUrl("Program Kemitraan");
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl("Program Kemitraan");
 
 	return (
 		<>

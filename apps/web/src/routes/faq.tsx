@@ -7,7 +7,7 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "@momkiddis/ui/components/accordion";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/faq")({
@@ -15,7 +15,8 @@ export const Route = createFileRoute("/faq")({
 });
 
 function FaqPage() {
-	const waUrl = getWhatsAppUrl();
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl();
 
 	return (
 		<>

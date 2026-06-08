@@ -4,7 +4,7 @@ import { useState } from "react";
 import PageHero from "@/components/sections/page-hero";
 import { AlumniSlider, type AlumniReview } from "@/components/sections/alumni-slider";
 import { STATIC_ALUMNI, PROGRAM_LIST } from "@/lib/programs-content";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { orpc } from "@/utils/orpc";
 import { Award } from "lucide-react";
 
@@ -82,7 +82,8 @@ const PROGRAM_FILTERS: { id: FilterSlug; label: string }[] = [
 ];
 
 function AlumniPage() {
-	const waUrl = getWhatsAppUrl();
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl();
 	const [activeFilter, setActiveFilter] = useState<FilterSlug>("semua");
 
 	const { data, isLoading } = useQuery(

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import PageHero from "@/components/sections/page-hero";
-import { siteConfig, getWhatsAppUrl } from "@/lib/site-config";
+import { siteConfig } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { MapPin, Clock, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/kontak")({
@@ -8,7 +9,10 @@ export const Route = createFileRoute("/kontak")({
 });
 
 function KontakPage() {
-	const waUrl = getWhatsAppUrl();
+	const { instagram, getWaUrl, raw } = useSiteConfig();
+	const waUrl = getWaUrl();
+	const address = raw?.address ?? siteConfig.address;
+	const operationalHours = raw?.operating_hours ?? siteConfig.operationalHours;
 
 	return (
 		<>
@@ -50,9 +54,9 @@ function KontakPage() {
 					</a>
 
 					{/* Instagram */}
-					{siteConfig.social.instagram && (
+					{instagram && (
 						<a
-							href={siteConfig.social.instagram}
+							href={instagram}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="group flex items-start gap-4 rounded-xl border border-border bg-card p-5 transition-all duration-150 hover:border-pink-300/40 hover:shadow-sm active:scale-[0.98]"
@@ -84,9 +88,7 @@ function KontakPage() {
 						<div>
 							<p className="text-sm font-semibold text-foreground">Lokasi</p>
 							<p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
-								{siteConfig.address}
-								<br />
-								{siteConfig.city}
+								{address}
 							</p>
 							<p className="mt-1 text-xs text-muted-foreground">
 								Tersedia kelas online via Zoom untuk peserta dari seluruh Indonesia.
@@ -104,7 +106,7 @@ function KontakPage() {
 								Jam Operasional
 							</p>
 							<p className="mt-0.5 text-xs text-muted-foreground">
-								{siteConfig.operationalHours}
+								{operationalHours}
 							</p>
 							<p className="mt-1 text-xs text-muted-foreground">
 								Di luar jam tersebut, pesan WhatsApp akan kami balas pada hari

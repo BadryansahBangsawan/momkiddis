@@ -10,7 +10,7 @@ import {
 	UserRound,
 } from "lucide-react";
 import { PROGRAM_CATEGORY_LABELS, PROGRAMS } from "@/lib/programs-content";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 interface ProgramRecommendationProps {
 	slugs: string[];
@@ -54,6 +54,7 @@ export function ProgramRecommendation({
 	slugs,
 	reason,
 }: ProgramRecommendationProps) {
+	const { getWaUrl } = useSiteConfig();
 	const slugArray = parseSlugs(slugs);
 	const programs = slugArray
 		.map((s) => PROGRAMS[s])
@@ -138,7 +139,7 @@ export function ProgramRecommendation({
 								</Button>
 							</Link>
 							<a
-								href={getWhatsAppUrl(program.shortTitle)}
+								href={getWaUrl(program.shortTitle)}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="flex-1"

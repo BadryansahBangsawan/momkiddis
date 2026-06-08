@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import PageHero from "@/components/sections/page-hero";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { Award, CheckCircle2, BookOpen, Users, Home, Briefcase } from "lucide-react";
 
 const KEGUNAAN = [
@@ -38,7 +38,8 @@ export const Route = createFileRoute("/sertifikasi")({
 });
 
 function SertifikasiPage() {
-	const waUrl = getWhatsAppUrl("Momkiddis Indonesia");
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl("Momkiddis Indonesia");
 
 	return (
 		<>

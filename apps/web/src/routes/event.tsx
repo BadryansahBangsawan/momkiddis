@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import PageHero from "@/components/sections/page-hero";
 import WhatsAppCta from "@/components/sections/whatsapp-cta";
 import { orpc } from "@/utils/orpc";
-import { getWhatsAppUrl, siteConfig } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { CalendarDays, MapPin, Users, Clock } from "lucide-react";
 
 // Placeholder saat DB kosong
@@ -88,6 +88,7 @@ function formatEventTime(date: Date) {
 }
 
 function EventPage() {
+	const { instagram, getWaUrl } = useSiteConfig();
 	const { data: upcoming = [] } = useQuery(orpc.events.listUpcoming.queryOptions());
 	const { data: past = [] } = useQuery(orpc.events.listPast.queryOptions());
 
@@ -166,7 +167,7 @@ function EventPage() {
 
 									<div className="mt-5">
 										<a
-											href={getWhatsAppUrl(event.waMessage ?? `event ${event.title}`)}
+											href={getWaUrl(event.waMessage ?? `event ${event.title}`)}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-white transition-opacity active:scale-[0.97] hover:opacity-90"
@@ -224,7 +225,7 @@ function EventPage() {
 						Follow Instagram kami untuk update event, tips belajar bahasa Inggris, dan info kelas terbaru.
 					</p>
 					<a
-						href={siteConfig.social.instagram}
+						href={instagram}
 						target="_blank"
 						rel="noopener noreferrer"
 						className="mt-4 inline-flex items-center gap-2 rounded-full border border-pink-200 bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-2 text-sm font-semibold text-pink-700 transition-opacity active:scale-[0.97] hover:opacity-80"

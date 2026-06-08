@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import PageHero from "@/components/sections/page-hero";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { MessageSquare, CreditCard, Users, BookOpen, Award } from "lucide-react";
 
 const STEPS = [
@@ -65,7 +65,8 @@ export const Route = createFileRoute("/cara-daftar")({
 });
 
 function CaraDaftarPage() {
-	const waUrl = getWhatsAppUrl();
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl();
 
 	return (
 		<>

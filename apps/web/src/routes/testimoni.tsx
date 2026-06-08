@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import PageHero from "@/components/sections/page-hero";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 export const Route = createFileRoute("/testimoni")({
 	component: TestimoniPage,
@@ -140,7 +140,8 @@ function TestiCard({ name, role, quote, avatarSrc, animIndex, variant = "light",
 
 // ─── Page ─────────────────────────────────────────────────────────────────
 function TestimoniPage() {
-	const waUrl = getWhatsAppUrl();
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl();
 	const [t1, t2, t3, t4, t5, t6, t7] = TESTIMONIALS;
 
 	return (

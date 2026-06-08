@@ -23,6 +23,12 @@ export interface RouterAppContext {
 }
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
+	loader: async ({ context }) => {
+		await context.queryClient.prefetchQuery(
+			context.orpc.admin.siteConfig.getAll.queryOptions(),
+		);
+	},
+
 	head: () => ({
 		meta: [
 			{

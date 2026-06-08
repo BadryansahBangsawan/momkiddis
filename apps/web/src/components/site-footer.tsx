@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@momkiddis/ui/lib/utils";
-import { siteConfig, getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 if (typeof window !== "undefined") {
 	gsap.registerPlugin(ScrollTrigger);
@@ -174,6 +174,7 @@ function MagneticButton({
 
 // ─── Main Footer ──────────────────────────────────────────────────────────
 export default function SiteFooter() {
+	const { instagram, getWaUrl } = useSiteConfig();
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const giantTextRef = useRef<HTMLDivElement>(null);
 	const headingRef = useRef<HTMLHeadingElement>(null);
@@ -269,7 +270,7 @@ export default function SiteFooter() {
 							<div className="flex flex-wrap justify-center gap-4">
 								<MagneticButton
 									as="a"
-									href={getWhatsAppUrl()}
+									href={getWaUrl()}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="footer-glass-pill group flex items-center gap-3 rounded-full px-10 py-5 text-sm font-bold text-foreground md:text-base"
@@ -283,7 +284,7 @@ export default function SiteFooter() {
 
 								<MagneticButton
 									as="a"
-									href={siteConfig.social.instagram}
+									href={instagram}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="footer-glass-pill group flex items-center gap-3 rounded-full px-10 py-5 text-sm font-bold text-foreground md:text-base"

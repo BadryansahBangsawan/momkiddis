@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@momkiddis/ui/components/button";
 import { SlideButton } from "@/components/ui/slide-button";
-import { siteConfig, getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 type Point = { x: number; y: number };
 
@@ -52,6 +52,7 @@ const statsAnim: Variants = {
 };
 
 export function HeroWaves() {
+	const { getWaUrl } = useSiteConfig();
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const mouseRef = useRef<Point>({ x: 0, y: 0 });
 	const targetRef = useRef<Point>({ x: 0, y: 0 });
@@ -243,7 +244,7 @@ export function HeroWaves() {
 								<ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
 							</Button>
 						</Link>
-						<SlideButton url={getWhatsAppUrl()} label="Hubungi Kami" />
+						<SlideButton url={getWaUrl()} label="Hubungi Kami" />
 					</motion.div>
 
 					{/* Feature pills */}

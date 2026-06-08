@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import PageHero from "@/components/sections/page-hero";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { Heart } from "lucide-react";
 
 const PENCAPAIAN = [
@@ -43,7 +43,8 @@ export const Route = createFileRoute("/founder")({
 });
 
 function FounderPage() {
-	const waUrl = getWhatsAppUrl();
+	const { getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl();
 
 	return (
 		<>

@@ -13,7 +13,7 @@ import {
 import { Button } from "@momkiddis/ui/components/button";
 import { cn } from "@momkiddis/ui/lib/utils";
 
-import { siteConfig, getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 interface NavItemDef {
 	name: string;
@@ -50,7 +50,8 @@ function useActiveNav() {
 
 export default function SiteHeader() {
 	const activeName = useActiveNav();
-	const waUrl = getWhatsAppUrl();
+	const { siteName, getWaUrl } = useSiteConfig();
+	const waUrl = getWaUrl();
 
 	return (
 		<>
@@ -63,7 +64,7 @@ export default function SiteHeader() {
 						className="pointer-events-auto flex items-center gap-2 rounded-full bg-background/80 px-4 py-2 shadow-sm backdrop-blur-md border border-border/30 transition-opacity hover:opacity-80 active:scale-[0.98]"
 					>
 						<span className="text-sm font-bold tracking-tight text-primary">
-							{siteConfig.name}
+							{siteName}
 						</span>
 					</Link>
 

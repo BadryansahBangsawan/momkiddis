@@ -11,7 +11,7 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "@momkiddis/ui/components/accordion";
-import { getWhatsAppUrl } from "@/lib/site-config";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { SlideButton } from "@/components/ui/slide-button";
 import {
 	Award,
@@ -33,8 +33,9 @@ export const Route = createFileRoute("/programs/$slug")({
 });
 
 function ProgramDetailPage() {
+	const { getWaUrl } = useSiteConfig();
 	const { program } = Route.useLoaderData();
-	const waUrl = getWhatsAppUrl(program.shortTitle);
+	const waUrl = getWaUrl(program.shortTitle);
 
 	return (
 		<>
