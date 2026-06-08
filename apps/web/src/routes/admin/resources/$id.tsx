@@ -39,7 +39,7 @@ function ResourceFormPage() {
 	const [form, setForm] = useState<FormData>(EMPTY);
 	const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
-	const query = useQuery({ ...orpc.admin.resources.getById.queryOptions({ id }), enabled: !isNew });
+	const query = useQuery({ ...orpc.admin.resources.getById.queryOptions({ input: { id } }), enabled: !isNew });
 
 	useEffect(() => {
 		if (query.data) {
@@ -57,7 +57,7 @@ function ResourceFormPage() {
 	}, [query.data]);
 
 	const invalidateList = () =>
-		queryClient.invalidateQueries({ queryKey: orpc.admin.resources.list.queryOptions({ page: 1, perPage: 10 }).queryKey });
+		queryClient.invalidateQueries({ queryKey: orpc.admin.resources.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey });
 
 	const buildPayload = () => ({
 		title: form.title,

@@ -49,22 +49,24 @@ function TestimonialsPage() {
 
 	const query = useQuery(
 		orpc.admin.testimonials.list.queryOptions({
-			page,
-			perPage: 10,
-			search: search || undefined,
-			programSlug: filterValues.programSlug || undefined,
-			isPublished:
-				filterValues.status === "published"
-					? true
-					: filterValues.status === "draft"
-						? false
-						: undefined,
+			input: {
+				page,
+				perPage: 10,
+				search: search || undefined,
+				programSlug: filterValues.programSlug || undefined,
+				isPublished:
+					filterValues.status === "published"
+						? true
+						: filterValues.status === "draft"
+							? false
+							: undefined,
+			},
 		}),
 	);
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.testimonials.list.queryOptions({ page: 1, perPage: 10 }).queryKey,
+			queryKey: orpc.admin.testimonials.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
 		});
 
 	const toggleMutation = useMutation({

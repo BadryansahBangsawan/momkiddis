@@ -61,7 +61,7 @@ function EventFormPage() {
 	const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
 	const query = useQuery({
-		...orpc.admin.events.getById.queryOptions({ id }),
+		...orpc.admin.events.getById.queryOptions({ input: { id } }),
 		enabled: !isNew,
 	});
 
@@ -91,7 +91,7 @@ function EventFormPage() {
 
 	const invalidateList = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.events.list.queryOptions({ page: 1, perPage: 10 }).queryKey,
+			queryKey: orpc.admin.events.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
 		});
 
 	function buildPayload() {

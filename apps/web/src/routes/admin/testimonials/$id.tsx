@@ -56,7 +56,7 @@ function TestimonialFormPage() {
 	const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
 	const query = useQuery({
-		...orpc.admin.testimonials.getById.queryOptions({ id }),
+		...orpc.admin.testimonials.getById.queryOptions({ input: { id } }),
 		enabled: !isNew,
 	});
 
@@ -79,7 +79,7 @@ function TestimonialFormPage() {
 
 	const invalidateList = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.testimonials.list.queryOptions({ page: 1, perPage: 10 }).queryKey,
+			queryKey: orpc.admin.testimonials.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
 		});
 
 	const createMutation = useMutation({

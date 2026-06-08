@@ -76,20 +76,22 @@ function GalleryPage() {
 
 	const query = useQuery(
 		orpc.admin.gallery.list.queryOptions({
-			page,
-			perPage: 20,
-			isPublished:
-				filterStatus === "published"
-					? true
-					: filterStatus === "draft"
-						? false
-						: undefined,
+			input: {
+				page,
+				perPage: 20,
+				isPublished:
+					filterStatus === "published"
+						? true
+						: filterStatus === "draft"
+							? false
+							: undefined,
+			},
 		}),
 	);
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.gallery.list.queryOptions({ page: 1, perPage: 20 }).queryKey,
+			queryKey: orpc.admin.gallery.list.queryOptions({ input: { page: 1, perPage: 20 } }).queryKey,
 		});
 
 	const createMutation = useMutation({

@@ -113,11 +113,13 @@ function ActivityPage() {
 
 	const query = useQuery(
 		orpc.admin.activity.list.queryOptions({
-			page,
-			perPage,
-			action: action || undefined,
-			entityType: entityType || undefined,
-			days: Number(days),
+			input: {
+				page,
+				perPage,
+				action: action || undefined,
+				entityType: entityType || undefined,
+				days: Number(days),
+			},
 		}),
 	);
 

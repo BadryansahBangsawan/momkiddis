@@ -70,7 +70,7 @@ function AlumniFormPage() {
 	const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
 	const query = useQuery({
-		...orpc.admin.alumni.getById.queryOptions({ id }),
+		...orpc.admin.alumni.getById.queryOptions({ input: { id } }),
 		enabled: !isNew,
 	});
 
@@ -97,7 +97,7 @@ function AlumniFormPage() {
 
 	const invalidateList = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.alumni.list.queryOptions({ page: 1, perPage: 10 }).queryKey,
+			queryKey: orpc.admin.alumni.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
 		});
 
 	const createMutation = useMutation({

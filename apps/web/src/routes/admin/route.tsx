@@ -45,24 +45,23 @@ export const Route = createFileRoute("/admin")({
 function AdminRoot() {
 	const routerState = useRouterState();
 	const isLoginPage = routerState.location.pathname === "/admin/login";
-
-	// Login page renders tanpa admin layout
-	if (isLoginPage) {
-		return <Outlet />;
-	}
-
-	const { session, role, isSuperAdmin } = Route.useRouteContext() as {
+	const routeContext = Route.useRouteContext() as Partial<{
 		session: { user: { name: string; email: string } };
 		role: "admin" | "superadmin";
 		isSuperAdmin: boolean;
-	};
+	}>;
 	const { menuConfig, unreadContacts } = Route.useLoaderData();
+
+	// Login page renders tanpa admin layout
+	if (isLoginPage || !routeContext.session || !routeContext.role) {
+		return <Outlet />;
+	}
 
 	return (
 		<AdminLayout
-			session={session}
-			role={role}
-			isSuperAdmin={isSuperAdmin}
+			session={routeContext.session}
+			role={routeContext.role}
+			isSuperAdmin={routeContext.isSuperAdmin ?? false}
 			menuConfig={menuConfig as Array<{ menuKey: string; label: string; icon: string; isEnabled: boolean | null; sortOrder: number | null }>}
 			unreadContacts={unreadContacts}
 		>

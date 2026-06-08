@@ -46,12 +46,12 @@ function EventsPage() {
 	const [deleteId, setDeleteId] = useState<string | null>(null);
 
 	const query = useQuery(
-		orpc.admin.events.list.queryOptions({ page, perPage: 10 }),
+		orpc.admin.events.list.queryOptions({ input: { page, perPage: 10 } }),
 	);
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.events.list.queryOptions({ page: 1, perPage: 10 }).queryKey,
+			queryKey: orpc.admin.events.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
 		});
 
 	const toggleMutation = useMutation({
