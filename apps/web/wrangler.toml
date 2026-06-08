@@ -1,5 +1,4 @@
 name = "momkiddis-web"
-account_id = "affb450d746e53150028bb763b2f640c"
 main = "dist/server/index.js"
 compatibility_date = "2026-03-10"
 compatibility_flags = ["nodejs_compat", "nodejs_compat_populate_process_env"]
