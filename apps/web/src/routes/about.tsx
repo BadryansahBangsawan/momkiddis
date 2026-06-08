@@ -147,9 +147,11 @@ function AboutPage() {
 				{/* Founder teaser */}
 				<section className="grid gap-8 lg:grid-cols-3 lg:items-start">
 					<div className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center">
-						<div className="flex size-20 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
-							LH
-						</div>
+						<img
+							src="/Lita.png"
+							alt="Lita Hendratno"
+							className="size-20 rounded-full object-cover object-top"
+						/>
 						<p className="mt-3 text-sm font-semibold text-foreground">
 							Lita Hendratno
 						</p>
