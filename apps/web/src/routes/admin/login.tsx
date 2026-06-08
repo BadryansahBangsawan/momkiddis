@@ -30,26 +30,28 @@ function AdminLoginPage() {
 		setIsLoading(true);
 
 		try {
-			const { data, error: signInError } = await authClient.signIn.email({
+			const { error: signInError } = await authClient.signIn.email({
 				email,
 				password,
 			});
 
-			if (signInError || !data) {
+			if (signInError) {
 				setError("Email atau password salah");
 				return;
 			}
 
-			const role = (data.user as { role?: string })?.role;
+			// Fetch session setelah sign-in untuk mendapatkan role terbaru
+			const { data: session } = await authClient.getSession();
+			const role = (session?.user as { role?: string } | null | undefined)?.role;
 			if (role !== "admin" && role !== "superadmin") {
 				await authClient.signOut();
-				setError("Email atau password salah");
+				setError("Akun ini tidak memiliki akses admin");
 				return;
 			}
 
 			router.navigate({ to: "/admin" });
 		} catch {
-			setError("Email atau password salah");
+			setError("Terjadi kesalahan. Coba lagi.");
 		} finally {
 			setIsLoading(false);
 		}

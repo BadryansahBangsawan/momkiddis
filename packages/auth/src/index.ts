@@ -11,7 +11,6 @@ export function createAuth() {
   return betterAuth({
     database: drizzleAdapter(db, {
       provider: "sqlite",
-
       schema: schema,
     }),
     trustedOrigins: [env.CORS_ORIGIN],
@@ -21,5 +20,19 @@ export function createAuth() {
     secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
     plugins: [tanstackStartCookies()],
+    user: {
+      additionalFields: {
+        role: {
+          type: "string",
+          defaultValue: "admin",
+          required: false,
+        },
+        isActive: {
+          type: "boolean",
+          defaultValue: true,
+          required: false,
+        },
+      },
+    },
   });
 }
