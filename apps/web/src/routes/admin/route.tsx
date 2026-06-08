@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect, useRouterState } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth-client";
 import { orpc } from "@/utils/orpc";
 import { AdminLayout } from "@/components/admin/admin-layout";
@@ -22,23 +23,6 @@ export const Route = createFileRoute("/admin")({
 		return { session, role: role as "admin" | "superadmin", isSuperAdmin };
 	},
 
-	loader: async ({ context, location }) => {
-		// Login page tidak perlu fetch menu
-		if (location.pathname === "/admin/login") {
-			return { menuConfig: [], unreadContacts: 0 };
-		}
-
-		const [menuConfig, unreadCount] = await Promise.allSettled([
-			context.queryClient.fetchQuery(orpc.admin.settings.getMenuConfig.queryOptions()),
-			context.queryClient.fetchQuery(orpc.admin.contacts.unreadCount.queryOptions()),
-		]);
-
-		return {
-			menuConfig: menuConfig.status === "fulfilled" ? menuConfig.value : [],
-			unreadContacts: unreadCount.status === "fulfilled" ? (unreadCount.value as { count: number }).count : 0,
-		};
-	},
-
 	component: AdminRoot,
 });
 
@@ -50,7 +34,23 @@ function AdminRoot() {
 		role: "admin" | "superadmin";
 		isSuperAdmin: boolean;
 	}>;
-	const { menuConfig, unreadContacts } = Route.useLoaderData();
+
+	// Fetch menu config dan unread count hanya di client (browser) agar session cookie selalu tersedia.
+	// Disable saat SSR (server-side render) untuk menghindari UNAUTHORIZED error karena
+	// context request di server tidak membawa cookie session yang benar.
+	const isBrowser = typeof window !== "undefined";
+	const menuQuery = useQuery({
+		...orpc.admin.settings.getMenuConfig.queryOptions(),
+		enabled: isBrowser && !isLoginPage && !!routeContext.session,
+	});
+	const unreadQuery = useQuery({
+		...orpc.admin.contacts.unreadCount.queryOptions(),
+		enabled: isBrowser && !isLoginPage && !!routeContext.session,
+		refetchInterval: 60_000,
+	});
+
+	const menuConfig = (menuQuery.data as Array<{ menuKey: string; label: string; icon: string; isEnabled: boolean | null; sortOrder: number | null }> | undefined) ?? [];
+	const unreadContacts = ((unreadQuery.data as { count: number } | undefined)?.count) ?? 0;
 
 	// Login page renders tanpa admin layout
 	if (isLoginPage || !routeContext.session || !routeContext.role) {
@@ -62,7 +62,7 @@ function AdminRoot() {
 			session={routeContext.session}
 			role={routeContext.role}
 			isSuperAdmin={routeContext.isSuperAdmin ?? false}
-			menuConfig={menuConfig as Array<{ menuKey: string; label: string; icon: string; isEnabled: boolean | null; sortOrder: number | null }>}
+			menuConfig={menuConfig}
 			unreadContacts={unreadContacts}
 		>
 			<Outlet />

@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 import PageHero from "@/components/sections/page-hero";
+import { orpc } from "@/utils/orpc";
 
 const CLOUDINARY_BASE = "https://res.cloudinary.com/dapw2uaa9/video/upload/q_auto/momkiddis";
 
@@ -45,6 +47,9 @@ const VIDEOS = [
 ];
 
 export const Route = createFileRoute("/galeri")({
+	loader: async ({ context: { queryClient } }) => {
+		void queryClient.prefetchQuery(orpc.gallery.list.queryOptions());
+	},
 	component: GaleriPage,
 });
 
@@ -132,6 +137,8 @@ function VideoCard({ video }: { video: (typeof VIDEOS)[number] }) {
 }
 
 function GaleriPage() {
+	const { data: photos = [] } = useQuery(orpc.gallery.list.queryOptions());
+
 	return (
 		<>
 			<PageHero
@@ -141,6 +148,35 @@ function GaleriPage() {
 			/>
 
 			<div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+				{/* ── Foto dari admin (jika ada) ── */}
+				{photos.length > 0 && (
+					<>
+						<p className="mb-4 text-xs font-semibold uppercase tracking-widest text-primary">Foto Kegiatan</p>
+						<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+							{photos.map((photo) => (
+								<div
+									key={photo.id}
+									className="group relative overflow-hidden rounded-2xl bg-muted aspect-square"
+								>
+									<img
+										src={photo.imageUrl}
+										alt={photo.caption}
+										className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+										loading="lazy"
+									/>
+									<div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+										<p className="text-xs font-semibold text-white leading-snug">{photo.caption}</p>
+										<p className="mt-0.5 text-[10px] text-white/75">{photo.event}</p>
+									</div>
+								</div>
+							))}
+						</div>
+						<div className="my-10 border-t border-border" />
+					</>
+				)}
+
+				{/* ── Video kegiatan (hardcoded dari Cloudinary) ── */}
+				<p className="mb-4 text-xs font-semibold uppercase tracking-widest text-primary">Video Kegiatan</p>
 				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5 lg:gap-3">
 					{VIDEOS.map((video) => (
 						<VideoCard key={video.id} video={video} />

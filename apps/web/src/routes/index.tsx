@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@momkiddis/ui/components/button";
 import { ArrowRightIcon } from "lucide-react";
@@ -269,7 +270,7 @@ interface BentoCardProps {
 	name: string;
 	role: string;
 	content: string;
-	avatarSrc: string;
+	avatarSrc?: string;
 	animIndex: number;
 	variant?: "light" | "primary" | "dark";
 	className?: string;
@@ -305,14 +306,29 @@ function BentoCard({ name, role, content, avatarSrc, animIndex, variant = "light
 					<p className="text-sm font-semibold">{name}</p>
 					<p className={`text-xs ${variant === "light" ? "text-muted-foreground" : "opacity-70"}`}>{role}</p>
 				</div>
-				<img src={avatarSrc} alt={name} className="h-12 w-12 rounded-xl object-cover" />
+				{avatarSrc && <img src={avatarSrc} alt={name} className="h-12 w-12 rounded-xl object-cover" />}
 			</div>
 		</motion.div>
 	);
 }
 
 function TestimoniSection() {
-	const [t1, t2, t3, t4, t5, t6, t7] = HOME_TESTIMONIALS;
+	const { data: dbData = [] } = useQuery(orpc.testimonials.listFeatured.queryOptions());
+
+	// Gunakan DB data jika ada, fallback ke static
+	const items = dbData.length > 0
+		? dbData.map((t) => ({
+				id: String(t.id),
+				name: t.authorName,
+				role: t.authorRole,
+				content: t.content,
+				avatarSrc: t.authorImage ?? undefined,
+			}))
+		: HOME_TESTIMONIALS.slice(0, 7);
+
+	const [t1, t2, t3, t4, t5, t6, t7] = items;
+
+	if (!t1) return null;
 
 	return (
 		<section className="px-4 py-16 sm:px-6 lg:px-8">
@@ -337,7 +353,7 @@ function TestimoniSection() {
 
 				{/* Mobile: horizontal scroll — 3 cards */}
 				<div className="mt-5 flex gap-3 overflow-x-auto pb-2 sm:hidden">
-					{[t1, t2, t3].map((t) => (
+					{items.slice(0, 3).map((t) => (
 						<div
 							key={t.id}
 							className="w-72 flex-none rounded-xl border border-border bg-card p-4"
@@ -346,11 +362,13 @@ function TestimoniSection() {
 								"{t.content}"
 							</p>
 							<div className="mt-4 flex items-center gap-3">
-								<img
-									src={t.avatarSrc}
-									alt={t.name}
-									className="size-9 rounded-lg object-cover"
-								/>
+								{t.avatarSrc && (
+									<img
+										src={t.avatarSrc}
+										alt={t.name}
+										className="size-9 rounded-lg object-cover"
+									/>
+								)}
 								<div>
 									<p className="text-sm font-semibold text-foreground">{t.name}</p>
 									<p className="text-xs text-muted-foreground">{t.role}</p>
@@ -364,19 +382,19 @@ function TestimoniSection() {
 				<div className="mt-6 hidden gap-2 sm:grid lg:grid-cols-3">
 					{/* Col 1 */}
 					<div className="flex flex-col gap-2">
-						<BentoCard {...t1} animIndex={0} variant="light" className="relative flex-[7]" />
-						<BentoCard {...t2} animIndex={1} variant="primary" className="flex-[3]" />
+						{t1 && <BentoCard {...t1} animIndex={0} variant="light" className="relative flex-[7]" />}
+						{t2 && <BentoCard {...t2} animIndex={1} variant="primary" className="flex-[3]" />}
 					</div>
 					{/* Col 2 */}
 					<div className="flex flex-col gap-2">
-						<BentoCard {...t3} animIndex={2} variant="dark" />
-						<BentoCard {...t4} animIndex={3} variant="dark" />
-						<BentoCard {...t5} animIndex={4} variant="dark" />
+						{t3 && <BentoCard {...t3} animIndex={2} variant="dark" />}
+						{t4 && <BentoCard {...t4} animIndex={3} variant="dark" />}
+						{t5 && <BentoCard {...t5} animIndex={4} variant="dark" />}
 					</div>
 					{/* Col 3 */}
 					<div className="flex flex-col gap-2">
-						<BentoCard {...t6} animIndex={5} variant="primary" className="flex-[3]" />
-						<BentoCard {...t7} animIndex={6} variant="light" className="relative flex-[7]" />
+						{t6 && <BentoCard {...t6} animIndex={5} variant="primary" className="flex-[3]" />}
+						{t7 && <BentoCard {...t7} animIndex={6} variant="light" className="relative flex-[7]" />}
 					</div>
 				</div>
 			</div>
