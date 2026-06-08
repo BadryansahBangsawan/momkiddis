@@ -3,6 +3,8 @@ main = "dist/server/index.js"
 compatibility_date = "2026-03-10"
 compatibility_flags = ["nodejs_compat", "nodejs_compat_populate_process_env"]
 
+no_bundle = true
+
 [assets]
 directory = "dist/client"
 binding = "ASSETS"

@@ -38,10 +38,6 @@ jobs:
               "html_handling": "auto-trailing-slash",
               "run_worker_first": false
             },
-            "vars": {
-              "CORS_ORIGIN": "https://momkiddis-web.badryansah99.workers.dev",
-              "BETTER_AUTH_URL": "https://momkiddis-web.badryansah99.workers.dev"
-            },
             "d1_databases": [
               {
                 "binding": "DB",
@@ -57,6 +53,35 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Write production wrangler config
+        run: |
+          cat > apps/web/dist/server/wrangler.json << 'EOF'
+          {
+            "name": "momkiddis-web",
+            "main": "index.js",
+            "compatibility_date": "2026-03-10",
+            "compatibility_flags": ["nodejs_compat", "nodejs_compat_populate_process_env"],
+            "no_bundle": true,
+            "rules": [{"type": "ESModule", "globs": ["**/*.js", "**/*.mjs"]}],
+            "assets": {
+              "directory": "../client",
+              "binding": "ASSETS",
+              "not_found_handling": "none",
+              "html_handling": "auto-trailing-slash",
+              "run_worker_first": false
+            },
+            "vars": {
+              "CORS_ORIGIN": "https://momkiddis-web.badryansah99.workers.dev",
+              "BETTER_AUTH_URL": "https://momkiddis-web.badryansah99.workers.dev"
+            },
+            "d1_databases": [{
+              "binding": "DB",
+              "database_id": "01c08ce4-8621-446f-95db-19d2ee439df0",
+              "database_name": "momkiddis-db"
+            }]
+          }
+          EOF
+
       - name: Apply D1 Migrations
         working-directory: apps/web
         env:
@@ -65,12 +90,8 @@ jobs:
         run: bunx wrangler d1 migrations apply momkiddis-db --remote --config wrangler.toml
 
       - name: Deploy to Cloudflare Workers
-        working-directory: apps/web
+        working-directory: apps/web/dist/server
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: >
-          bunx wrangler deploy
-          --config wrangler.toml
-          --var CORS_ORIGIN:https://momkiddis-web.badryansah99.workers.dev
-          --var BETTER_AUTH_URL:https://momkiddis-web.badryansah99.workers.dev
+        run: ../../node_modules/.bin/wrangler deploy
