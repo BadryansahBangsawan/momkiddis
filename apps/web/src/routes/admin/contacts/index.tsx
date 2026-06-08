@@ -60,20 +60,22 @@ function ContactsPage() {
 
 	const query = useQuery(
 		orpc.admin.contacts.list.queryOptions({
-			page,
-			perPage: 20,
-			status: (filterValues.status as "unread" | "read" | "replied" | "archived") || undefined,
+			input: {
+				page,
+				perPage: 20,
+				status: (filterValues.status as "unread" | "read" | "replied" | "archived") || undefined,
+			},
 		}),
 	);
 
 	const detailQuery = useQuery({
-		...orpc.admin.contacts.getById.queryOptions({ id: selectedId ?? "" }),
+		...orpc.admin.contacts.getById.queryOptions({ input: { id: selectedId ?? "" } }),
 		enabled: !!selectedId,
 	});
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.contacts.list.queryOptions({ page: 1, perPage: 20 }).queryKey,
+			queryKey: orpc.admin.contacts.list.queryOptions({ input: { page: 1, perPage: 20 } }).queryKey,
 		});
 
 	const statusMutation = useMutation({
@@ -82,7 +84,7 @@ function ContactsPage() {
 		onSuccess: () => {
 			invalidate();
 			queryClient.invalidateQueries({
-				queryKey: orpc.admin.contacts.getById.queryOptions({ id: selectedId ?? "" }).queryKey,
+				queryKey: orpc.admin.contacts.getById.queryOptions({ input: { id: selectedId ?? "" } }).queryKey,
 			});
 		},
 		onError: (e: Error) => toast.error(e.message),
@@ -94,7 +96,7 @@ function ContactsPage() {
 		onSuccess: () => {
 			toast.success("Catatan disimpan");
 			queryClient.invalidateQueries({
-				queryKey: orpc.admin.contacts.getById.queryOptions({ id: selectedId ?? "" }).queryKey,
+				queryKey: orpc.admin.contacts.getById.queryOptions({ input: { id: selectedId ?? "" } }).queryKey,
 			});
 		},
 		onError: (e: Error) => toast.error(e.message),

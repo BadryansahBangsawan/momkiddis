@@ -54,7 +54,7 @@ function PromoFormPage() {
 	const [form, setForm] = useState<FormData>(EMPTY);
 	const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
-	const query = useQuery({ ...orpc.admin.promos.getById.queryOptions({ id }), enabled: !isNew });
+	const query = useQuery({ ...orpc.admin.promos.getById.queryOptions({ input: { id } }), enabled: !isNew });
 
 	useEffect(() => {
 		if (query.data) {
@@ -75,7 +75,7 @@ function PromoFormPage() {
 	}, [query.data]);
 
 	const invalidateList = () =>
-		queryClient.invalidateQueries({ queryKey: orpc.admin.promos.list.queryOptions({ page: 1, perPage: 10 }).queryKey });
+		queryClient.invalidateQueries({ queryKey: orpc.admin.promos.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey });
 
 	const buildPayload = () => ({
 		title: form.title,

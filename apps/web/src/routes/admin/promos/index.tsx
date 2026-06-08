@@ -62,16 +62,18 @@ function PromosPage() {
 
 	const query = useQuery(
 		orpc.admin.promos.list.queryOptions({
-			page,
-			perPage: 10,
-			isActive: filterValues.status === "active" ? true : filterValues.status === "inactive" ? false : undefined,
-			programSlug: filterValues.programSlug || undefined,
+			input: {
+				page,
+				perPage: 10,
+				isActive: filterValues.status === "active" ? true : filterValues.status === "inactive" ? false : undefined,
+				programSlug: filterValues.programSlug || undefined,
+			},
 		}),
 	);
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.promos.list.queryOptions({ page: 1, perPage: 10 }).queryKey,
+			queryKey: orpc.admin.promos.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
 		});
 
 	const toggleMutation = useMutation({
