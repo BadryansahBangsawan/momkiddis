@@ -3,40 +3,42 @@ import { useRef, useState } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 import PageHero from "@/components/sections/page-hero";
 
+const CLOUDINARY_BASE = "https://res.cloudinary.com/dapw2uaa9/video/upload/q_auto/momkiddis";
+
 const VIDEOS = [
 	{
 		id: "1",
-		src: "/vidio/1.mp4",
+		src: `${CLOUDINARY_BASE}/vidio/1.mp4`,
 		caption: "Praktik Mengajar Momsky Class",
 		event: "Momsky Class",
 	},
 	{
 		id: "2",
-		src: "/vidio/2.mp4",
+		src: `${CLOUDINARY_BASE}/vidio/2.mp4`,
 		caption: "Belajar Seru Kiddis Class",
 		event: "Kiddis Class",
 	},
 	{
 		id: "3",
-		src: "/vidio/3.mp4",
+		src: `${CLOUDINARY_BASE}/vidio/3.mp4`,
 		caption: "Latihan Komunikasi Teenager Class",
 		event: "Teenager Class",
 	},
 	{
 		id: "4",
-		src: "/vidio/4.mp4",
+		src: `${CLOUDINARY_BASE}/vidio/4.mp4`,
 		caption: "Mentoring Professional Class",
 		event: "Professional Class",
 	},
 	{
 		id: "5",
-		src: "/vidio/5.mp4",
+		src: `${CLOUDINARY_BASE}/vidio/5.mp4`,
 		caption: "Latihan IELTS & TOEFL Class",
 		event: "IELTS & TOEFL",
 	},
 	{
 		id: "6",
-		src: "/vidio/6.mp4",
+		src: `${CLOUDINARY_BASE}/vidio/6.mp4`,
 		caption: "E-Certificate Momkiddis Batch 5",
 		event: "E-Certificate",
 	},
