@@ -78,7 +78,8 @@ export function createMenuGuard(menuKey: string) {
       .where(eq(adminMenuSettings.menuKey, menuKey))
       .get();
 
-    if (!setting || !setting.isEnabled) {
+    // Only block if explicitly disabled. If no setting exists → default allow.
+    if (setting && !setting.isEnabled) {
       throw new ORPCError("FORBIDDEN", {
         message: `Menu "${menuKey}" tidak diaktifkan`,
       });

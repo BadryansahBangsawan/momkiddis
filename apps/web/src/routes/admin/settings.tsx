@@ -6,7 +6,7 @@ import { Switch } from "@momkiddis/ui/components/switch";
 import { Button } from "@momkiddis/ui/components/button";
 import { Skeleton } from "@momkiddis/ui/components/skeleton";
 import { Separator } from "@momkiddis/ui/components/separator";
-import { ChevronUp, ChevronDown, Shield } from "lucide-react";
+import { ChevronUp, ChevronDown, Shield, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/settings")({
@@ -43,6 +43,18 @@ function SettingsPage() {
 		onError: (err: Error) => {
 			toast.error(err.message ?? "Gagal menyimpan pengaturan");
 		},
+	});
+
+	const seedMutation = useMutation({
+		mutationFn: () => client.admin.settings.seedDefaultMenus(undefined),
+		onSuccess: () => {
+			toast.success("Menu default berhasil di-seed");
+			setLocalMenus(null);
+			queryClient.invalidateQueries({
+				queryKey: orpc.admin.settings.getMenuConfig.queryOptions().queryKey,
+			});
+		},
+		onError: (err: Error) => toast.error(err.message ?? "Gagal seed menu"),
 	});
 
 	const [localMenus, setLocalMenus] = useState<MenuItem[] | null>(null);
@@ -89,13 +101,26 @@ function SettingsPage() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<div className="flex items-center justify-between">
+			<div className="flex flex-wrap items-center justify-between gap-3">
 				<p className="text-muted-foreground text-sm">
 					Atur menu mana yang bisa diakses oleh admin biasa.
 				</p>
-				<Button onClick={handleSave} disabled={isSaving || isLoading}>
-					{isSaving ? "Menyimpan..." : "Simpan Perubahan"}
-				</Button>
+				<div className="flex items-center gap-2">
+					{menus.length === 0 && (
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => seedMutation.mutate()}
+							disabled={seedMutation.isPending}
+						>
+							<RefreshCw className={`mr-2 h-3.5 w-3.5 ${seedMutation.isPending ? "animate-spin" : ""}`} />
+							{seedMutation.isPending ? "Seeding..." : "Seed Default Menu"}
+						</Button>
+					)}
+					<Button onClick={handleSave} disabled={isSaving || isLoading || menus.length === 0}>
+						{isSaving ? "Menyimpan..." : "Simpan Perubahan"}
+					</Button>
+				</div>
 			</div>
 
 			<div className="rounded-lg border">
