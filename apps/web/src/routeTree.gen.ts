@@ -37,12 +37,20 @@ import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminSiteConfigRouteImport } from './routes/admin/site-config'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminActivityRouteImport } from './routes/admin/activity'
 import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin/testimonials/index'
+import { Route as AdminResourcesIndexRouteImport } from './routes/admin/resources/index'
+import { Route as AdminPromosIndexRouteImport } from './routes/admin/promos/index'
 import { Route as AdminGalleryIndexRouteImport } from './routes/admin/gallery/index'
+import { Route as AdminEventsIndexRouteImport } from './routes/admin/events/index'
+import { Route as AdminContactsIndexRouteImport } from './routes/admin/contacts/index'
 import { Route as AdminAlumniIndexRouteImport } from './routes/admin/alumni/index'
 import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AdminTestimonialsIdRouteImport } from './routes/admin/testimonials/$id'
+import { Route as AdminResourcesIdRouteImport } from './routes/admin/resources/$id'
+import { Route as AdminPromosIdRouteImport } from './routes/admin/promos/$id'
+import { Route as AdminEventsIdRouteImport } from './routes/admin/events/$id'
 import { Route as AdminAlumniIdRouteImport } from './routes/admin/alumni/$id'
 
 const TestimoniRoute = TestimoniRouteImport.update({
@@ -185,14 +193,39 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminActivityRoute = AdminActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminTestimonialsIndexRoute = AdminTestimonialsIndexRouteImport.update({
   id: '/testimonials/',
   path: '/testimonials/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminResourcesIndexRoute = AdminResourcesIndexRouteImport.update({
+  id: '/resources/',
+  path: '/resources/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminPromosIndexRoute = AdminPromosIndexRouteImport.update({
+  id: '/promos/',
+  path: '/promos/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
   id: '/gallery/',
   path: '/gallery/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminEventsIndexRoute = AdminEventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminContactsIndexRoute = AdminContactsIndexRouteImport.update({
+  id: '/contacts/',
+  path: '/contacts/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminAlumniIndexRoute = AdminAlumniIndexRouteImport.update({
@@ -213,6 +246,21 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 const AdminTestimonialsIdRoute = AdminTestimonialsIdRouteImport.update({
   id: '/testimonials/$id',
   path: '/testimonials/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminResourcesIdRoute = AdminResourcesIdRouteImport.update({
+  id: '/resources/$id',
+  path: '/resources/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminPromosIdRoute = AdminPromosIdRouteImport.update({
+  id: '/promos/$id',
+  path: '/promos/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminEventsIdRoute = AdminEventsIdRouteImport.update({
+  id: '/events/$id',
+  path: '/events/$id',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminAlumniIdRoute = AdminAlumniIdRouteImport.update({
@@ -242,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/sertifikasi': typeof SertifikasiRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/site-config': typeof AdminSiteConfigRoute
@@ -251,11 +300,18 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
   '/admin/alumni/$id': typeof AdminAlumniIdRoute
+  '/admin/events/$id': typeof AdminEventsIdRoute
+  '/admin/promos/$id': typeof AdminPromosIdRoute
+  '/admin/resources/$id': typeof AdminResourcesIdRoute
   '/admin/testimonials/$id': typeof AdminTestimonialsIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/admin/alumni/': typeof AdminAlumniIndexRoute
+  '/admin/contacts/': typeof AdminContactsIndexRoute
+  '/admin/events/': typeof AdminEventsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/promos/': typeof AdminPromosIndexRoute
+  '/admin/resources/': typeof AdminResourcesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -277,6 +333,7 @@ export interface FileRoutesByTo {
   '/sertifikasi': typeof SertifikasiRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/site-config': typeof AdminSiteConfigRoute
@@ -286,11 +343,18 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/programs': typeof ProgramsIndexRoute
   '/admin/alumni/$id': typeof AdminAlumniIdRoute
+  '/admin/events/$id': typeof AdminEventsIdRoute
+  '/admin/promos/$id': typeof AdminPromosIdRoute
+  '/admin/resources/$id': typeof AdminResourcesIdRoute
   '/admin/testimonials/$id': typeof AdminTestimonialsIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/admin/alumni': typeof AdminAlumniIndexRoute
+  '/admin/contacts': typeof AdminContactsIndexRoute
+  '/admin/events': typeof AdminEventsIndexRoute
   '/admin/gallery': typeof AdminGalleryIndexRoute
+  '/admin/promos': typeof AdminPromosIndexRoute
+  '/admin/resources': typeof AdminResourcesIndexRoute
   '/admin/testimonials': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRoutesById {
@@ -315,6 +379,7 @@ export interface FileRoutesById {
   '/sertifikasi': typeof SertifikasiRoute
   '/syarat-ketentuan': typeof SyaratKetentuanRoute
   '/testimoni': typeof TestimoniRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/site-config': typeof AdminSiteConfigRoute
@@ -324,11 +389,18 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
   '/admin/alumni/$id': typeof AdminAlumniIdRoute
+  '/admin/events/$id': typeof AdminEventsIdRoute
+  '/admin/promos/$id': typeof AdminPromosIdRoute
+  '/admin/resources/$id': typeof AdminResourcesIdRoute
   '/admin/testimonials/$id': typeof AdminTestimonialsIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/admin/alumni/': typeof AdminAlumniIndexRoute
+  '/admin/contacts/': typeof AdminContactsIndexRoute
+  '/admin/events/': typeof AdminEventsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/promos/': typeof AdminPromosIndexRoute
+  '/admin/resources/': typeof AdminResourcesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRouteTypes {
@@ -354,6 +426,7 @@ export interface FileRouteTypes {
     | '/sertifikasi'
     | '/syarat-ketentuan'
     | '/testimoni'
+    | '/admin/activity'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/site-config'
@@ -363,11 +436,18 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/programs/'
     | '/admin/alumni/$id'
+    | '/admin/events/$id'
+    | '/admin/promos/$id'
+    | '/admin/resources/$id'
     | '/admin/testimonials/$id'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/admin/alumni/'
+    | '/admin/contacts/'
+    | '/admin/events/'
     | '/admin/gallery/'
+    | '/admin/promos/'
+    | '/admin/resources/'
     | '/admin/testimonials/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -389,6 +469,7 @@ export interface FileRouteTypes {
     | '/sertifikasi'
     | '/syarat-ketentuan'
     | '/testimoni'
+    | '/admin/activity'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/site-config'
@@ -398,11 +479,18 @@ export interface FileRouteTypes {
     | '/admin'
     | '/programs'
     | '/admin/alumni/$id'
+    | '/admin/events/$id'
+    | '/admin/promos/$id'
+    | '/admin/resources/$id'
     | '/admin/testimonials/$id'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/admin/alumni'
+    | '/admin/contacts'
+    | '/admin/events'
     | '/admin/gallery'
+    | '/admin/promos'
+    | '/admin/resources'
     | '/admin/testimonials'
   id:
     | '__root__'
@@ -426,6 +514,7 @@ export interface FileRouteTypes {
     | '/sertifikasi'
     | '/syarat-ketentuan'
     | '/testimoni'
+    | '/admin/activity'
     | '/admin/login'
     | '/admin/settings'
     | '/admin/site-config'
@@ -435,11 +524,18 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/programs/'
     | '/admin/alumni/$id'
+    | '/admin/events/$id'
+    | '/admin/promos/$id'
+    | '/admin/resources/$id'
     | '/admin/testimonials/$id'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/admin/alumni/'
+    | '/admin/contacts/'
+    | '/admin/events/'
     | '/admin/gallery/'
+    | '/admin/promos/'
+    | '/admin/resources/'
     | '/admin/testimonials/'
   fileRoutesById: FileRoutesById
 }
@@ -667,6 +763,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/activity': {
+      id: '/admin/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/testimonials/': {
       id: '/admin/testimonials/'
       path: '/testimonials'
@@ -674,11 +777,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTestimonialsIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/resources/': {
+      id: '/admin/resources/'
+      path: '/resources'
+      fullPath: '/admin/resources/'
+      preLoaderRoute: typeof AdminResourcesIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/promos/': {
+      id: '/admin/promos/'
+      path: '/promos'
+      fullPath: '/admin/promos/'
+      preLoaderRoute: typeof AdminPromosIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/gallery/': {
       id: '/admin/gallery/'
       path: '/gallery'
       fullPath: '/admin/gallery/'
       preLoaderRoute: typeof AdminGalleryIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/events/': {
+      id: '/admin/events/'
+      path: '/events'
+      fullPath: '/admin/events/'
+      preLoaderRoute: typeof AdminEventsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/contacts/': {
+      id: '/admin/contacts/'
+      path: '/contacts'
+      fullPath: '/admin/contacts/'
+      preLoaderRoute: typeof AdminContactsIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/alumni/': {
@@ -709,6 +840,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTestimonialsIdRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/resources/$id': {
+      id: '/admin/resources/$id'
+      path: '/resources/$id'
+      fullPath: '/admin/resources/$id'
+      preLoaderRoute: typeof AdminResourcesIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/promos/$id': {
+      id: '/admin/promos/$id'
+      path: '/promos/$id'
+      fullPath: '/admin/promos/$id'
+      preLoaderRoute: typeof AdminPromosIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/events/$id': {
+      id: '/admin/events/$id'
+      path: '/events/$id'
+      fullPath: '/admin/events/$id'
+      preLoaderRoute: typeof AdminEventsIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/alumni/$id': {
       id: '/admin/alumni/$id'
       path: '/alumni/$id'
@@ -720,28 +872,44 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
+  AdminActivityRoute: typeof AdminActivityRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSiteConfigRoute: typeof AdminSiteConfigRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminAlumniIdRoute: typeof AdminAlumniIdRoute
+  AdminEventsIdRoute: typeof AdminEventsIdRoute
+  AdminPromosIdRoute: typeof AdminPromosIdRoute
+  AdminResourcesIdRoute: typeof AdminResourcesIdRoute
   AdminTestimonialsIdRoute: typeof AdminTestimonialsIdRoute
   AdminAlumniIndexRoute: typeof AdminAlumniIndexRoute
+  AdminContactsIndexRoute: typeof AdminContactsIndexRoute
+  AdminEventsIndexRoute: typeof AdminEventsIndexRoute
   AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
+  AdminPromosIndexRoute: typeof AdminPromosIndexRoute
+  AdminResourcesIndexRoute: typeof AdminResourcesIndexRoute
   AdminTestimonialsIndexRoute: typeof AdminTestimonialsIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminActivityRoute: AdminActivityRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSiteConfigRoute: AdminSiteConfigRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminAlumniIdRoute: AdminAlumniIdRoute,
+  AdminEventsIdRoute: AdminEventsIdRoute,
+  AdminPromosIdRoute: AdminPromosIdRoute,
+  AdminResourcesIdRoute: AdminResourcesIdRoute,
   AdminTestimonialsIdRoute: AdminTestimonialsIdRoute,
   AdminAlumniIndexRoute: AdminAlumniIndexRoute,
+  AdminContactsIndexRoute: AdminContactsIndexRoute,
+  AdminEventsIndexRoute: AdminEventsIndexRoute,
   AdminGalleryIndexRoute: AdminGalleryIndexRoute,
+  AdminPromosIndexRoute: AdminPromosIndexRoute,
+  AdminResourcesIndexRoute: AdminResourcesIndexRoute,
   AdminTestimonialsIndexRoute: AdminTestimonialsIndexRoute,
 }
 

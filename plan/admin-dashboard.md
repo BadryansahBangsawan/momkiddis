@@ -1347,135 +1347,124 @@ packages/db/src/schema/auth.ts     ← tetap ada (tabel user, session, account)
 
 ## Step-by-Step Implementasi (18 Phase, mulai dari Phase 0)
 
-### Phase 0 — Hapus Kode Lama
+### ✅ Phase 0 — Hapus Kode Lama
 - Hapus semua file yang tercantum di bagian "Phase 0 — Hapus Kode Lama" di atas
 - Hapus referensi auth dari navbar publik (`site-header.tsx`) jika ada
 - Verifikasi: website publik masih berfungsi normal tanpa login
 
-### Phase 1 — DB: Schema Baru & Migration
+### ✅ Phase 1 — DB: Schema Baru & Migration
 - Update `user` table: tambah `role`, `isActive`
 - Buat schema: `admin-menu-settings.ts`
 - Buat schema: `contact-submissions.ts`
 - Buat schema: `activity-logs.ts`
 - Buat schema: `site-config.ts`
 - Update `schema/index.ts` — export semua
-- Jalankan: `bun run db:generate && bun run db:migrate`
+- Migration: `packages/db/src/migrations/0002_admin_panel.sql`
 
-### Phase 2 — DB: Seed Data
+### ✅ Phase 2 — DB: Seed Data
 - Insert 8 default menu settings
 - Insert 11+ default site config
 - Set satu user sebagai superadmin:
   ```sql
-  UPDATE user SET role = 'superadmin' WHERE email = 'work@bahrul.me';
+  UPDATE user SET role = 'superadmin' WHERE email = 'badryansah99@gmail.com';
   ```
+  > **Catatan:** Lakukan lewat D1 console di Cloudflare dashboard setelah deploy pertama.
+  > Kemudian panggil `admin.settings.seedDefaultMenus` dari admin panel.
 
-### Phase 3 — API: Procedure Builders
+### ✅ Phase 3 — API: Procedure Builders
 - Buat `adminProcedure` (admin + superadmin)
 - Buat `superAdminProcedure` (superadmin only)
 - Buat `createMenuGuard(menuKey)` (admin + cek menu config)
-- Buat `logActivity()` utility
-- Test: non-admin di-reject dengan 403
+- Buat `logActivity()` utility di `packages/api/src/utils/log-activity.ts`
 
-### Phase 4 — API: Core Admin Routers
-- `admin/settings.ts` — getMenuConfig, updateMenuConfig
+### ✅ Phase 4 — API: Core Admin Routers
+- `admin/settings.ts` — getMenuConfig, updateMenuConfig, seedDefaultMenus
 - `admin/stats.ts` — summary counts + recent items
-- `admin/users.ts` — list, updateRole, toggleActive
-- `admin/site-config.ts` — getAll, update
+- `admin/users.ts` — list, updateRole, toggleActive, create
+- `admin/site-config.ts` — getAll (public), getGrouped, update
 - `admin/activity.ts` — list (paginated, filterable)
 - `admin/contacts.ts` — list, getById, updateStatus, addNote
-- Register semua di `admin/index.ts` → tambah ke appRouter
-- Tambah `contacts.submit` ke public router (untuk form `/kontak`)
+- Semua sudah di-register di `admin/index.ts` → appRouter
 
-### Phase 5 — Shadcn: Install Components
-- Install semua shadcn components yang dibutuhkan (table, dialog, select, switch, textarea, tabs, dll)
+### ✅ Phase 5 — Shadcn: Install Components
+- Semua komponen shadcn yang dibutuhkan sudah terinstall
 
-### Phase 6 — UI: Admin Layout + Komponen Dasar
+### ✅ Phase 6 — UI: Admin Layout + Komponen Dasar
 - `admin-layout.tsx` — sidebar + header + content area
 - `admin-sidebar.tsx` — dinamis berdasarkan role + menuConfig + badge unread
 - `admin-header.tsx` — breadcrumb + role badge + user dropdown
-- `admin-stat-card.tsx`
-- `admin-data-table.tsx` — TanStack Table wrapper lengkap
-- `admin-form-shell.tsx`
-- `admin-confirm-dialog.tsx`
-- `admin-status-badge.tsx`
-- `admin-bulk-toolbar.tsx`
-- `admin-empty-state.tsx`
-- `admin-image-preview.tsx`
+- `admin-stat-card.tsx`, `admin-data-table.tsx`, `admin-form-shell.tsx`
+- `admin-confirm-dialog.tsx`, `admin-status-badge.tsx`
+- `admin-bulk-toolbar.tsx`, `admin-empty-state.tsx`, `admin-image-preview.tsx`
 
-### Phase 7 — Route: Login + Layout + Guard
-- Buat `admin/login.tsx` — halaman login admin (di luar layout `_admin`, tanpa auth guard)
-- Buat `_admin/route.tsx` — layout + beforeLoad role check + loader menuConfig
-- Test: non-admin redirect ke `/admin/login`
-- Test: admin bisa login dan masuk panel
+### ✅ Phase 7 — Route: Login + Layout + Guard
+- `admin/login.tsx` — halaman login admin
+- `admin/route.tsx` — layout + beforeLoad role check + loader menuConfig
 
-### Phase 8 — Page: Dashboard Stats
-- `_admin/index.tsx` — grid stat cards + pesan belum dibaca + recent activity (superadmin)
+### ✅ Phase 8 — Page: Dashboard Stats
+- `admin/index.tsx` — grid stat cards + pesan belum dibaca + recent activity
 
-### Phase 9 — Page: Settings (Superadmin)
-- `_admin/settings.tsx` — toggle list + drag reorder + simpan
-- Test: toggle off galeri → sidebar admin tidak tampilkan Galeri
+### ✅ Phase 9 — Page: Settings (Superadmin)
+- `admin/settings.tsx` — toggle on/off + drag reorder + simpan
 
-### Phase 10 — Page: User Management (Superadmin)
-- `_admin/users.tsx` — tabel user + dropdown role + toggle aktif
-- Tombol "Tambah Admin" + dialog form (nama, email, password, role)
-- API: `admin.users.create` mutation untuk membuat akun admin baru
-- Test: buat admin baru, admin baru bisa login di `/admin/login`
-- Test: ubah role admin, admin mendapat akses sesuai role baru
+### ✅ Phase 10 — Page: User Management (Superadmin)
+- `admin/users.tsx` — tabel user + dropdown role + toggle aktif
+- Tombol "Tambah Admin" + dialog form
 
-### Phase 11 — Page: Site Config (Superadmin)
-- `_admin/site-config.tsx` — form grouped + simpan ke DB
-- Public API `siteConfig.getAll` + merge dengan static config
-- Update komponen yang pakai siteConfig (header, footer, CTA) untuk baca dari DB
+### ✅ Phase 11 — Page: Site Config (Superadmin)
+- `admin/site-config.tsx` — form grouped + simpan ke DB
+- `useSiteConfig()` hook di `apps/web/src/hooks/use-site-config.ts`
+- Root loader di `__root.tsx` prefetch site config saat SSR
+- Semua komponen publik (header, footer, CTA, 20+ route) sudah baca dari DB
 
-### Phase 12 — Page: CRUD Testimoni
+### ✅ Phase 12 — Page: CRUD Testimoni
 - API: `admin/testimonials.ts` — all CRUD + toggle + bulk + export
-- Route: `_admin/testimonials/index.tsx` + `$id.tsx`
+- Route: `admin/testimonials/index.tsx` + `admin/testimonials/$id.tsx`
 
-### Phase 13 — Page: CRUD Alumni
+### ✅ Phase 13 — Page: CRUD Alumni
 - API: `admin/alumni.ts`
-- Route: `_admin/alumni/index.tsx` + `$id.tsx`
+- Route: `admin/alumni/index.tsx` + `admin/alumni/$id.tsx`
 
-### Phase 14 — Page: CRUD Galeri
+### ✅ Phase 14 — Page: CRUD Galeri
 - API: `admin/gallery.ts`
-- Route: `_admin/gallery/index.tsx` (grid + dialog)
+- Route: `admin/gallery/index.tsx` (grid + dialog add/edit)
 
-### Phase 15 — Page: CRUD Events + Resources + Promos
-- Ketiga resource ini polanya mirip — kerjakan sekaligus
-- API: `admin/events.ts`, `admin/resources.ts`, `admin/promos.ts`
-- Routes untuk masing-masing
+### ⏳ Phase 15 — Page: CRUD Events + Resources + Promos
+- API sudah ada: `admin/events.ts`, `admin/resources.ts`, `admin/promos.ts`
+- **BELUM:** Route frontend untuk events, resources, promos (index + $id masing-masing)
 
-### Phase 16 — Page: Pesan Masuk (Contact Submissions)
-- API: `admin/contacts.ts`
-- Route: `_admin/contacts/index.tsx` — inbox + detail sheet
-- Update halaman `/kontak` — form kirim ke API
+### ⏳ Phase 16 — Page: Pesan Masuk (Contact Submissions)
+- API sudah ada: `admin/contacts.ts`
+- **BELUM:** Route `admin/contacts/index.tsx` — inbox + detail sheet
+- **BELUM:** Update halaman `/kontak` — form kirim ke API (simpan ke DB)
 
-### Phase 17 — Page: Activity Log (Superadmin)
-- Route: `_admin/activity.tsx` — timeline + filter
-- Pastikan semua mutation di Phase 12-16 sudah panggil `logActivity()`
+### ⏳ Phase 17 — Page: Activity Log (Superadmin)
+- **BELUM:** Route `admin/activity.tsx` — timeline + filter
+- Pastikan semua mutation Phase 12-16 sudah panggil `logActivity()`
 
 ---
 
 ## Urutan Prioritas
 
 ```
-[0]  Phase 0   → Hapus kode lama (login publik, _auth)  ← LAKUKAN PERTAMA
-[1]  Phase 1   → DB schema baru                         ← BLOCKING SEMUA
-[2]  Phase 2   → Seed data                              ← BLOCKING semua fitur
-[3]  Phase 3   → 3 procedure builders + logActivity     ← BLOCKING API
-[4]  Phase 4   → Core admin routers (settings, stats, users, config) ← BLOCKING UI
-[5]  Phase 5   → Install shadcn components              ← BLOCKING UI
-[6]  Phase 6   → Admin UI components                    ← BLOCKING semua halaman
-[7]  Phase 7   → Login page + Layout route + guard      ← BLOCKING semua halaman
-[8]  Phase 8   → Dashboard stats page
-[9]  Phase 9   → Settings page (superadmin)             ← penting: mengaktifkan menu control
-[10] Phase 10  → User management (superadmin) + Tambah Admin
-[11] Phase 11  → Site config (superadmin)
-[12] Phase 12  → CRUD Testimoni                         ← mulai konten CRUD
-[13] Phase 13  → CRUD Alumni
-[14] Phase 14  → CRUD Galeri
-[15] Phase 15  → CRUD Events + Resources + Promos       ← batch 3 sekaligus
-[16] Phase 16  → Pesan Masuk + update form /kontak
-[17] Phase 17  → Activity Log                           ← terakhir (tergantung semua mutation sudah logging)
+[✅]  Phase 0   → Hapus kode lama (login publik, _auth)
+[✅]  Phase 1   → DB schema baru
+[✅]  Phase 2   → Seed data
+[✅]  Phase 3   → 3 procedure builders + logActivity
+[✅]  Phase 4   → Core admin routers (settings, stats, users, config)
+[✅]  Phase 5   → Install shadcn components
+[✅]  Phase 6   → Admin UI components
+[✅]  Phase 7   → Login page + Layout route + guard
+[✅]  Phase 8   → Dashboard stats page
+[✅]  Phase 9   → Settings page (superadmin)
+[✅]  Phase 10  → User management (superadmin) + Tambah Admin
+[✅]  Phase 11  → Site config (superadmin) + useSiteConfig hook
+[✅]  Phase 12  → CRUD Testimoni
+[✅]  Phase 13  → CRUD Alumni
+[✅]  Phase 14  → CRUD Galeri
+[⏳]  Phase 15  → CRUD Events + Resources + Promos  ← API ✅, route frontend BELUM
+[⏳]  Phase 16  → Pesan Masuk + update form /kontak  ← API ✅, route + form BELUM
+[⏳]  Phase 17  → Activity Log                       ← belum sama sekali
 ```
 
 ---

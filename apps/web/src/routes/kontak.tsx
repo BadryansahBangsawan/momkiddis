@@ -1,18 +1,77 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { client } from "@/utils/orpc";
 import PageHero from "@/components/sections/page-hero";
 import { siteConfig } from "@/lib/site-config";
 import { useSiteConfig } from "@/hooks/use-site-config";
+import { Button } from "@momkiddis/ui/components/button";
+import { Input } from "@momkiddis/ui/components/input";
+import { Textarea } from "@momkiddis/ui/components/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@momkiddis/ui/components/select";
 import { MapPin, Clock, Phone } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/kontak")({
 	component: KontakPage,
 });
+
+interface ContactForm {
+	name: string;
+	email: string;
+	phone: string;
+	subject: "Tanya Program" | "Pendaftaran" | "Kerjasama" | "Lainnya" | "";
+	message: string;
+}
+
+const EMPTY_FORM: ContactForm = { name: "", email: "", phone: "", subject: "", message: "" };
 
 function KontakPage() {
 	const { instagram, getWaUrl, raw } = useSiteConfig();
 	const waUrl = getWaUrl();
 	const address = raw?.address ?? siteConfig.address;
 	const operationalHours = raw?.operating_hours ?? siteConfig.operationalHours;
+
+	const [form, setForm] = useState<ContactForm>(EMPTY_FORM);
+	const [errors, setErrors] = useState<Partial<Record<keyof ContactForm, string>>>({});
+
+	function setField<K extends keyof ContactForm>(key: K, value: ContactForm[K]) {
+		setForm((p) => ({ ...p, [key]: value }));
+		if (errors[key]) setErrors((p) => ({ ...p, [key]: undefined }));
+	}
+
+	const submitMutation = useMutation({
+		mutationFn: (input: { name: string; email: string; phone?: string; subject: "Tanya Program" | "Pendaftaran" | "Kerjasama" | "Lainnya"; message: string }) =>
+			client.contacts.submit(input),
+		onSuccess: () => {
+			toast.success("Pesan terkirim! Kami akan segera menghubungi Anda.");
+			setForm(EMPTY_FORM);
+			setErrors({});
+		},
+		onError: (e: Error) => toast.error(e.message),
+	});
+
+	function validateForm(): boolean {
+		const e: Partial<Record<keyof ContactForm, string>> = {};
+		if (form.name.trim().length < 2) e.name = "Nama minimal 2 karakter";
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Email tidak valid";
+		if (!form.subject) e.subject = "Pilih subjek pesan";
+		if (form.message.trim().length < 10) e.message = "Pesan minimal 10 karakter";
+		setErrors(e);
+		return Object.keys(e).length === 0;
+	}
+
+	function handleSubmit(e: React.FormEvent) {
+		e.preventDefault();
+		if (!validateForm()) return;
+		submitMutation.mutate({
+			name: form.name,
+			email: form.email,
+			phone: form.phone || undefined,
+			subject: form.subject as "Tanya Program" | "Pendaftaran" | "Kerjasama" | "Lainnya",
+			message: form.message,
+		});
+	}
 
 	return (
 		<>
@@ -114,6 +173,73 @@ function KontakPage() {
 							</p>
 						</div>
 					</div>
+				</div>
+
+				{/* Form Kontak */}
+				<div className="mt-10 rounded-2xl border bg-card p-6 sm:p-8">
+					<h2 className="mb-1 text-base font-semibold">Kirim Pesan</h2>
+					<p className="mb-6 text-sm text-muted-foreground">Isi form berikut dan kami akan menghubungi Anda secepatnya.</p>
+					<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+						<div className="grid gap-4 sm:grid-cols-2">
+							<div className="flex flex-col gap-1.5">
+								<label className="text-sm font-medium">Nama <span className="text-destructive">*</span></label>
+								<Input
+									value={form.name}
+									onChange={(e) => setField("name", e.target.value)}
+									placeholder="Nama lengkap..."
+								/>
+								{errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
+							</div>
+							<div className="flex flex-col gap-1.5">
+								<label className="text-sm font-medium">Email <span className="text-destructive">*</span></label>
+								<Input
+									type="email"
+									value={form.email}
+									onChange={(e) => setField("email", e.target.value)}
+									placeholder="email@contoh.com"
+								/>
+								{errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
+							</div>
+						</div>
+						<div className="grid gap-4 sm:grid-cols-2">
+							<div className="flex flex-col gap-1.5">
+								<label className="text-sm font-medium">No. WhatsApp (opsional)</label>
+								<Input
+									type="tel"
+									value={form.phone}
+									onChange={(e) => setField("phone", e.target.value)}
+									placeholder="08xx-xxxx-xxxx"
+								/>
+							</div>
+							<div className="flex flex-col gap-1.5">
+								<label className="text-sm font-medium">Subjek <span className="text-destructive">*</span></label>
+								<Select value={form.subject} onValueChange={(v) => setField("subject", v as ContactForm["subject"])}>
+									<SelectTrigger><SelectValue placeholder="Pilih subjek..." /></SelectTrigger>
+									<SelectContent>
+										<SelectItem value="Tanya Program">Tanya Program</SelectItem>
+										<SelectItem value="Pendaftaran">Pendaftaran</SelectItem>
+										<SelectItem value="Kerjasama">Kerjasama</SelectItem>
+										<SelectItem value="Lainnya">Lainnya</SelectItem>
+									</SelectContent>
+								</Select>
+								{errors.subject && <p className="text-xs text-destructive">{errors.subject}</p>}
+							</div>
+						</div>
+						<div className="flex flex-col gap-1.5">
+							<label className="text-sm font-medium">Pesan <span className="text-destructive">*</span></label>
+							<Textarea
+								value={form.message}
+								onChange={(e) => setField("message", e.target.value)}
+								rows={4}
+								className="resize-none"
+								placeholder="Tulis pesan Anda di sini..."
+							/>
+							{errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
+						</div>
+						<Button type="submit" disabled={submitMutation.isPending} className="self-start">
+							{submitMutation.isPending ? "Mengirim..." : "Kirim Pesan"}
+						</Button>
+					</form>
 				</div>
 
 				{/* CTA banner */}
