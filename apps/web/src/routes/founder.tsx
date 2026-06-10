@@ -61,9 +61,11 @@ function FounderPage() {
 				{/* Profile */}
 				<section className="grid gap-8 lg:grid-cols-3 lg:items-start">
 					<div className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center">
-						<div className="flex size-24 items-center justify-center rounded-full bg-primary/10 text-3xl font-bold text-primary">
-							LH
-						</div>
+						<img
+							src="/Lita.png"
+							alt="Lita Hendratno"
+							className="size-24 rounded-full object-cover"
+						/>
 						<p className="mt-3 text-base font-semibold text-foreground">
 							Lita Hendratno
 						</p>

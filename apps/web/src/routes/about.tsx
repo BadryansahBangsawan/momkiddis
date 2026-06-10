@@ -22,12 +22,10 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
 };
 
 const VISI_MISI = {
-	visi: "Menjadi rumah belajar keluarga yang membantu ibu percaya diri mengajar, anak bertumbuh cerdas, serta remaja dan profesional terus berkembang.",
+	visi: "Menjadi Rumah Belajarnya Ibu dan Anak.",
 	misi: [
-		"Membekali ibu dengan metode mengajar anak yang mudah, fun, dan terarah.",
-		"Mendampingi anak dan remaja belajar secara aktif, kreatif, dan percaya diri.",
-		"Meningkatkan kompetensi mengajar dan komunikasi para profesional.",
-		"Membantu peserta mempersiapkan IELTS dan TOEFL secara fokus dan sistematis.",
+		"Memberdayakan ibu melalui Kelas Pengajar Microteaching yang mengajarkan skill mengajar praktis yang langsung bisa dipakai malam itu juga.",
+		"Mendidik anak lewat program Calistung Fun, Bimbel SD, dan English Fun dengan metode play-based learning yang membuat anak belajar sambil bermain.",
 	],
 };
 
@@ -68,8 +66,8 @@ function AboutPage() {
 	return (
 		<>
 			<PageHero
-				title="Tentang Momkiddis Indonesia"
-				subtitle="Rumah belajar untuk ibu, anak, remaja, profesional, serta persiapan IELTS & TOEFL."
+				title="Tentang Momkiddis"
+				subtitle="Rumah Belajarnya Ibu dan Anak — didirikan oleh Lita Hendratno untuk menjawab tantangan nyata ibu-ibu milenial modern."
 				breadcrumbs={[{ label: "Tentang Kami" }]}
 			/>
 
