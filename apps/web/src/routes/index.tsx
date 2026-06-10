@@ -210,8 +210,7 @@ const HOME_TESTIMONIALS = [
 		role: "Momsky Class",
 		content:
 			"Saya jadi lebih percaya diri mengajar dan mendampingi anak belajar di rumah.",
-		avatarSrc:
-			"https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=200&fit=crop&q=80",
+		avatarSrc: "/gallery-foto/PP3.jpg",
 	},
 	{
 		id: "h2",
@@ -219,8 +218,7 @@ const HOME_TESTIMONIALS = [
 		role: "Teenager Class",
 		content:
 			"Latihan komunikasi dan public speaking membantu saya tampil lebih percaya diri.",
-		avatarSrc:
-			"https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&h=200&fit=crop&q=80",
+		avatarSrc: "/gallery-foto/IMG_0521.jpg",
 	},
 	{
 		id: "h3",
@@ -228,8 +226,7 @@ const HOME_TESTIMONIALS = [
 		role: "IELTS & TOEFL Class",
 		content:
 			"Latihan listening, reading, speaking, dan writing membuat persiapan tes lebih terarah.",
-		avatarSrc:
-			"https://images.unsplash.com/photo-1488508872907-592763824245?w=200&h=200&fit=crop&q=80",
+		avatarSrc: "/gallery-foto/12b.jpg",
 	},
 	{
 		id: "h4",
@@ -237,8 +234,7 @@ const HOME_TESTIMONIALS = [
 		role: "Kiddis Class",
 		content:
 			"Anak saya menikmati aktivitas calistung dan English Fun karena belajarnya aktif.",
-		avatarSrc:
-			"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop&q=80",
+		avatarSrc: "/gallery-foto/feb10.jpg",
 	},
 	{
 		id: "h5",
@@ -246,8 +242,7 @@ const HOME_TESTIMONIALS = [
 		role: "Professional Class",
 		content:
 			"Praktik komunikasi profesional dan evaluasi mentor sangat membantu pekerjaan saya.",
-		avatarSrc:
-			"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&q=80",
+		avatarSrc: "/gallery-foto/TEST-English-School-Alumni-30.jpg",
 	},
 	{
 		id: "h6",
@@ -255,8 +250,7 @@ const HOME_TESTIMONIALS = [
 		role: "Momsky Class",
 		content:
 			"Teknik mengajarnya simpel dan langsung bisa saya praktikkan bersama anak.",
-		avatarSrc:
-			"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&q=80",
+		avatarSrc: "/gallery-foto/TEST-English-School-Alumni-32.jpg",
 	},
 	{
 		id: "h7",
@@ -264,8 +258,7 @@ const HOME_TESTIMONIALS = [
 		role: "Teenager Class",
 		content:
 			"Saya lebih terarah mengatur target belajar dan berani melakukan presentasi.",
-		avatarSrc:
-			"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&q=80",
+		avatarSrc: "/gallery-foto/scr-2.jpg",
 	},
 ];
 
@@ -412,24 +405,24 @@ const HOME_ALUMNI_SLIDER: AlumniReview[] = [
 		name: "Fitri Handayani",
 		batchLabel: "Momkiddis Indonesia · Momsky Class",
 		quote: "Sekarang saya lebih percaya diri mengajar dan mendampingi anak belajar di rumah.",
-		imageSrc: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=600&fit=crop&q=80",
-		thumbnailSrc: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=120&fit=crop&q=80",
+		imageSrc: "/gallery-foto/Alumni-test-Greece-.jpg",
+		thumbnailSrc: "/gallery-foto/Alumni-test-Greece-.jpg",
 	},
 	{
 		id: "a2",
 		name: "Nanda Pratiwi",
 		batchLabel: "Momkiddis Indonesia · IELTS & TOEFL Class",
 		quote: "Latihan setiap bagian tes membuat persiapan studi saya lebih fokus dan sistematis.",
-		imageSrc: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&q=80",
-		thumbnailSrc: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=120&fit=crop&q=80",
+		imageSrc: "/gallery-foto/Alumni-test-UK-3.jpg",
+		thumbnailSrc: "/gallery-foto/Alumni-test-UK-3.jpg",
 	},
 	{
 		id: "a3",
 		name: "Maya Sari",
 		batchLabel: "Momkiddis Indonesia · Professional Class",
 		quote: "Mentoring dan latihan komunikasi membantu saya tampil lebih rapi dan profesional.",
-		imageSrc: "https://images.unsplash.com/photo-1488508872907-592763824245?w=400&h=600&fit=crop&q=80",
-		thumbnailSrc: "https://images.unsplash.com/photo-1488508872907-592763824245?w=100&h=120&fit=crop&q=80",
+		imageSrc: "/gallery-foto/Alumni-test-USA-4.jpg",
+		thumbnailSrc: "/gallery-foto/Alumni-test-USA-4.jpg",
 	},
 ];
 

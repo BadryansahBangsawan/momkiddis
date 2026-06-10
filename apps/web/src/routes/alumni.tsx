@@ -18,7 +18,6 @@ export const Route = createFileRoute("/alumni")({
 	component: AlumniPage,
 });
 
-// Featured alumni for the animated slider (with Unsplash portrait images)
 const FEATURED_REVIEWS: AlumniReview[] = [
 	{
 		id: "f1",
@@ -26,10 +25,8 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · Momsky Class",
 		quote:
 			"Saya jadi lebih percaya diri mendampingi anak belajar dan mempraktikkan cara mengajar yang lebih terarah.",
-		imageSrc:
-			"https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=600&fit=crop&q=80",
-		thumbnailSrc:
-			"https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=120&fit=crop&q=80",
+		imageSrc: "/gallery-foto/Alumni-test-Greece-.jpg",
+		thumbnailSrc: "/gallery-foto/Alumni-test-Greece-.jpg",
 	},
 	{
 		id: "f2",
@@ -37,10 +34,8 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · Kiddis Class",
 		quote:
 			"Anak saya lebih semangat mengikuti aktivitas calistung dan English Fun yang kreatif.",
-		imageSrc:
-			"https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&q=80",
-		thumbnailSrc:
-			"https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=120&fit=crop&q=80",
+		imageSrc: "/gallery-foto/Alumni-test-UK-3.jpg",
+		thumbnailSrc: "/gallery-foto/Alumni-test-UK-3.jpg",
 	},
 	{
 		id: "f3",
@@ -48,10 +43,8 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · Teenager Class",
 		quote:
 			"Latihan komunikasi dan presentasi membantu saya lebih berani tampil di depan kelas.",
-		imageSrc:
-			"https://images.unsplash.com/photo-1488508872907-592763824245?w=400&h=600&fit=crop&q=80",
-		thumbnailSrc:
-			"https://images.unsplash.com/photo-1488508872907-592763824245?w=100&h=120&fit=crop&q=80",
+		imageSrc: "/gallery-foto/Alumni-test-USA-4.jpg",
+		thumbnailSrc: "/gallery-foto/Alumni-test-USA-4.jpg",
 	},
 	{
 		id: "f4",
@@ -59,10 +52,8 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · Professional Class",
 		quote:
 			"Praktik microteaching dan evaluasi mentor membuat cara mengajar saya lebih rapi.",
-		imageSrc:
-			"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=600&fit=crop&q=80",
-		thumbnailSrc:
-			"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=120&fit=crop&q=80",
+		imageSrc: "/gallery-foto/Alumni-test-polandia.jpg",
+		thumbnailSrc: "/gallery-foto/Alumni-test-polandia.jpg",
 	},
 	{
 		id: "f5",
@@ -70,10 +61,8 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · IELTS & TOEFL Class",
 		quote:
 			"Latihan listening, reading, speaking, dan writing membuat persiapan English test saya lebih terarah.",
-		imageSrc:
-			"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&h=600&fit=crop&q=80",
-		thumbnailSrc:
-			"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=120&fit=crop&q=80",
+		imageSrc: "/gallery-foto/TEST-English-School-Alumni-18.jpg",
+		thumbnailSrc: "/gallery-foto/TEST-English-School-Alumni-18.jpg",
 	},
 ];
 
