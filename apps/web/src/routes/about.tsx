@@ -55,6 +55,9 @@ const NILAI = [
 ];
 
 export const Route = createFileRoute("/about")({
+	head: () => ({
+		meta: [{ title: "Tentang Kami — Momkiddis Indonesia" }],
+	}),
 	component: AboutPage,
 });
 

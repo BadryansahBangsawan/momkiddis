@@ -7,6 +7,9 @@ import { useSiteConfig } from "@/hooks/use-site-config";
 import { orpc } from "@/utils/orpc";
 
 export const Route = createFileRoute("/testimoni")({
+	head: () => ({
+		meta: [{ title: "Testimoni — Momkiddis Indonesia" }],
+	}),
 	loader: async ({ context: { queryClient } }) => {
 		void queryClient.prefetchQuery(orpc.testimonials.list.queryOptions());
 	},
@@ -55,7 +58,7 @@ const STATIC_TESTIMONIALS = [
 		authorName: "Salsa Wulandari",
 		authorRole: "Momsky Class",
 		content: "Teknik mengajarnya simpel dan mudah saya praktikkan bersama anak.",
-		authorImage: "https://images.unsplash.com/photo-1580894742597-87bc8789db3d?w=200&h=200&fit=crop&q=80",
+		authorImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&q=80",
 	},
 	{
 		id: "s7",

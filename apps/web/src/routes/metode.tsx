@@ -62,6 +62,9 @@ const METODE = [
 ];
 
 export const Route = createFileRoute("/metode")({
+	head: () => ({
+		meta: [{ title: "Metode Belajar — Momkiddis Indonesia" }],
+	}),
 	component: MetodePage,
 });
 

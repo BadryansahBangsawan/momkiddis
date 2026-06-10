@@ -11,6 +11,9 @@ import { useSiteConfig } from "@/hooks/use-site-config";
 import { MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/faq")({
+	head: () => ({
+		meta: [{ title: "FAQ — Momkiddis Indonesia" }],
+	}),
 	component: FaqPage,
 });
 

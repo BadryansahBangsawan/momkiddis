@@ -39,6 +39,9 @@ const PERJALANAN = [
 ];
 
 export const Route = createFileRoute("/founder")({
+	head: () => ({
+		meta: [{ title: "Founder — Momkiddis Indonesia" }],
+	}),
 	component: FounderPage,
 });
 

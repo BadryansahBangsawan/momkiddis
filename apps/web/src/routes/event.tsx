@@ -63,6 +63,9 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 export const Route = createFileRoute("/event")({
+	head: () => ({
+		meta: [{ title: "Event — Momkiddis Indonesia" }],
+	}),
 	loader: async ({ context: { queryClient } }) => {
 		void queryClient.prefetchQuery(orpc.events.listUpcoming.queryOptions());
 		void queryClient.prefetchQuery(orpc.events.listPast.queryOptions());

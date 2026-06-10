@@ -10,6 +10,9 @@ import { useSiteConfig } from "@/hooks/use-site-config";
 import { CalendarDays, Clock, Gift, Monitor, Star } from "lucide-react";
 
 export const Route = createFileRoute("/jadwal")({
+	head: () => ({
+		meta: [{ title: "Jadwal Kelas — Momkiddis Indonesia" }],
+	}),
 	component: JadwalPage,
 });
 

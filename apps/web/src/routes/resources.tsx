@@ -81,6 +81,9 @@ function FileTypeIcon({ type }: { type: string | null | undefined }) {
 }
 
 export const Route = createFileRoute("/resources")({
+	head: () => ({
+		meta: [{ title: "Resources — Momkiddis Indonesia" }],
+	}),
 	loader: async ({ context: { queryClient } }) => {
 		void queryClient.prefetchQuery(orpc.resources.list.queryOptions());
 	},

@@ -10,6 +10,9 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 export const Route = createFileRoute("/programs/")({
+	head: () => ({
+		meta: [{ title: "Program Kursus — Momkiddis Indonesia" }],
+	}),
 	component: ProgramsPage,
 });
 

@@ -50,6 +50,9 @@ const SECTIONS = [
 ];
 
 export const Route = createFileRoute("/syarat-ketentuan")({
+	head: () => ({
+		meta: [{ title: "Syarat & Ketentuan — Momkiddis Indonesia" }],
+	}),
 	component: SyaratKetentuanPage,
 });
 

@@ -61,6 +61,9 @@ const FAQ_QUICK = [
 ];
 
 export const Route = createFileRoute("/cara-daftar")({
+	head: () => ({
+		meta: [{ title: "Cara Daftar — Momkiddis Indonesia" }],
+	}),
 	component: CaraDaftarPage,
 });
 

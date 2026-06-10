@@ -7,7 +7,7 @@ import { AdminDataTable } from "@/components/admin/admin-data-table";
 import { AdminStatusBadge } from "@/components/admin/admin-status-badge";
 import { AdminConfirmDialog } from "@/components/admin/admin-confirm-dialog";
 import { Switch } from "@momkiddis/ui/components/switch";
-import { Button } from "@momkiddis/ui/components/button";
+import { buttonVariants } from "@momkiddis/ui/components/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@momkiddis/ui/components/dropdown-menu";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -191,10 +191,8 @@ function TestimonialsPage() {
 			header: "",
 			cell: ({ row }) => (
 				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" size="icon-sm">
-							<MoreHorizontal className="h-4 w-4" />
-						</Button>
+					<DropdownMenuTrigger className={buttonVariants({ variant: "ghost", size: "icon-sm" })}>
+						<MoreHorizontal className="h-4 w-4" />
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem

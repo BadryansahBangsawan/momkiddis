@@ -9,6 +9,9 @@ import { orpc } from "@/utils/orpc";
 import { Award } from "lucide-react";
 
 export const Route = createFileRoute("/alumni")({
+	head: () => ({
+		meta: [{ title: "Alumni — Momkiddis Indonesia" }],
+	}),
 	loader: async ({ context: { queryClient } }) => {
 		void queryClient.prefetchQuery(orpc.alumni.list.queryOptions({ input: { page: 1 } }));
 	},

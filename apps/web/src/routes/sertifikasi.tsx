@@ -34,6 +34,9 @@ const SYARAT = [
 ];
 
 export const Route = createFileRoute("/sertifikasi")({
+	head: () => ({
+		meta: [{ title: "Sertifikasi — Momkiddis Indonesia" }],
+	}),
 	component: SertifikasiPage,
 });
 

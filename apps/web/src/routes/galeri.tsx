@@ -47,6 +47,9 @@ const VIDEOS = [
 ];
 
 export const Route = createFileRoute("/galeri")({
+	head: () => ({
+		meta: [{ title: "Galeri — Momkiddis Indonesia" }],
+	}),
 	loader: async ({ context: { queryClient } }) => {
 		void queryClient.prefetchQuery(orpc.gallery.list.queryOptions());
 	},

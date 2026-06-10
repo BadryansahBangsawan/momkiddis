@@ -13,6 +13,9 @@ import { MapPin, Clock, Phone } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/kontak")({
+	head: () => ({
+		meta: [{ title: "Kontak — Momkiddis Indonesia" }],
+	}),
 	component: KontakPage,
 });
 

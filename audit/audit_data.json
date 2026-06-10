@@ -1,0 +1,495 @@
+{
+  "generated_at": "2026-06-10T18:39:36.680921",
+  "base_url": "http://localhost:3001",
+  "login_status": true,
+  "login_message": "Login successful \u2014 at http://localhost:3001/admin",
+  "public_routes": [
+    {
+      "name": "Homepage",
+      "url": "/",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 1090,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [
+        "https://images.unsplash.com/photo-1580894742597-87bc8789db3d?w=200&h=200&fit=crop&q=80"
+      ],
+      "notes": [
+        "Internal links: 28"
+      ],
+      "screenshot": "screenshots/homepage.png"
+    },
+    {
+      "name": "About",
+      "url": "/about",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 617,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 20"
+      ],
+      "screenshot": "screenshots/about.png"
+    },
+    {
+      "name": "Programs",
+      "url": "/programs",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 597,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 24"
+      ],
+      "screenshot": "screenshots/programs.png"
+    },
+    {
+      "name": "Alumni",
+      "url": "/alumni",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 594,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/alumni.png"
+    },
+    {
+      "name": "Testimoni",
+      "url": "/testimoni",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 715,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [
+        "https://images.unsplash.com/photo-1580894742597-87bc8789db3d?w=200&h=200&fit=crop&q=80"
+      ],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/testimoni.png"
+    },
+    {
+      "name": "Galeri",
+      "url": "/galeri",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 3841,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/galeri.png"
+    },
+    {
+      "name": "Mitra",
+      "url": "/mitra",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 596,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/mitra.png"
+    },
+    {
+      "name": "Event",
+      "url": "/event",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 610,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/event.png"
+    },
+    {
+      "name": "Jadwal",
+      "url": "/jadwal",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 600,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 24"
+      ],
+      "screenshot": "screenshots/jadwal.png"
+    },
+    {
+      "name": "Cara Daftar",
+      "url": "/cara-daftar",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 590,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 21"
+      ],
+      "screenshot": "screenshots/caradaftar.png"
+    },
+    {
+      "name": "Sertifikasi",
+      "url": "/sertifikasi",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 598,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 20"
+      ],
+      "screenshot": "screenshots/sertifikasi.png"
+    },
+    {
+      "name": "Metode",
+      "url": "/metode",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 591,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/metode.png"
+    },
+    {
+      "name": "Promo",
+      "url": "/promo",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 639,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/promo.png"
+    },
+    {
+      "name": "Resources",
+      "url": "/resources",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 671,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/resources.png"
+    },
+    {
+      "name": "Kontak",
+      "url": "/kontak",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 705,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/kontak.png"
+    },
+    {
+      "name": "FAQ",
+      "url": "/faq",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 664,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/faq.png"
+    },
+    {
+      "name": "Founder",
+      "url": "/founder",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 621,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 21"
+      ],
+      "screenshot": "screenshots/founder.png"
+    },
+    {
+      "name": "Kebijakan Privasi",
+      "url": "/kebijakan-privasi",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 593,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/kebijakanprivasi.png"
+    },
+    {
+      "name": "Syarat & Ketentuan",
+      "url": "/syarat-ketentuan",
+      "status": "ok",
+      "http_status": 200,
+      "load_time_ms": 597,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 19"
+      ],
+      "screenshot": "screenshots/syaratketentuan.png"
+    }
+  ],
+  "admin_routes": [
+    {
+      "name": "Admin Dashboard",
+      "url": "/admin",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 200,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Internal links: 15"
+      ],
+      "screenshot": "screenshots/admin.png"
+    },
+    {
+      "name": "Admin Testimonials",
+      "url": "/admin/testimonials",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 47,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/testimonials"
+      ],
+      "screenshot": "screenshots/admin_testimonials.png"
+    },
+    {
+      "name": "Admin Alumni",
+      "url": "/admin/alumni",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 140,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [
+        {
+          "type": "error",
+          "text": "In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s <button> button \n\n  ...\n    <TableBody>\n      <tbody data-slot=\"table-body\" className={\"[&_tr:la...\"}>\n        <TableRow data-state={undefined}>\n          <tr data-slot=\"table-row\" className=\"border-b t...\" data-state={undefined}>\n            <TableCell>\n            <TableCell>\n            <TableCell>\n            <TableCell>\n            <TableCell>\n            <TableCell>\n            <TableCell>\n            <TableCell>\n            <TableCell>\n              <td data-slot=\"table-cell\" className={\"p-2 alig...\"}>\n                <cell table={{...}} column={{id:\"actions\", ...}} row={{id:\"t003\",index:0, ...}} ...>\n                  <DropdownMenu>\n                    <MenuRoot data-slot=\"dropdown-menu\">\n                      <FloatingTree externalTree={{nodesRef:{...}, ...}}>\n                        <DropdownMenuTrigger asChild={true}>\n                          <MenuTrigger data-slot=\"dropdown-m...\" asChild={true}>\n>                           <button\n>                             type=\"button\"\n>                             onClick={function}\n>                             onMouseDown={function}\n>                             onKeyDown={function}\n>                             onKeyUp={function}\n>                             onPointerDown={function}\n>                             tabIndex={0}\n>                             disabled={false}\n>                             aria-haspopup=\"menu\"\n>                             aria-controls={undefined}\n>                             id=\"base-ui-_r_r_\"\n>                             data-slot=\"dropdown-menu-trigger\"\n>                             asChild={true}\n>                             ref={function}\n>                           >\n                              <Button variant=\"ghost\" size=\"icon-sm\">\n                                <Button data-slot=\"button\" className={\"group/bu...\"}>\n>                                 <button\n>                                   type=\"button\"\n>                                   onClick={function}\n>                                   onMouseDown={function}\n>                                   onKeyDown={function}\n>                                   onKeyUp={function}\n>                                   onPointerDown={function}\n>                                   tabIndex={0}\n>                                   disabled={false}\n>                                   data-slot=\"button\"\n>                                   ref={function}\n>                                   className={\"group/button inline-flex shrink-0 items-center justify-center rounded...\"}\n>                                 >\n                        ...\n        ...\n",
+          "url": "http://localhost:3001/admin/testimonials"
+        },
+        {
+          "type": "error",
+          "text": "<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. button <button>",
+          "url": "http://localhost:3001/admin/testimonials"
+        },
+        {
+          "type": "error",
+          "text": "React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. asChild aschild",
+          "url": "http://localhost:3001/admin/testimonials"
+        }
+      ],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/alumni"
+      ],
+      "screenshot": "screenshots/admin_alumni.png"
+    },
+    {
+      "name": "Admin Gallery",
+      "url": "/admin/gallery",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 42,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/gallery"
+      ],
+      "screenshot": "screenshots/admin_gallery.png"
+    },
+    {
+      "name": "Admin Events",
+      "url": "/admin/events",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 41,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/events"
+      ],
+      "screenshot": "screenshots/admin_events.png"
+    },
+    {
+      "name": "Admin Resources",
+      "url": "/admin/resources",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 44,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/resources"
+      ],
+      "screenshot": "screenshots/admin_resources.png"
+    },
+    {
+      "name": "Admin Promos",
+      "url": "/admin/promos",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 58,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/promos"
+      ],
+      "screenshot": "screenshots/admin_promos.png"
+    },
+    {
+      "name": "Admin Contacts",
+      "url": "/admin/contacts",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 44,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/contacts"
+      ],
+      "screenshot": "screenshots/admin_contacts.png"
+    },
+    {
+      "name": "Admin Activity",
+      "url": "/admin/activity",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 42,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/activity"
+      ],
+      "screenshot": "screenshots/admin_activity.png"
+    },
+    {
+      "name": "Admin Users",
+      "url": "/admin/users",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 42,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/users"
+      ],
+      "screenshot": "screenshots/admin_users.png"
+    },
+    {
+      "name": "Admin Site Config",
+      "url": "/admin/site-config",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 43,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/site-config"
+      ],
+      "screenshot": "screenshots/admin_siteconfig.png"
+    },
+    {
+      "name": "Admin Settings",
+      "url": "/admin/settings",
+      "status": "ok",
+      "http_status": null,
+      "load_time_ms": 42,
+      "page_title": "Momkiddis Indonesia \u2014 Belajar Bahasa Inggris Online",
+      "console_errors": [],
+      "network_errors": [],
+      "broken_images": [],
+      "notes": [
+        "Actual URL: http://localhost:3001/admin/settings"
+      ],
+      "screenshot": "screenshots/admin_settings.png"
+    }
+  ]
+}

@@ -50,6 +50,9 @@ const SECTIONS = [
 ];
 
 export const Route = createFileRoute("/kebijakan-privasi")({
+	head: () => ({
+		meta: [{ title: "Kebijakan Privasi — Momkiddis Indonesia" }],
+	}),
 	component: KebijakanPrivasiPage,
 });
 

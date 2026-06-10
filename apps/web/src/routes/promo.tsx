@@ -46,6 +46,9 @@ function formatDate(d: Date) {
 }
 
 export const Route = createFileRoute("/promo")({
+	head: () => ({
+		meta: [{ title: "Promo — Momkiddis Indonesia" }],
+	}),
 	loader: async ({ context: { queryClient } }) => {
 		void queryClient.prefetchQuery(orpc.promos.listActive.queryOptions());
 	},

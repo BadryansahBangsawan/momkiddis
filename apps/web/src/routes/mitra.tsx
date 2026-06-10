@@ -35,6 +35,9 @@ const BENEFITS = [
 ];
 
 export const Route = createFileRoute("/mitra")({
+	head: () => ({
+		meta: [{ title: "Mitra — Momkiddis Indonesia" }],
+	}),
 	component: MitraPage,
 });
 

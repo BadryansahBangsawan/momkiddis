@@ -20,6 +20,9 @@ import StepsSection from "@/components/sections/steps-section";
 import WhatsAppCta from "@/components/sections/whatsapp-cta";
 
 export const Route = createFileRoute("/")({
+	head: () => ({
+		meta: [{ title: "Beranda — Momkiddis Indonesia" }],
+	}),
 	loader: async ({ context: { queryClient } }) => {
 		void queryClient.prefetchQuery(
 			orpc.testimonials.listFeatured.queryOptions(),
@@ -253,7 +256,7 @@ const HOME_TESTIMONIALS = [
 		content:
 			"Teknik mengajarnya simpel dan langsung bisa saya praktikkan bersama anak.",
 		avatarSrc:
-			"https://images.unsplash.com/photo-1580894742597-87bc8789db3d?w=200&h=200&fit=crop&q=80",
+			"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&q=80",
 	},
 	{
 		id: "h7",
