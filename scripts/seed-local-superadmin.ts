@@ -2,22 +2,37 @@
  * Insert superadmin via Miniflare D1 API (same path as migrations).
  * This ensures the dev server sees the data regardless of in-memory caching.
  *
+ * Required env:
+ * - SUPERADMIN_EMAIL
+ * - SUPERADMIN_PASSWORD
+ * - SUPERADMIN_NAME
+ * Optional env:
+ * - MINIFLARE_D1_DATABASE_ID (defaults to local alchemy database ID)
+ *
  * Run: bun scripts/seed-local-superadmin.ts
  */
 import { randomBytes, scrypt } from "node:crypto";
 import * as mf from "miniflare";
 import path from "node:path";
 
+function requireEnv(name: string) {
+	const value = process.env[name];
+	if (!value) {
+		throw new Error(`Missing required env: ${name}`);
+	}
+	return value;
+}
+
 // Same database ID as stored in packages/infra/.alchemy/momkiddis/bbbadry/database.json
-const DATABASE_ID = "momkiddis-database-bbbadry";
+const DATABASE_ID = process.env.MINIFLARE_D1_DATABASE_ID ?? "momkiddis-database-bbbadry";
 
 // Workspace root = /Users/bbbadry/Downloads/momkiddis
 const WORKSPACE_ROOT = new URL("..", import.meta.url).pathname;
 const PERSIST_ROOT = path.join(WORKSPACE_ROOT, ".alchemy", "miniflare", "v3");
 
-const EMAIL = "badryansah99@gmail.com";
-const PASSWORD = "Manujujaya99";
-const NAME = "Badryansah";
+const EMAIL = requireEnv("SUPERADMIN_EMAIL");
+const PASSWORD = requireEnv("SUPERADMIN_PASSWORD");
+const NAME = requireEnv("SUPERADMIN_NAME");
 
 async function hashPassword(password: string): Promise<string> {
 	const salt = randomBytes(16).toString("hex");
@@ -95,7 +110,6 @@ await miniflare.dispose();
 console.log(`
 🎉 Superadmin local berhasil dibuat!
    Email    : ${EMAIL}
-   Password : ${PASSWORD}
    Role     : superadmin
    User ID  : ${userId}
 

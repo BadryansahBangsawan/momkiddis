@@ -13,7 +13,7 @@ import { PROGRAM_CATEGORY_LABELS, PROGRAMS } from "@/lib/programs-content";
 import { useSiteConfig } from "@/hooks/use-site-config";
 
 interface ProgramRecommendationProps {
-	slugs: string[];
+	slugs: unknown;
 	reason: string;
 }
 

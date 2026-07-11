@@ -1,5 +1,5 @@
 import { promos } from "@momkiddis/db/schema";
-import { eq, desc, and, count, lte, gte } from "drizzle-orm";
+import { eq, desc, and, count } from "drizzle-orm";
 import { z } from "zod";
 import { createMenuGuard } from "../../index";
 import { logActivity } from "../../utils/log-activity";

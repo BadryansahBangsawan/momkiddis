@@ -47,8 +47,7 @@ function AdminDashboard() {
 						<span>{unreadCount} pesan masuk belum dibaca</span>
 					</div>
 					<Link
-						// @ts-expect-error route will exist after routeTree regenerates
-						to="/admin/contacts"
+												to="/admin/contacts"
 						className={cn(buttonVariants({ variant: "destructive", size: "sm" }))}
 					>
 						Lihat Pesan
@@ -131,8 +130,7 @@ function AdminDashboard() {
 						<div className="flex items-center justify-between">
 							<CardTitle className="text-base font-semibold">Aktivitas Terbaru</CardTitle>
 							<Link
-								// @ts-expect-error route will exist after routeTree regenerates
-								to="/admin/activity"
+									to="/admin/activity"
 								className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-xs"
 							>
 								Lihat semua

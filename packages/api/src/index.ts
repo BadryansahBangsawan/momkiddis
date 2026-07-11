@@ -55,6 +55,10 @@ const requireSuperAdmin = o.middleware(async ({ context, next }) => {
   if (role !== "superadmin") {
     throw new ORPCError("FORBIDDEN", { message: "Hanya superadmin yang bisa mengakses" });
   }
+  const isActive = (context.session.user as { isActive?: boolean }).isActive;
+  if (isActive === false) {
+    throw new ORPCError("FORBIDDEN", { message: "Akun tidak aktif" });
+  }
   return next({
     context: {
       ...context,

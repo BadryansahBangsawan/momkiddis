@@ -115,7 +115,7 @@ function EventFormPage() {
 		onSuccess: () => {
 			toast.success("Event berhasil ditambahkan");
 			invalidateList();
-			navigate({ to: "/admin/events/" });
+			navigate({ to: "/admin/events" });
 		},
 		onError: (e: Error) => toast.error(e.message),
 	});
@@ -125,7 +125,7 @@ function EventFormPage() {
 		onSuccess: () => {
 			toast.success("Event berhasil diperbarui");
 			invalidateList();
-			navigate({ to: "/admin/events/" });
+			navigate({ to: "/admin/events" });
 		},
 		onError: (e: Error) => toast.error(e.message),
 	});
@@ -156,7 +156,7 @@ function EventFormPage() {
 		<div className="mx-auto max-w-2xl">
 			<div className="mb-6 flex items-center justify-between gap-4">
 				<div className="flex items-center gap-3">
-					<Button variant="ghost" size="icon-sm" onClick={() => navigate({ to: "/admin/events/" })}>
+					<Button variant="ghost" size="icon-sm" onClick={() => navigate({ to: "/admin/events" })}>
 						<ArrowLeft className="h-4 w-4" />
 					</Button>
 					<h1 className="text-base font-semibold">{isNew ? "Tambah Event" : "Edit Event"}</h1>

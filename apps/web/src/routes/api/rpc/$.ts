@@ -35,11 +35,13 @@ async function handle({ request }: { request: Request }) {
   });
   if (rpcResult.response) return rpcResult.response;
 
-  const apiResult = await apiHandler.handle(request, {
-    prefix: "/api/rpc/api-reference",
-    context: await createContext({ req: request }),
-  });
-  if (apiResult.response) return apiResult.response;
+  if (process.env.NODE_ENV !== "production") {
+    const apiResult = await apiHandler.handle(request, {
+      prefix: "/api/rpc/api-reference",
+      context: await createContext({ req: request }),
+    });
+    if (apiResult.response) return apiResult.response;
+  }
 
   return new Response("Not found", { status: 404 });
 }

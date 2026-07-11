@@ -2,11 +2,25 @@ import { contactSubmissions } from "@momkiddis/db/schema";
 import { eq, desc, and, count } from "drizzle-orm";
 import { z } from "zod";
 import { adminProcedure, publicProcedure, createMenuGuard } from "../../index";
-import { logActivity } from "../../utils/log-activity";
 import { nanoid } from "nanoid";
 
 const contactsMenuGuard = createMenuGuard("contacts");
 type AdminCtx = { session: { user: { id: string; name: string } }; role: "admin" | "superadmin" };
+
+const CONTACT_RATE_LIMIT_WINDOW_MS = 60_000;
+const CONTACT_RATE_LIMIT_MAX = 3;
+const contactRateLimits = new Map<string, { count: number; resetAt: number }>();
+
+function isContactRateLimited(key: string) {
+	const now = Date.now();
+	const bucket = contactRateLimits.get(key);
+	if (!bucket || bucket.resetAt <= now) {
+		contactRateLimits.set(key, { count: 1, resetAt: now + CONTACT_RATE_LIMIT_WINDOW_MS });
+		return false;
+	}
+	bucket.count += 1;
+	return bucket.count > CONTACT_RATE_LIMIT_MAX;
+}
 
 export const adminContactsRouter = {
 	list: contactsMenuGuard
@@ -77,13 +91,17 @@ export const adminContactsRouter = {
 export const publicContactsRouter = {
 	submit: publicProcedure
 		.input(z.object({
-			name:    z.string().min(2).max(100),
-			email:   z.string().email(),
-			phone:   z.string().max(20).optional(),
+			name:    z.string().trim().min(2).max(100),
+			email:   z.string().trim().email(),
+			phone:   z.string().trim().max(20).optional(),
 			subject: z.enum(["Tanya Program", "Pendaftaran", "Kerjasama", "Lainnya"]),
-			message: z.string().min(10).max(2000),
+			message: z.string().trim().min(10).max(2000),
 		}))
 		.handler(async ({ context, input }) => {
+			const rateLimitKey = input.email.toLowerCase();
+			if (isContactRateLimited(rateLimitKey)) {
+				throw new Error("Terlalu banyak pesan. Coba lagi nanti.");
+			}
 			await context.db.insert(contactSubmissions).values({
 				id: nanoid(),
 				...input,

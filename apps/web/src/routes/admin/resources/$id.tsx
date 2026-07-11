@@ -71,13 +71,13 @@ function ResourceFormPage() {
 
 	const createMutation = useMutation({
 		mutationFn: () => client.admin.resources.create(buildPayload()),
-		onSuccess: () => { toast.success("Resource berhasil ditambahkan"); invalidateList(); navigate({ to: "/admin/resources/" }); },
+		onSuccess: () => { toast.success("Resource berhasil ditambahkan"); invalidateList(); navigate({ to: "/admin/resources" }); },
 		onError: (e: Error) => toast.error(e.message),
 	});
 
 	const updateMutation = useMutation({
 		mutationFn: () => client.admin.resources.update({ id, ...buildPayload() }),
-		onSuccess: () => { toast.success("Resource berhasil diperbarui"); invalidateList(); navigate({ to: "/admin/resources/" }); },
+		onSuccess: () => { toast.success("Resource berhasil diperbarui"); invalidateList(); navigate({ to: "/admin/resources" }); },
 		onError: (e: Error) => toast.error(e.message),
 	});
 
@@ -107,7 +107,7 @@ function ResourceFormPage() {
 		<div className="mx-auto max-w-2xl">
 			<div className="mb-6 flex items-center justify-between gap-4">
 				<div className="flex items-center gap-3">
-					<Button variant="ghost" size="icon-sm" onClick={() => navigate({ to: "/admin/resources/" })}>
+					<Button variant="ghost" size="icon-sm" onClick={() => navigate({ to: "/admin/resources" })}>
 						<ArrowLeft className="h-4 w-4" />
 					</Button>
 					<h1 className="text-base font-semibold">{isNew ? "Tambah Resource" : "Edit Resource"}</h1>

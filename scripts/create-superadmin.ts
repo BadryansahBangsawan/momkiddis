@@ -2,20 +2,39 @@
  * Script: create-superadmin.ts
  * Creates the superadmin account in Cloudflare D1 (remote).
  *
+ * Required env:
+ * - SUPERADMIN_EMAIL
+ * - SUPERADMIN_PASSWORD
+ * - SUPERADMIN_NAME
+ * - CLOUDFLARE_ACCOUNT_ID
+ * - D1_DATABASE_NAME
+ *
  * Run: bun scripts/create-superadmin.ts
  */
 
+import { execFileSync } from "node:child_process";
 import { randomBytes, scrypt } from "node:crypto";
-import { execSync } from "node:child_process";
-import { writeFileSync, unlinkSync } from "node:fs";
+import { unlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-const EMAIL = "badryansah99@gmail.com";
-const PASSWORD = "Manujujaya99";
-const NAME = "Badryansah";
-const ACCOUNT_ID = "affb450d746e53150028bb763b2f640c";
-const DB_NAME = "momkiddis-db";
+function requireEnv(name: string) {
+	const value = process.env[name];
+	if (!value) {
+		throw new Error(`Missing required env: ${name}`);
+	}
+	return value;
+}
+
+function sqlString(value: string) {
+	return `'${value.replaceAll("'", "''")}'`;
+}
+
+const EMAIL = requireEnv("SUPERADMIN_EMAIL");
+const PASSWORD = requireEnv("SUPERADMIN_PASSWORD");
+const NAME = requireEnv("SUPERADMIN_NAME");
+const ACCOUNT_ID = requireEnv("CLOUDFLARE_ACCOUNT_ID");
+const DB_NAME = requireEnv("D1_DATABASE_NAME");
 const WEB_DIR = new URL("../apps/web", import.meta.url).pathname;
 
 // Generate scrypt hash — same algorithm as @better-auth/utils/password
@@ -37,9 +56,15 @@ function d1(sql: string) {
 	const tmpFile = join(tmpdir(), `d1-${Date.now()}.sql`);
 	writeFileSync(tmpFile, sql);
 	try {
-		const result = execSync(
-			`CLOUDFLARE_ACCOUNT_ID=${ACCOUNT_ID} bunx wrangler d1 execute ${DB_NAME} --remote --file="${tmpFile}" 2>&1`,
-			{ cwd: WEB_DIR, encoding: "utf8" },
+		const result = execFileSync(
+			"bunx",
+			["wrangler", "d1", "execute", DB_NAME, "--remote", `--file=${tmpFile}`],
+			{
+				cwd: WEB_DIR,
+				encoding: "utf8",
+				env: { ...process.env, CLOUDFLARE_ACCOUNT_ID: ACCOUNT_ID },
+				stdio: ["ignore", "pipe", "pipe"],
+			},
 		);
 		console.log(result);
 	} finally {
@@ -50,6 +75,8 @@ function d1(sql: string) {
 const userId = `sa_${randomBytes(8).toString("hex")}`;
 const accountId = `acc_${randomBytes(8).toString("hex")}`;
 const now = Date.now();
+const emailSql = sqlString(EMAIL);
+const nameSql = sqlString(NAME);
 
 console.log("🔐 Hashing password...");
 const hash = await hashPassword(PASSWORD);
@@ -58,23 +85,23 @@ console.log("✅ Hash generated\n");
 // 1. Clean slate — remove existing user
 console.log("🧹 Removing existing account if any...");
 d1(`
-DELETE FROM account WHERE user_id IN (SELECT id FROM user WHERE email = '${EMAIL}');
-DELETE FROM session WHERE user_id IN (SELECT id FROM user WHERE email = '${EMAIL}');
-DELETE FROM user WHERE email = '${EMAIL}';
+DELETE FROM account WHERE user_id IN (SELECT id FROM user WHERE email = ${emailSql});
+DELETE FROM session WHERE user_id IN (SELECT id FROM user WHERE email = ${emailSql});
+DELETE FROM user WHERE email = ${emailSql};
 `);
 
 // 2. Insert superadmin user
 console.log("👤 Creating superadmin user...");
 d1(`
 INSERT INTO user (id, name, email, email_verified, role, is_active, created_at, updated_at)
-VALUES ('${userId}', '${NAME}', '${EMAIL}', 1, 'superadmin', 1, ${now}, ${now});
+VALUES (${sqlString(userId)}, ${nameSql}, ${emailSql}, 1, 'superadmin', 1, ${now}, ${now});
 `);
 
 // 3. Insert account credentials
 console.log("🔑 Creating account credentials...");
 d1(`
 INSERT INTO account (id, account_id, provider_id, user_id, password, created_at, updated_at)
-VALUES ('${accountId}', '${EMAIL}', 'credential', '${userId}', '${hash}', ${now}, ${now});
+VALUES (${sqlString(accountId)}, ${emailSql}, 'credential', ${sqlString(userId)}, ${sqlString(hash)}, ${now}, ${now});
 `);
 
 // 4. Verify
@@ -83,13 +110,12 @@ d1(`
 SELECT u.id, u.email, u.name, u.role, u.is_active, a.provider_id
 FROM user u
 JOIN account a ON a.user_id = u.id
-WHERE u.email = '${EMAIL}';
+WHERE u.email = ${emailSql};
 `);
 
 console.log(`
 🎉 Superadmin berhasil dibuat!
    Email    : ${EMAIL}
-   Password : ${PASSWORD}
    Role     : superadmin
    User ID  : ${userId}
 

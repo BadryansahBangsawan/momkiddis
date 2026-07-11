@@ -2,7 +2,7 @@ import {
 	testimonials, alumni, galleryItems, events,
 	resources, promos, user, contactSubmissions, activityLogs,
 } from "@momkiddis/db/schema";
-import { eq, count, and, gte, desc } from "drizzle-orm";
+import { eq, count, and, gte, desc, isNull, or } from "drizzle-orm";
 import { adminProcedure, superAdminProcedure } from "../../index";
 
 export const adminStatsRouter = {
@@ -35,7 +35,7 @@ export const adminStatsRouter = {
 			context.db.select({ count: count() }).from(resources).where(eq(resources.isPublished, true)).get(),
 
 			context.db.select({ count: count() }).from(promos).get(),
-			context.db.select({ count: count() }).from(promos).where(and(eq(promos.isActive, true), gte(promos.validUntil, new Date()))).get(),
+			context.db.select({ count: count() }).from(promos).where(and(eq(promos.isActive, true), or(isNull(promos.validUntil), gte(promos.validUntil, new Date())))).get(),
 
 			context.db.select({ count: count() }).from(user).get(),
 

@@ -1,5 +1,5 @@
-import { user } from "@momkiddis/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { session, user } from "@momkiddis/db/schema";
+import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { superAdminProcedure } from "../../index";
 import { logActivity } from "../../utils/log-activity";
@@ -21,7 +21,7 @@ export const adminUsersRouter = {
 		}))
 		.handler(async ({ context, input }) => {
 			const ctx = context as typeof context & AdminCtx;
-			const auth = createAuth();
+			const auth = createAuth({ allowSignUp: true });
 			// Use Better Auth to create user (handles password hashing)
 			const result = await auth.api.signUpEmail({
 				body: { name: input.name, email: input.email, password: input.password },
@@ -55,6 +55,9 @@ export const adminUsersRouter = {
 			if (target.role === "superadmin" && target.id !== ctx.session.user.id) {
 				throw new Error("Tidak bisa mengubah role superadmin lain");
 			}
+			if (target.id === ctx.session.user.id && input.role !== "superadmin") {
+				throw new Error("Tidak bisa mengubah role superadmin sendiri");
+			}
 			const oldRole = target.role;
 			await context.db.update(user).set({ role: input.role }).where(eq(user.id, input.userId));
 			await logActivity({
@@ -79,6 +82,9 @@ export const adminUsersRouter = {
 				throw new Error("Tidak bisa menonaktifkan diri sendiri");
 			}
 			await context.db.update(user).set({ isActive: input.isActive }).where(eq(user.id, input.userId));
+			if (!input.isActive) {
+				await context.db.delete(session).where(eq(session.userId, input.userId));
+			}
 			return { success: true };
 		}),
 };

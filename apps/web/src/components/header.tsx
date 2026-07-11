@@ -1,11 +1,9 @@
 import { Link } from "@tanstack/react-router";
 
-import UserMenu from "./user-menu";
-
 export default function Header() {
   const links = [
     { to: "/", label: "Home" },
-    { to: "/dashboard", label: "Dashboard" },
+    { to: "/admin", label: "Admin" },
   ] as const;
 
   return (
@@ -20,9 +18,6 @@ export default function Header() {
             );
           })}
         </nav>
-        <div className="flex items-center gap-2">
-          <UserMenu />
-        </div>
       </div>
       <hr />
     </div>

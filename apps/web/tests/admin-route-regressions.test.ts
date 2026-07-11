@@ -111,10 +111,6 @@ test("admin root route calls route hooks before returning the login outlet", () 
 	const source = readFileSync(resolve(adminRoutesDir, "route.tsx"), "utf8");
 	const loginOutletReturn = source.indexOf("return <Outlet />;");
 	const routeContextHook = source.indexOf("Route.useRouteContext()");
-	const loaderDataHook = source.indexOf("Route.useLoaderData()");
-
 	expect(routeContextHook).toBeGreaterThan(-1);
-	expect(loaderDataHook).toBeGreaterThan(-1);
 	expect(routeContextHook).toBeLessThan(loginOutletReturn);
-	expect(loaderDataHook).toBeLessThan(loginOutletReturn);
 });

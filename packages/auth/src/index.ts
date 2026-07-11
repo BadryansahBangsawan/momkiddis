@@ -5,7 +5,11 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
-export function createAuth() {
+interface CreateAuthOptions {
+  allowSignUp?: boolean;
+}
+
+export function createAuth(options: CreateAuthOptions = {}) {
   const db = createDb();
 
   return betterAuth({
@@ -16,6 +20,7 @@ export function createAuth() {
     trustedOrigins: [env.CORS_ORIGIN],
     emailAndPassword: {
       enabled: true,
+      disableSignUp: !options.allowSignUp,
     },
     secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
@@ -24,7 +29,7 @@ export function createAuth() {
       additionalFields: {
         role: {
           type: "string",
-          defaultValue: "admin",
+          defaultValue: "user",
           required: false,
         },
         isActive: {

@@ -1,10 +1,17 @@
 import { siteConfig } from "@momkiddis/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 import { superAdminProcedure, publicProcedure } from "../../index";
 import { logActivity } from "../../utils/log-activity";
 
 type AdminCtx = { session: { user: { id: string; name: string } }; role: "admin" | "superadmin" };
+
+const siteConfigUpdateInput = z.array(
+	z.object({
+		key: z.string().min(1).max(100),
+		value: z.string().max(2000),
+	}),
+).max(100);
 
 export const adminSiteConfigRouter = {
 	getAll: publicProcedure.handler(async ({ context }) => {
@@ -17,9 +24,19 @@ export const adminSiteConfigRouter = {
 	}),
 
 	update: superAdminProcedure
-		.input(z.array(z.object({ key: z.string(), value: z.string() })))
+		.input(siteConfigUpdateInput)
 		.handler(async ({ context, input }) => {
 			const ctx = context as typeof context & AdminCtx;
+			const keys = input.map((item) => item.key);
+			const existingRows = keys.length
+				? await context.db.select({ key: siteConfig.key }).from(siteConfig).where(inArray(siteConfig.key, keys))
+				: [];
+			const existingKeys = new Set(existingRows.map((row) => row.key));
+			const unknownKeys = keys.filter((key) => !existingKeys.has(key));
+			if (unknownKeys.length > 0) {
+				throw new Error(`Konfigurasi tidak dikenal: ${unknownKeys.join(", ")}`);
+			}
+
 			for (const item of input) {
 				await context.db
 					.update(siteConfig)

@@ -1,5 +1,5 @@
 import { activityLogs } from "@momkiddis/db/schema";
-import { desc, and, gte, eq, lte } from "drizzle-orm";
+import { desc, and, gte, eq } from "drizzle-orm";
 import { z } from "zod";
 import { superAdminProcedure } from "../../index";
 

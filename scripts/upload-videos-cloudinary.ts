@@ -1,16 +1,30 @@
 #!/usr/bin/env bun
 /**
  * One-time script: Upload video files from public/vidio/ to Cloudinary
+ *
+ * Required env:
+ * - CLOUDINARY_CLOUD_NAME
+ * - CLOUDINARY_API_KEY
+ * - CLOUDINARY_API_SECRET
+ *
  * Run: bun scripts/upload-videos-cloudinary.ts
  */
 
-import { createHash, createHmac } from "node:crypto";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const CLOUD_NAME = "dapw2uaa9";
-const API_KEY = "642524828967722";
-const API_SECRET = "G57zlWX4Di1jrkDNPM8AIElm72U";
+function requireEnv(name: string) {
+	const value = process.env[name];
+	if (!value) {
+		throw new Error(`Missing required env: ${name}`);
+	}
+	return value;
+}
+
+const CLOUD_NAME = requireEnv("CLOUDINARY_CLOUD_NAME");
+const API_KEY = requireEnv("CLOUDINARY_API_KEY");
+const API_SECRET = requireEnv("CLOUDINARY_API_SECRET");
 
 const VIDEOS_DIR = join(import.meta.dir, "../apps/web/public/vidio");
 

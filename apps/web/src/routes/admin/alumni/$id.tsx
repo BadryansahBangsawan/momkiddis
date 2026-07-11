@@ -76,7 +76,7 @@ function AlumniFormPage() {
 
 	useEffect(() => {
 		if (query.data) {
-			const d = query.data as FormData & {
+			const d = query.data as unknown as FormData & {
 				graduatedAt: Date | number;
 				photo: string | null;
 				certificateUrl: string | null;
@@ -116,7 +116,7 @@ function AlumniFormPage() {
 		onSuccess: () => {
 			toast.success("Alumni berhasil ditambahkan");
 			invalidateList();
-			navigate({ to: "/admin/alumni/" });
+			navigate({ to: "/admin/alumni" });
 		},
 		onError: (e: Error) => toast.error(e.message),
 	});
@@ -138,7 +138,7 @@ function AlumniFormPage() {
 		onSuccess: () => {
 			toast.success("Alumni berhasil diperbarui");
 			invalidateList();
-			navigate({ to: "/admin/alumni/" });
+			navigate({ to: "/admin/alumni" });
 		},
 		onError: (e: Error) => toast.error(e.message),
 	});
@@ -176,7 +176,7 @@ function AlumniFormPage() {
 					<Button
 						variant="ghost"
 						size="icon-sm"
-						onClick={() => navigate({ to: "/admin/alumni/" })}
+						onClick={() => navigate({ to: "/admin/alumni" })}
 					>
 						<ArrowLeft className="h-4 w-4" />
 					</Button>
@@ -240,7 +240,7 @@ function AlumniFormPage() {
 									</label>
 									<Select
 										value={form.programSlug}
-										onValueChange={(val) => set("programSlug", val)}
+										onValueChange={(val) => set("programSlug", val ?? "")}
 									>
 										<SelectTrigger>
 											<SelectValue placeholder="Pilih program..." />

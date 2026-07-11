@@ -95,7 +95,7 @@ export const adminTestimonialsRouter = {
 		}),
 
 	bulkAction: guard
-		.input(z.object({ ids: z.array(z.string()), action: z.enum(["publish", "unpublish", "delete"]) }))
+		.input(z.object({ ids: z.array(z.string()).max(100), action: z.enum(["publish", "unpublish", "delete"]) }))
 		.handler(async ({ context, input }) => {
 			const ctx = context as typeof context & AdminCtx;
 			for (const id of input.ids) {

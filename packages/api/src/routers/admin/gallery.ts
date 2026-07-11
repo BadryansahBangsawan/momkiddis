@@ -73,7 +73,7 @@ export const adminGalleryRouter = {
 		}),
 
 	bulkAction: guard
-		.input(z.object({ ids: z.array(z.string()), action: z.enum(["publish", "unpublish", "delete"]) }))
+		.input(z.object({ ids: z.array(z.string()).max(100), action: z.enum(["publish", "unpublish", "delete"]) }))
 		.handler(async ({ context, input }) => {
 			for (const id of input.ids) {
 				if (input.action === "delete") {

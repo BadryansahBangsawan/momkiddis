@@ -92,7 +92,7 @@ function TestimonialFormPage() {
 		onSuccess: () => {
 			toast.success("Testimoni berhasil ditambahkan");
 			invalidateList();
-			navigate({ to: "/admin/testimonials/" });
+			navigate({ to: "/admin/testimonials" });
 		},
 		onError: (e: Error) => toast.error(e.message),
 	});
@@ -108,7 +108,7 @@ function TestimonialFormPage() {
 		onSuccess: () => {
 			toast.success("Testimoni berhasil diperbarui");
 			invalidateList();
-			navigate({ to: "/admin/testimonials/" });
+			navigate({ to: "/admin/testimonials" });
 		},
 		onError: (e: Error) => toast.error(e.message),
 	});
@@ -144,7 +144,7 @@ function TestimonialFormPage() {
 					<Button
 						variant="ghost"
 						size="icon-sm"
-						onClick={() => navigate({ to: "/admin/testimonials/" })}
+						onClick={() => navigate({ to: "/admin/testimonials" })}
 					>
 						<ArrowLeft className="h-4 w-4" />
 					</Button>
@@ -218,7 +218,7 @@ function TestimonialFormPage() {
 								<label className="text-sm font-medium">Program</label>
 								<Select
 									value={form.programSlug || ""}
-									onValueChange={(val) => set("programSlug", val)}
+									onValueChange={(val) => set("programSlug", val ?? "")}
 								>
 									<SelectTrigger>
 										<SelectValue placeholder="Pilih program..." />

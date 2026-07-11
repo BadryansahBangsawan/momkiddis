@@ -1,5 +1,4 @@
 import { createAuthClient } from "better-auth/react";
-import type { InferSessionFromClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
   fetchOptions: {
@@ -7,7 +6,7 @@ export const authClient = createAuthClient({
   },
 });
 
-export type AdminSession = InferSessionFromClient<typeof authClient> & {
+export type AdminSession = Awaited<ReturnType<typeof authClient.getSession>>["data"] & {
   user: {
     role?: string;
     isActive?: boolean;

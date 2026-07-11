@@ -1,5 +1,5 @@
 import { resources } from "@momkiddis/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { publicProcedure } from "../index";
 
@@ -8,11 +8,15 @@ export const resourcesRouter = {
 		.input(
 			z.object({ category: z.string().optional() }).optional(),
 		)
-		.handler(async ({ context }) => {
+		.handler(async ({ context, input }) => {
+			const conditions = [eq(resources.isPublished, true)];
+			if (input?.category) {
+				conditions.push(eq(resources.category, input.category));
+			}
 			return context.db
 				.select()
 				.from(resources)
-				.where(eq(resources.isPublished, true))
+				.where(and(...conditions))
 				.limit(50);
 		}),
 };

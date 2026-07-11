@@ -1,32 +1,64 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { buildSystemPrompt, chatToolsOpenAI } from "@/lib/chat-system-prompt";
 import { env } from "@momkiddis/env/server";
-
-interface ChatMessage {
-	role: "user" | "assistant";
-	content: string;
-}
-
-interface ChatRequest {
-	messages: ChatMessage[];
-}
+import { z } from "zod";
 
 const NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
+const MAX_BODY_BYTES = 16 * 1024;
+const CHAT_TIMEOUT_MS = 30_000;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 10;
+
+const chatRequestSchema = z.object({
+	messages: z.array(
+		z.object({
+			role: z.enum(["user", "assistant"]),
+			content: z.string().min(1).max(1000),
+		}),
+	).min(1).max(12),
+});
+
+type ChatRequest = z.infer<typeof chatRequestSchema>;
+
+const rateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
+
+function getClientKey(request: Request) {
+	return request.headers.get("cf-connecting-ip")
+		?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+		?? "anonymous";
+}
+
+function isRateLimited(key: string) {
+	const now = Date.now();
+	const bucket = rateLimitBuckets.get(key);
+	if (!bucket || bucket.resetAt <= now) {
+		rateLimitBuckets.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+		return false;
+	}
+	bucket.count += 1;
+	return bucket.count > RATE_LIMIT_MAX;
+}
 
 async function handleChat({ request }: { request: Request }) {
 	if (request.method !== "POST") {
 		return new Response("Method not allowed", { status: 405 });
 	}
 
-	let body: ChatRequest;
-	try {
-		body = (await request.json()) as ChatRequest;
-	} catch {
-		return new Response("Invalid JSON", { status: 400 });
+	const contentLength = Number(request.headers.get("content-length") ?? "0");
+	if (contentLength > MAX_BODY_BYTES) {
+		return new Response("Request too large", { status: 413 });
 	}
 
-	if (!body.messages?.length) {
-		return new Response("Messages required", { status: 400 });
+	const clientKey = getClientKey(request);
+	if (isRateLimited(clientKey)) {
+		return new Response("Too many requests", { status: 429 });
+	}
+
+	let body: ChatRequest;
+	try {
+		body = chatRequestSchema.parse(await request.json());
+	} catch {
+		return new Response("Invalid chat payload", { status: 400 });
 	}
 
 	const apiKey = (env.NVIDIA_API_KEY as string | undefined) ?? process.env.NVIDIA_API_KEY;
@@ -40,13 +72,14 @@ async function handleChat({ request }: { request: Request }) {
 			try {
 				const res = await fetch(NVIDIA_URL, {
 					method: "POST",
+					signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
 					headers: {
 						Authorization: `Bearer ${apiKey}`,
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
 						model: "meta/llama-3.1-8b-instruct",
-						max_tokens: 16384,
+						max_tokens: 1024,
 						stream: true,
 						messages: [
 							{ role: "system", content: buildSystemPrompt() },
@@ -56,14 +89,14 @@ async function handleChat({ request }: { request: Request }) {
 							})),
 						],
 						tools: chatToolsOpenAI,
-							tool_choice: "auto",
+						tool_choice: "auto",
 					}),
 				});
 
 				if (!res.ok) {
 					const errText = await res.text();
 					console.error("[chat] NVIDIA error:", res.status, errText);
-					throw new Error(`NVIDIA ${res.status}: ${errText}`);
+					throw new Error("AI service temporarily unavailable");
 				}
 
 				const reader = res.body?.getReader();
