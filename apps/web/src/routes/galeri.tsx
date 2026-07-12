@@ -442,10 +442,6 @@ function GaleriPage() {
 			/>
 
 			<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-				{/* ── Foto Kegiatan ── */}
-				<p className="mb-4 text-xs font-semibold uppercase tracking-widest text-primary">
-					Foto Kegiatan
-				</p>
 				<PhotoGrid photos={allPhotos} />
 
 				<div className="my-10 border-t border-border" />
