@@ -32,6 +32,7 @@ const EMPTY_FORM: ContactForm = { name: "", email: "", phone: "", subject: "", m
 function KontakPage() {
 	const { instagram, getWaUrl, raw } = useSiteConfig();
 	const waUrl = getWaUrl();
+	const instagramHandle = instagram ? `@${instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/$/, "")}` : "";
 	const address = raw?.address ?? siteConfig.address;
 	const operationalHours = raw?.operating_hours ?? siteConfig.operationalHours;
 
@@ -104,10 +105,10 @@ function KontakPage() {
 						</div>
 						<div>
 							<p className="text-sm font-semibold text-foreground">
-								WhatsApp Admin
+								Contact admin
 							</p>
 							<p className="mt-0.5 text-xs text-muted-foreground">
-								Chat langsung untuk info program, jadwal, dan pendaftaran
+								+62822-3025-1104
 							</p>
 							<span className="mt-2 inline-block text-xs font-medium text-[#25D366] group-hover:underline">
 								Buka WhatsApp →
@@ -133,10 +134,10 @@ function KontakPage() {
 							<div>
 								<p className="text-sm font-semibold text-foreground">Instagram</p>
 								<p className="mt-0.5 text-xs text-muted-foreground">
-									Ikuti untuk konten parenting dan info program terbaru
+									{instagramHandle}
 								</p>
 								<span className="mt-2 inline-block text-xs font-medium text-pink-600 group-hover:underline">
-									@momkiddy.education →
+									Buka Instagram →
 								</span>
 							</div>
 						</a>

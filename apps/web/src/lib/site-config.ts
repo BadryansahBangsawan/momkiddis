@@ -5,11 +5,11 @@ export const siteConfig = {
 		"Program belajar untuk ibu, anak, remaja, profesional, serta persiapan IELTS & TOEFL.",
 	founder: "Lita Hendratno",
 	wa: {
-		number: "6282343277820",
+		number: "6282230251104",
 		defaultMessage: "Halo Momkiddis, saya ingin bertanya tentang program kelas",
 	},
 	social: {
-		instagram: "https://instagram.com/momkiddy.education",
+		instagram: "https://instagram.com/litahendratno_",
 		tiktok: "",
 		youtube: "",
 		facebook: "",

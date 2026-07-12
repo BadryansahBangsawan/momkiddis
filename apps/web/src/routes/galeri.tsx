@@ -469,12 +469,12 @@ function GaleriPage() {
 						Konten harian, tips belajar bahasa Inggris, dan update kelas terbaru.
 					</p>
 					<a
-						href="https://instagram.com/momkiddy.education"
+						href="https://instagram.com/litahendratno_"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="mt-4 inline-flex items-center gap-2 rounded-full border border-pink-200 bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-2 text-sm font-semibold text-pink-700 transition-opacity duration-150 hover:opacity-80 active:scale-[0.97] dark:border-pink-900 dark:from-purple-950/40 dark:to-pink-950/40 dark:text-pink-400"
 					>
-						@momkiddy.education
+						@litahendratno_
 					</a>
 				</div>
 			</div>

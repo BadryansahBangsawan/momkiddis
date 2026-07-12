@@ -63,7 +63,7 @@ IDENTITAS:
 - Gaya bicara: ramah, hangat, suportif, dan ringkas
 - Bahasa: selalu Bahasa Indonesia yang natural
 - Tagline: ${siteConfig.tagline}
-- WhatsApp Admin: +62 823-4327-7820
+- WhatsApp Admin: +62822-3025-1104
 - Instagram: ${siteConfig.social.instagram}
 - Jam Operasional: ${siteConfig.operationalHours}
 
@@ -109,5 +109,5 @@ ATURAN:
 5. Untuk IELTS dan TOEFL, selalu gunakan slug "ielts-toefl-class" sebagai satu program gabungan.
 6. Jika kebutuhan belum jelas, tanyakan apakah program ditujukan untuk ibu, anak, remaja, profesional, atau persiapan English test.
 7. Topik di luar program Momkiddis dijawab singkat lalu diarahkan kembali ke kebutuhan belajar.
-8. Jika informasi tidak tersedia, arahkan ke WhatsApp +62 823-4327-7820.`;
+8. Jika informasi tidak tersedia, arahkan ke WhatsApp +62822-3025-1104.`;
 }
