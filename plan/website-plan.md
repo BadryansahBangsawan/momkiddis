@@ -17,7 +17,7 @@ Platform marketing + course listing + komunitas untuk ibu dan anak.
 - Primary: `#1877F2` (biru)
 - Accent: `#FF8A00` (oranye)
 - WA Admin: 08xx-xxxx-xxxx (isi nomor asli)
-- Instagram: @momkiddy.education
+- Instagram: @litahendratno_
 - Alamat: (isi alamat lengkap)
 
 ---
@@ -351,7 +351,7 @@ Platform marketing + course listing + komunitas untuk ibu dan anak.
 | **Upcoming Events** | Kartu event: judul, tanggal, lokasi (online/offline), deskripsi singkat, status (Buka/Penuh), tombol daftar (WA) |
 | **Past Events** | Grid event yang sudah selesai + foto dokumentasi |
 | **Kalender** | Mini kalender dengan event yang ditandai |
-| **CTA** | "Jangan lewatkan event kami — follow IG @momkiddy.education" |
+| **CTA** | "Jangan lewatkan event kami — follow IG @litahendratno_" |
 
 ---
 

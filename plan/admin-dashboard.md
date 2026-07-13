@@ -398,7 +398,7 @@ const defaultConfig = [
   { key: "operating_hours",   value: "Senin–Sabtu, 08.00–17.00 WIB",         label: "Jam Operasional",   group: "contact",  inputType: "text" },
 
   // Social Media
-  { key: "instagram_url",     value: "https://instagram.com/momkiddy.education", label: "Instagram",     group: "social",   inputType: "url" },
+  { key: "instagram_url",     value: "https://instagram.com/litahendratno_", label: "Instagram",     group: "social",   inputType: "url" },
   { key: "tiktok_url",        value: "",                                      label: "TikTok",            group: "social",   inputType: "url" },
   { key: "youtube_url",       value: "",                                      label: "YouTube",           group: "social",   inputType: "url" },
   { key: "facebook_url",      value: "",                                      label: "Facebook",          group: "social",   inputType: "url" },

@@ -153,7 +153,7 @@ Jumlah peserta dibatasi agar proses pendampingan lebih maksimal. Setiap peserta 
 ## Kontak Pendaftaran
 
 **WA Admin:** 08xx-xxxx-xxxx
-**Instagram:** @momkiddy.education
+**Instagram:** @litahendratno_
 **Alamat:** [Isi alamat lengkap]
 **Kota:** [Isi nama kota]
 
