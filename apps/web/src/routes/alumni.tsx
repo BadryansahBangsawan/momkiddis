@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import PageHero from "@/components/sections/page-hero";
-import { AlumniSlider, type AlumniReview } from "@/components/sections/alumni-slider";
+import { AlumniVideoSlider, type AlumniVideo } from "@/components/sections/alumni-video-slider";
 import { STATIC_ALUMNI, PROGRAM_LIST } from "@/lib/programs-content";
 import { useSiteConfig } from "@/hooks/use-site-config";
 import { orpc } from "@/utils/orpc";
@@ -18,15 +18,16 @@ export const Route = createFileRoute("/alumni")({
 	component: AlumniPage,
 });
 
-const FEATURED_REVIEWS: AlumniReview[] = [
+const CLOUDINARY_BASE = "https://res.cloudinary.com/dapw2uaa9/video/upload/q_auto/momkiddis";
+
+const FEATURED_VIDEOS: AlumniVideo[] = [
 	{
 		id: "f1",
 		name: "Fitri Handayani",
 		batchLabel: "Momkiddis Indonesia · Momsky Class",
 		quote:
 			"Saya jadi lebih percaya diri mendampingi anak belajar dan mempraktikkan cara mengajar yang lebih terarah.",
-		imageSrc: "/gallery-foto/Alumni-test-Greece-.jpg",
-		thumbnailSrc: "/gallery-foto/Alumni-test-Greece-.jpg",
+		videoSrc: `${CLOUDINARY_BASE}/vidio/1.mp4`,
 	},
 	{
 		id: "f2",
@@ -34,8 +35,7 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · Kiddis Class",
 		quote:
 			"Anak saya lebih semangat mengikuti aktivitas calistung dan English Fun yang kreatif.",
-		imageSrc: "/gallery-foto/Alumni-test-UK-3.jpg",
-		thumbnailSrc: "/gallery-foto/Alumni-test-UK-3.jpg",
+		videoSrc: `${CLOUDINARY_BASE}/vidio/2.mp4`,
 	},
 	{
 		id: "f3",
@@ -43,8 +43,7 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · Teenager Class",
 		quote:
 			"Latihan komunikasi dan presentasi membantu saya lebih berani tampil di depan kelas.",
-		imageSrc: "/gallery-foto/Alumni-test-USA-4.jpg",
-		thumbnailSrc: "/gallery-foto/Alumni-test-USA-4.jpg",
+		videoSrc: `${CLOUDINARY_BASE}/vidio/3.mp4`,
 	},
 	{
 		id: "f4",
@@ -52,8 +51,7 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · Professional Class",
 		quote:
 			"Praktik microteaching dan evaluasi mentor membuat cara mengajar saya lebih rapi.",
-		imageSrc: "/gallery-foto/Alumni-test-polandia.jpg",
-		thumbnailSrc: "/gallery-foto/Alumni-test-polandia.jpg",
+		videoSrc: `${CLOUDINARY_BASE}/vidio/4.mp4`,
 	},
 	{
 		id: "f5",
@@ -61,8 +59,7 @@ const FEATURED_REVIEWS: AlumniReview[] = [
 		batchLabel: "Momkiddis Indonesia · IELTS & TOEFL Class",
 		quote:
 			"Latihan listening, reading, speaking, dan writing membuat persiapan English test saya lebih terarah.",
-		imageSrc: "/gallery-foto/TEST-English-School-Alumni-18.jpg",
-		thumbnailSrc: "/gallery-foto/TEST-English-School-Alumni-18.jpg",
+		videoSrc: `${CLOUDINARY_BASE}/vidio/5.mp4`,
 	},
 ];
 
@@ -103,7 +100,7 @@ function AlumniPage() {
 					<p className="mb-4 text-xs font-semibold uppercase tracking-widest text-primary">
 						Kisah Unggulan
 					</p>
-					<AlumniSlider reviews={FEATURED_REVIEWS} />
+					<AlumniVideoSlider videos={FEATURED_VIDEOS} />
 				</div>
 
 				{/* ── All alumni grid ── */}

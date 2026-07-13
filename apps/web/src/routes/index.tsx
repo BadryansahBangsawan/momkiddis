@@ -14,7 +14,7 @@ import { orpc } from "@/utils/orpc";
 
 import { HeroWaves } from "@/components/sections/hero-waves";
 import ProgramCard from "@/components/sections/program-card";
-import { AlumniSlider, type AlumniReview } from "@/components/sections/alumni-slider";
+import { AlumniVideoSlider, type AlumniVideo } from "@/components/sections/alumni-video-slider";
 import KeunggulanSection from "@/components/sections/keunggulan-section";
 import StepsSection from "@/components/sections/steps-section";
 import WhatsAppCta from "@/components/sections/whatsapp-cta";
@@ -398,31 +398,30 @@ function TestimoniSection() {
 	);
 }
 
-/* ─── Alumni Section (animated slider) ─────────── */
-const HOME_ALUMNI_SLIDER: AlumniReview[] = [
+/* ─── Alumni Section (video slider) ─────────── */
+const CLOUDINARY_BASE = "https://res.cloudinary.com/dapw2uaa9/video/upload/q_auto/momkiddis";
+
+const HOME_ALUMNI_VIDEOS: AlumniVideo[] = [
 	{
-		id: "a1",
+		id: "v1",
 		name: "Fitri Handayani",
 		batchLabel: "Momkiddis Indonesia · Momsky Class",
 		quote: "Sekarang saya lebih percaya diri mengajar dan mendampingi anak belajar di rumah.",
-		imageSrc: "/gallery-foto/Alumni-test-Greece-.jpg",
-		thumbnailSrc: "/gallery-foto/Alumni-test-Greece-.jpg",
+		videoSrc: `${CLOUDINARY_BASE}/vidio/1.mp4`,
 	},
 	{
-		id: "a2",
+		id: "v2",
 		name: "Nanda Pratiwi",
 		batchLabel: "Momkiddis Indonesia · IELTS & TOEFL Class",
 		quote: "Latihan setiap bagian tes membuat persiapan studi saya lebih fokus dan sistematis.",
-		imageSrc: "/gallery-foto/Alumni-test-UK-3.jpg",
-		thumbnailSrc: "/gallery-foto/Alumni-test-UK-3.jpg",
+		videoSrc: `${CLOUDINARY_BASE}/vidio/5.mp4`,
 	},
 	{
-		id: "a3",
+		id: "v3",
 		name: "Maya Sari",
 		batchLabel: "Momkiddis Indonesia · Professional Class",
 		quote: "Mentoring dan latihan komunikasi membantu saya tampil lebih rapi dan profesional.",
-		imageSrc: "/gallery-foto/Alumni-test-USA-4.jpg",
-		thumbnailSrc: "/gallery-foto/Alumni-test-USA-4.jpg",
+		videoSrc: `${CLOUDINARY_BASE}/vidio/4.mp4`,
 	},
 ];
 
@@ -447,7 +446,7 @@ function AlumniSection() {
 						</Button>
 					</Link>
 				</motion.div>
-				<AlumniSlider reviews={HOME_ALUMNI_SLIDER} />
+				<AlumniVideoSlider videos={HOME_ALUMNI_VIDEOS} />
 			</div>
 		</section>
 	);
