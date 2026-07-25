@@ -58,11 +58,9 @@ jobs:
           cat > apps/web/dist/server/wrangler.json << 'EOF'
           {
             "name": "momkiddis-web",
-            "main": "server.js",
+            "main": "index.js",
             "compatibility_date": "2026-03-10",
             "compatibility_flags": ["nodejs_compat", "nodejs_compat_populate_process_env"],
-            "no_bundle": true,
-            "rules": [{"type": "ESModule", "globs": ["**/*.js", "**/*.mjs"]}],
             "assets": {
               "directory": "../client",
               "binding": "ASSETS",
