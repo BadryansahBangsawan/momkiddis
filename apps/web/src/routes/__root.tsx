@@ -42,22 +42,42 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 				title: "Momkiddis Indonesia — Belajar Bahasa Inggris Online",
 			},
 		],
-			links: [
-				{
-					rel: "stylesheet",
-					href: appCss,
-				},
-				{
-					rel: "icon",
-					type: "image/png",
-					href: "/circle-logo.png",
-				},
-				{
-					rel: "apple-touch-icon",
-					href: "/circle-logo.png",
-				},
-			],
-		}),
+		links: [
+			{
+				rel: "stylesheet",
+				href: appCss,
+			},
+			{
+				rel: "icon",
+				type: "image/png",
+				href: "/circle-logo.png",
+			},
+			{
+				rel: "apple-touch-icon",
+				href: "/circle-logo.png",
+			},
+		],
+		scripts: [
+			{
+				// Polyfill for esbuild's `__name` helper (renames a function's
+				// `.name` for stack traces — no other effect). TanStack Start's
+				// SSR query-stream bootstrap script (the inline "$tsr" script
+				// rendered at the top of <body>) ships as literal, unminified
+				// source that calls `__name(...)` directly, without defining it
+				// anywhere. In the browser that's a plain global reference with
+				// nothing providing it, so it throws `ReferenceError: __name is
+				// not defined` before hydration can run, crashing the whole
+				// page to blank white right after the SSR flash. This must be
+				// a plain (non-module) script in <head>, so it runs before that
+				// body script and shares its global scope. Confirmed necessary
+				// and sufficient via a jsdom repro of the actual production
+				// page — remove if a future TanStack Start version stops
+				// emitting this.
+				children:
+					'var __name = window.__name || function(t,v){try{Object.defineProperty(t,"name",{value:v,configurable:true})}catch(e){}return t;};',
+			},
+		],
+	}),
 
 	component: RootDocument,
 });
