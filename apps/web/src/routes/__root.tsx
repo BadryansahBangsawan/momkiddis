@@ -116,11 +116,15 @@ function RootDocument() {
 				</div>
 				<ChatWidget />
 				<Toaster richColors />
-				<TanStackRouterDevtools position="bottom-left" />
-				<ReactQueryDevtools
-					position="bottom"
-					buttonPosition="bottom-right"
-				/>
+				{import.meta.env.DEV && (
+					<>
+						<TanStackRouterDevtools position="bottom-left" />
+						<ReactQueryDevtools
+							position="bottom"
+							buttonPosition="bottom-right"
+						/>
+					</>
+				)}
 				<Scripts />
 			</body>
 		</html>
