@@ -1,7 +1,8 @@
 import { siteConfig } from "@momkiddis/db/schema";
 import { eq, inArray } from "drizzle-orm";
+import { ORPCError } from "@orpc/server";
 import { z } from "zod";
-import { superAdminProcedure, publicProcedure } from "../../index";
+import { superAdminProcedure, adminProcedure, publicProcedure } from "../../index";
 import { logActivity } from "../../utils/log-activity";
 
 type AdminCtx = { session: { user: { id: string; name: string } }; role: "admin" | "superadmin" };
@@ -13,13 +14,20 @@ const siteConfigUpdateInput = z.array(
 	}),
 ).max(100);
 
-export const adminSiteConfigRouter = {
+export const publicSiteConfigRouter = {
 	getAll: publicProcedure.handler(async ({ context }) => {
 		const rows = await context.db.select().from(siteConfig);
 		return Object.fromEntries(rows.map((r) => [r.key, r.value])) as Record<string, string>;
 	}),
+};
 
-	getGrouped: publicProcedure.handler(async ({ context }) => {
+export const adminSiteConfigRouter = {
+	getAll: adminProcedure.handler(async ({ context }) => {
+		const rows = await context.db.select().from(siteConfig);
+		return Object.fromEntries(rows.map((r) => [r.key, r.value])) as Record<string, string>;
+	}),
+
+	getGrouped: adminProcedure.handler(async ({ context }) => {
 		return context.db.select().from(siteConfig);
 	}),
 
@@ -34,7 +42,7 @@ export const adminSiteConfigRouter = {
 			const existingKeys = new Set(existingRows.map((row) => row.key));
 			const unknownKeys = keys.filter((key) => !existingKeys.has(key));
 			if (unknownKeys.length > 0) {
-				throw new Error(`Konfigurasi tidak dikenal: ${unknownKeys.join(", ")}`);
+				throw new ORPCError("BAD_REQUEST", { message: `Konfigurasi tidak dikenal: ${unknownKeys.join(", ")}` });
 			}
 
 			for (const item of input) {

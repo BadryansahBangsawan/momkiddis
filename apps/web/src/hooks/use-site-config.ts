@@ -4,7 +4,7 @@ import { siteConfig as staticConfig } from "@/lib/site-config";
 
 export function useSiteConfig() {
 	const { data } = useQuery({
-		...orpc.admin.siteConfig.getAll.queryOptions(),
+		...orpc.siteConfig.getAll.queryOptions(),
 		staleTime: 5 * 60 * 1000,
 	});
 

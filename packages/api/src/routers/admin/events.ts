@@ -1,5 +1,6 @@
 import { events } from "@momkiddis/db/schema";
 import { eq, desc, count } from "drizzle-orm";
+import { ORPCError } from "@orpc/server";
 import { z } from "zod";
 import { createMenuGuard } from "../../index";
 import { logActivity } from "../../utils/log-activity";
@@ -38,7 +39,7 @@ export const adminEventsRouter = {
 		.input(z.object({ id: z.string() }))
 		.handler(async ({ context, input }) => {
 			const row = await context.db.select().from(events).where(eq(events.id, input.id)).get();
-			if (!row) throw new Error("Tidak ditemukan");
+			if (!row) throw new ORPCError("NOT_FOUND", { message: "Tidak ditemukan" });
 			return row;
 		}),
 

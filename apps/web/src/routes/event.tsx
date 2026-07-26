@@ -79,6 +79,7 @@ function formatEventDate(date: Date) {
 		day: "numeric",
 		month: "long",
 		year: "numeric",
+		timeZone: "Asia/Jakarta",
 	}).format(date);
 }
 
@@ -92,6 +93,9 @@ function formatEventTime(date: Date) {
 
 function EventPage() {
 	const { instagram, getWaUrl } = useSiteConfig();
+	const instagramHandle = instagram
+		? `@${instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/$/, "")}`
+		: "@momkiddis.id";
 	const { data: upcoming = [] } = useQuery(orpc.events.listUpcoming.queryOptions());
 	const { data: past = [] } = useQuery(orpc.events.listPast.queryOptions());
 
@@ -238,7 +242,7 @@ function EventPage() {
 							<circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
 							<circle cx="17.5" cy="6.5" r="1" />
 						</svg>
-						@womenfu...2026
+						{instagramHandle}
 					</a>
 				</div>
 

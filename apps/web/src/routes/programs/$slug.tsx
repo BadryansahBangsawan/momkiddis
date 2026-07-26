@@ -30,6 +30,15 @@ export const Route = createFileRoute("/programs/$slug")({
 		if (!program) throw notFound();
 		return { program };
 	},
+	head: ({ loaderData }) => ({
+		meta: [
+			{
+				title: loaderData
+					? `${loaderData.program.shortTitle} — Momkiddis Indonesia`
+					: "Program — Momkiddis Indonesia",
+			},
+		],
+	}),
 });
 
 function ProgramDetailPage() {

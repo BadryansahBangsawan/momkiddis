@@ -30,7 +30,7 @@ interface ContactForm {
 const EMPTY_FORM: ContactForm = { name: "", email: "", phone: "", subject: "", message: "" };
 
 function KontakPage() {
-	const { instagram, getWaUrl, raw } = useSiteConfig();
+	const { instagram, getWaUrl, raw, waNumber } = useSiteConfig();
 	const waUrl = getWaUrl();
 	const instagramHandle = instagram ? `@${instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/$/, "")}` : "";
 	const address = raw?.address ?? siteConfig.address;
@@ -108,7 +108,7 @@ function KontakPage() {
 								Contact admin
 							</p>
 							<p className="mt-0.5 text-xs text-muted-foreground">
-								+62822-3025-1104
+								+{waNumber}
 							</p>
 							<span className="mt-2 inline-block text-xs font-medium text-[#25D366] group-hover:underline">
 								Buka WhatsApp →

@@ -15,6 +15,7 @@ import {
 	adminActivityRouter,
 	adminContactsRouter,
 	publicContactsRouter,
+	publicSiteConfigRouter,
 	adminTestimonialsRouter,
 	adminAlumniRouter,
 	adminGalleryRouter,
@@ -40,6 +41,7 @@ export const appRouter = {
 	resources: resourcesRouter,
 	promos: promosRouter,
 	contacts: publicContactsRouter,
+	siteConfig: publicSiteConfigRouter,
 	admin: {
 		settings:     adminSettingsRouter,
 		stats:        adminStatsRouter,

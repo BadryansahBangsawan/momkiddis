@@ -75,21 +75,26 @@ export const SlideButton = forwardRef<HTMLDivElement, SlideButtonProps>(
 			setIsDragging(true);
 		}, [completed]);
 
+		const completeAction = useCallback(() => {
+			if (completed) return;
+			setCompleted(true);
+			setStatus("loading");
+			setTimeout(() => {
+				setStatus("success");
+				window.open(url, "_blank", "noopener,noreferrer");
+			}, 800);
+		}, [completed, url]);
+
 		const handleDragEnd = useCallback(() => {
 			if (completed) return;
 			setIsDragging(false);
 
 			if (dragProgress.get() >= DRAG_THRESHOLD) {
-				setCompleted(true);
-				setStatus("loading");
-				setTimeout(() => {
-					setStatus("success");
-					window.open(url, "_blank", "noopener,noreferrer");
-				}, 800);
+				completeAction();
 			} else {
 				dragX.set(0);
 			}
-		}, [completed, dragProgress, dragX, url]);
+		}, [completed, dragProgress, dragX, completeAction]);
 
 		const handleDrag = useCallback(
 			(_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -99,9 +104,22 @@ export const SlideButton = forwardRef<HTMLDivElement, SlideButtonProps>(
 			[completed, dragX],
 		);
 
+		const handleKeyDown = useCallback(
+			(event: React.KeyboardEvent<HTMLDivElement>) => {
+				if (event.key !== "Enter" && event.key !== " ") return;
+				event.preventDefault();
+				completeAction();
+			},
+			[completeAction],
+		);
+
 		return (
 			<motion.div
 				ref={ref}
+				role="button"
+				tabIndex={0}
+				aria-label={label}
+				onKeyDown={handleKeyDown}
 				animate={completed ? BUTTON_STATES.completed : BUTTON_STATES.initial}
 				transition={SPRING}
 				className={cn(

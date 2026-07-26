@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 import PageHero from "@/components/sections/page-hero";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 const CLOUDINARY_BASE = "https://res.cloudinary.com/dapw2uaa9/video/upload/q_auto/momkiddis";
 
@@ -137,6 +138,11 @@ export const Route = createFileRoute("/galeri")({
 });
 
 function GaleriPage() {
+	const { instagram } = useSiteConfig();
+	const instagramHandle = instagram
+		? `@${instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/$/, "")}`
+		: "@momkiddis.id";
+
 	return (
 		<>
 			<PageHero
@@ -165,12 +171,12 @@ function GaleriPage() {
 						Konten harian, tips belajar bahasa Inggris, dan update kelas terbaru.
 					</p>
 					<a
-						href="https://instagram.com/litahendratno_"
+						href={instagram}
 						target="_blank"
 						rel="noopener noreferrer"
 						className="mt-4 inline-flex items-center gap-2 rounded-full border border-pink-200 bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-2 text-sm font-semibold text-pink-700 transition-opacity duration-150 hover:opacity-80 active:scale-[0.97] dark:border-pink-900 dark:from-purple-950/40 dark:to-pink-950/40 dark:text-pink-400"
 					>
-						@litahendratno_
+						{instagramHandle}
 					</a>
 				</div>
 			</div>

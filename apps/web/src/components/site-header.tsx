@@ -45,7 +45,7 @@ function useActiveNav() {
 			}
 		}
 	}
-	return NAV_ITEMS[0].name;
+	return undefined;
 }
 
 export default function SiteHeader() {

@@ -11,6 +11,7 @@ import {
 	Award,
 	BookOpen,
 	Star,
+	Clock,
 } from "lucide-react";
 
 const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
@@ -19,6 +20,8 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
 	Monitor: ({ className }) => <Monitor className={className} />,
 	Heart: ({ className }) => <Heart className={className} />,
 	Target: ({ className }) => <Target className={className} />,
+	Clock: ({ className }) => <Clock className={className} />,
+	Award: ({ className }) => <Award className={className} />,
 };
 
 const VISI_MISI = {

@@ -1,5 +1,6 @@
 import { session, user } from "@momkiddis/db/schema";
 import { desc, eq } from "drizzle-orm";
+import { ORPCError } from "@orpc/server";
 import { z } from "zod";
 import { superAdminProcedure } from "../../index";
 import { logActivity } from "../../utils/log-activity";
@@ -27,7 +28,7 @@ export const adminUsersRouter = {
 				body: { name: input.name, email: input.email, password: input.password },
 			});
 			if (!result?.user?.id) {
-				throw new Error("Gagal membuat akun");
+				throw new ORPCError("BAD_REQUEST", { message: "Gagal membuat akun" });
 			}
 			// Set role
 			await context.db.update(user).set({ role: input.role }).where(eq(user.id, result.user.id));
@@ -51,12 +52,12 @@ export const adminUsersRouter = {
 			const ctx = context as typeof context & AdminCtx;
 			// Superadmin cannot change another superadmin's role
 			const target = await context.db.select().from(user).where(eq(user.id, input.userId)).get();
-			if (!target) throw new Error("User tidak ditemukan");
+			if (!target) throw new ORPCError("NOT_FOUND", { message: "User tidak ditemukan" });
 			if (target.role === "superadmin" && target.id !== ctx.session.user.id) {
-				throw new Error("Tidak bisa mengubah role superadmin lain");
+				throw new ORPCError("FORBIDDEN", { message: "Tidak bisa mengubah role superadmin lain" });
 			}
 			if (target.id === ctx.session.user.id && input.role !== "superadmin") {
-				throw new Error("Tidak bisa mengubah role superadmin sendiri");
+				throw new ORPCError("BAD_REQUEST", { message: "Tidak bisa mengubah role superadmin sendiri" });
 			}
 			const oldRole = target.role;
 			await context.db.update(user).set({ role: input.role }).where(eq(user.id, input.userId));
@@ -79,12 +80,28 @@ export const adminUsersRouter = {
 		.handler(async ({ context, input }) => {
 			const ctx = context as typeof context & AdminCtx;
 			if (input.userId === ctx.session.user.id) {
-				throw new Error("Tidak bisa menonaktifkan diri sendiri");
+				throw new ORPCError("BAD_REQUEST", { message: "Tidak bisa menonaktifkan diri sendiri" });
+			}
+			const target = await context.db.select().from(user).where(eq(user.id, input.userId)).get();
+			if (!target) throw new ORPCError("NOT_FOUND", { message: "User tidak ditemukan" });
+			if (target.role === "superadmin" && target.id !== ctx.session.user.id) {
+				throw new ORPCError("FORBIDDEN", { message: "Tidak bisa menonaktifkan superadmin lain" });
 			}
 			await context.db.update(user).set({ isActive: input.isActive }).where(eq(user.id, input.userId));
 			if (!input.isActive) {
 				await context.db.delete(session).where(eq(session.userId, input.userId));
 			}
+			await logActivity({
+				db: context.db as Parameters<typeof logActivity>[0]["db"],
+				actorId: ctx.session.user.id,
+				actorName: ctx.session.user.name,
+				actorRole: ctx.role,
+				action: input.isActive ? "update" : "delete",
+				entityType: "user",
+				entityId: input.userId,
+				entityTitle: target.email,
+				details: { field: "isActive", value: input.isActive },
+			});
 			return { success: true };
 		}),
 };

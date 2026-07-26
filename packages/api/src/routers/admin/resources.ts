@@ -1,5 +1,6 @@
 import { resources } from "@momkiddis/db/schema";
 import { eq, desc, and, count } from "drizzle-orm";
+import { ORPCError } from "@orpc/server";
 import { z } from "zod";
 import { createMenuGuard } from "../../index";
 import { logActivity } from "../../utils/log-activity";
@@ -48,7 +49,7 @@ export const adminResourcesRouter = {
 		.input(z.object({ id: z.string() }))
 		.handler(async ({ context, input }) => {
 			const row = await context.db.select().from(resources).where(eq(resources.id, input.id)).get();
-			if (!row) throw new Error("Tidak ditemukan");
+			if (!row) throw new ORPCError("NOT_FOUND", { message: "Tidak ditemukan" });
 			return row;
 		}),
 

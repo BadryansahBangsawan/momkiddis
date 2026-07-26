@@ -1,7 +1,8 @@
 import { contactSubmissions } from "@momkiddis/db/schema";
 import { eq, desc, and, count } from "drizzle-orm";
+import { ORPCError } from "@orpc/server";
 import { z } from "zod";
-import { adminProcedure, publicProcedure, createMenuGuard } from "../../index";
+import { publicProcedure, createMenuGuard } from "../../index";
 import { nanoid } from "nanoid";
 
 const contactsMenuGuard = createMenuGuard("contacts");
@@ -50,7 +51,7 @@ export const adminContactsRouter = {
 		.input(z.object({ id: z.string() }))
 		.handler(async ({ context, input }) => {
 			const row = await context.db.select().from(contactSubmissions).where(eq(contactSubmissions.id, input.id)).get();
-			if (!row) throw new Error("Pesan tidak ditemukan");
+			if (!row) throw new ORPCError("NOT_FOUND", { message: "Pesan tidak ditemukan" });
 			// Auto-mark as read
 			if (row.status === "unread") {
 				await context.db.update(contactSubmissions).set({ status: "read" }).where(eq(contactSubmissions.id, input.id));
@@ -81,7 +82,7 @@ export const adminContactsRouter = {
 			return { success: true };
 		}),
 
-	unreadCount: adminProcedure.handler(async ({ context }) => {
+	unreadCount: contactsMenuGuard.handler(async ({ context }) => {
 		const result = await context.db.select({ count: count() }).from(contactSubmissions).where(eq(contactSubmissions.status, "unread")).get();
 		return { count: result?.count ?? 0 };
 	}),
@@ -100,7 +101,7 @@ export const publicContactsRouter = {
 		.handler(async ({ context, input }) => {
 			const rateLimitKey = input.email.toLowerCase();
 			if (isContactRateLimited(rateLimitKey)) {
-				throw new Error("Terlalu banyak pesan. Coba lagi nanti.");
+				throw new ORPCError("TOO_MANY_REQUESTS", { message: "Terlalu banyak pesan. Coba lagi nanti." });
 			}
 			await context.db.insert(contactSubmissions).values({
 				id: nanoid(),

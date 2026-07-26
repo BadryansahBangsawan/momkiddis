@@ -1,7 +1,7 @@
 export { adminSettingsRouter } from "./settings";
 export { adminStatsRouter } from "./stats";
 export { adminUsersRouter } from "./users";
-export { adminSiteConfigRouter } from "./site-config";
+export { adminSiteConfigRouter, publicSiteConfigRouter } from "./site-config";
 export { adminActivityRouter } from "./activity";
 export { adminContactsRouter, publicContactsRouter } from "./contacts";
 export { adminTestimonialsRouter } from "./testimonials";

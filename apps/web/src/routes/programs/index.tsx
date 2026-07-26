@@ -6,6 +6,7 @@ import {
 } from "@/lib/programs-content";
 import ProgramCard from "@/components/sections/program-card";
 import PageHero from "@/components/sections/page-hero";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -28,6 +29,7 @@ const FILTERS: { id: Filter; label: string; count: number }[] = [
 ];
 
 function ProgramsPage() {
+	const { getWaUrl } = useSiteConfig();
 	const [active, setActive] = useState<Filter>("semua");
 
 	const displayed =
@@ -118,7 +120,7 @@ function ProgramsPage() {
 						profesional, atau English test dengan admin.
 					</p>
 					<a
-						href="https://wa.me/6282230251104?text=Halo%20Momkiddis%2C%20saya%20ingin%20konsultasi%20program"
+						href={getWaUrl("konsultasi program")}
 						target="_blank"
 						rel="noopener noreferrer"
 						className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2 text-sm font-semibold text-white transition-opacity duration-150 active:scale-[0.97] hover:opacity-90"
