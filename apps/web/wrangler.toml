@@ -10,7 +10,14 @@ directory = "dist/client"
 binding = "ASSETS"
 not_found_handling = "none"
 html_handling = "auto-trailing-slash"
-run_worker_first = false
+# `true` sends EVERY request (including /assets/*.js, /assets/*.css, and
+# public/ images) through the Worker's SSR router first, which has no route
+# for them and 404s — that's what caused the unstyled "white page" bug.
+# List the paths that genuinely need the Worker (everything, since this is a
+# full SSR app) and negate the ones that must stay pure static files. Add a
+# new "!/..." entry here whenever a new top-level file/folder is added to
+# apps/web/public/.
+run_worker_first = ["/*", "!/assets/*", "!/gallery-foto/*", "!/program/*", "!/robots.txt", "!/circle-logo.png", "!/Lita.png", "!/logo-with-text.png"]
 
 # Non-sensitive vars — ganti dengan URL production setelah deploy pertama
 [vars]
