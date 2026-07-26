@@ -11,9 +11,11 @@
  *
  * Run: bun scripts/seed-local-superadmin.ts
  */
-import { randomBytes, scrypt } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import * as mf from "miniflare";
+import { userInfo } from "node:os";
 import path from "node:path";
+import { hashPassword } from "./lib/password-hash";
 
 function requireEnv(name: string) {
 	const value = process.env[name];
@@ -23,30 +25,21 @@ function requireEnv(name: string) {
 	return value;
 }
 
-// Same database ID as stored in packages/infra/.alchemy/momkiddis/bbbadry/database.json
-const DATABASE_ID = process.env.MINIFLARE_D1_DATABASE_ID ?? "momkiddis-database-bbbadry";
+// Alchemy names local D1 databases "<app>-<id>-<stage>", defaulting "stage"
+// to the current POSIX username (see packages/infra/alchemy.run.ts and
+// `D1Database("database", ...)`). Deriving it the same way here — instead of
+// hardcoding one developer's username — means this script works out of the
+// box for anyone, while MINIFLARE_D1_DATABASE_ID can still override it
+// (e.g. if ALCHEMY_STAGE was set explicitly when the db was created).
+const DATABASE_ID = process.env.MINIFLARE_D1_DATABASE_ID ?? `momkiddis-database-${userInfo().username}`;
 
-// Workspace root = /Users/bbbadry/Downloads/momkiddis
+// Workspace root = repo root (one level up from scripts/)
 const WORKSPACE_ROOT = new URL("..", import.meta.url).pathname;
 const PERSIST_ROOT = path.join(WORKSPACE_ROOT, ".alchemy", "miniflare", "v3");
 
 const EMAIL = requireEnv("SUPERADMIN_EMAIL");
 const PASSWORD = requireEnv("SUPERADMIN_PASSWORD");
 const NAME = requireEnv("SUPERADMIN_NAME");
-
-async function hashPassword(password: string): Promise<string> {
-	const salt = randomBytes(16).toString("hex");
-	const key = await new Promise<Buffer>((resolve, reject) => {
-		scrypt(
-			password.normalize("NFKC"),
-			salt,
-			64,
-			{ N: 16384, r: 16, p: 1, maxmem: 128 * 16384 * 16 * 2 },
-			(err, key) => (err ? reject(err) : resolve(key)),
-		);
-	});
-	return `${salt}:${key.toString("hex")}`;
-}
 
 console.log("🔐 Hashing password...");
 const hash = await hashPassword(PASSWORD);

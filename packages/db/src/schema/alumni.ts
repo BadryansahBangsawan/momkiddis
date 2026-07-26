@@ -29,5 +29,6 @@ export const alumni = sqliteTable(
 	(table) => [
 		index("alumni_program_slug_idx").on(table.programSlug),
 		index("alumni_featured_idx").on(table.isFeatured),
+		index("alumni_published_idx").on(table.isPublished),
 	],
 );

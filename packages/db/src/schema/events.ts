@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, check } from "drizzle-orm/sqlite-core";
 
 export const events = sqliteTable(
 	"events",
@@ -27,5 +27,10 @@ export const events = sqliteTable(
 	(table) => [
 		index("events_upcoming_idx").on(table.isUpcoming),
 		index("events_date_idx").on(table.date),
+		index("events_published_idx").on(table.isPublished),
+		check(
+			"events_type_check",
+			sql`${table.type} IS NULL OR ${table.type} IN ('webinar', 'workshop', 'kelas-terbuka')`,
+		),
 	],
 );

@@ -20,5 +20,8 @@ export const galleryItems = sqliteTable(
 			.$onUpdate(() => new Date())
 			.notNull(),
 	},
-	(table) => [index("gallery_items_event_idx").on(table.event)],
+	(table) => [
+		index("gallery_items_event_idx").on(table.event),
+		index("gallery_items_published_idx").on(table.isPublished),
+	],
 );

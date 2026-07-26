@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, check } from "drizzle-orm/sqlite-core";
 
 export const testimonials = sqliteTable(
 	"testimonials",
@@ -28,5 +28,7 @@ export const testimonials = sqliteTable(
 	(table) => [
 		index("testimonials_program_slug_idx").on(table.programSlug),
 		index("testimonials_featured_idx").on(table.isFeatured),
+		index("testimonials_published_idx").on(table.isPublished),
+		check("testimonials_rating_check", sql`${table.rating} BETWEEN 1 AND 5`),
 	],
 );

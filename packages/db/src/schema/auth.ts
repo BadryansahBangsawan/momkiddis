@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, check } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable(
   "user",
@@ -9,7 +9,9 @@ export const user = sqliteTable(
     email: text("email").notNull().unique(),
     emailVerified: integer("email_verified", { mode: "boolean" }).default(false).notNull(),
     image: text("image"),
-    role: text("role").notNull().default("admin"),
+    // Least-privilege default: new rows are plain "user" unless explicitly
+    // elevated by application code (see packages/auth + admin/users router).
+    role: text("role").notNull().default("user"),
     isActive: integer("is_active", { mode: "boolean" }).notNull().default(true),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
@@ -19,7 +21,10 @@ export const user = sqliteTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
-  (table) => [index("user_role_idx").on(table.role)],
+  (table) => [
+    index("user_role_idx").on(table.role),
+    check("user_role_check", sql`${table.role} IN ('user', 'admin', 'superadmin')`),
+  ],
 );
 
 export const session = sqliteTable(
@@ -32,6 +37,7 @@ export const session = sqliteTable(
       .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
       .notNull(),
     updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     ipAddress: text("ip_address"),
@@ -67,6 +73,7 @@ export const account = sqliteTable(
       .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
       .notNull(),
     updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
@@ -90,6 +97,20 @@ export const verification = sqliteTable(
   },
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
+
+// Backs better-auth's `rateLimit: { storage: "database" }` option (see
+// packages/auth/src/index.ts). Better Auth's drizzle adapter looks this table
+// up by the literal model name "rateLimit" and writes { key, count,
+// lastRequest } rows itself — lastRequest is a plain epoch-ms number written
+// via Date.now(), not a Date object, so it intentionally does NOT use the
+// timestamp_ms column mode used elsewhere in this file.
+export const rateLimit = sqliteTable("rate_limit", {
+  id: text("id").primaryKey(),
+  // .unique() already gives this an index — no separate index() needed.
+  key: text("key").notNull().unique(),
+  count: integer("count").notNull(),
+  lastRequest: integer("last_request").notNull(),
+});
 
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),

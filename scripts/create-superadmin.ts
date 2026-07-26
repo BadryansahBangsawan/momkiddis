@@ -13,10 +13,11 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { randomBytes, scrypt } from "node:crypto";
-import { unlinkSync, writeFileSync } from "node:fs";
+import { randomBytes } from "node:crypto";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { hashPassword } from "./lib/password-hash";
 
 function requireEnv(name: string) {
 	const value = process.env[name];
@@ -37,24 +38,14 @@ const ACCOUNT_ID = requireEnv("CLOUDFLARE_ACCOUNT_ID");
 const DB_NAME = requireEnv("D1_DATABASE_NAME");
 const WEB_DIR = new URL("../apps/web", import.meta.url).pathname;
 
-// Generate scrypt hash — same algorithm as @better-auth/utils/password
-async function hashPassword(password: string): Promise<string> {
-	const salt = randomBytes(16).toString("hex");
-	const key = await new Promise<Buffer>((resolve, reject) => {
-		scrypt(
-			password.normalize("NFKC"),
-			salt,
-			64,
-			{ N: 16384, r: 16, p: 1, maxmem: 128 * 16384 * 16 * 2 },
-			(err, key) => (err ? reject(err) : resolve(key)),
-		);
-	});
-	return `${salt}:${key.toString("hex")}`;
-}
-
 function d1(sql: string) {
-	const tmpFile = join(tmpdir(), `d1-${Date.now()}.sql`);
-	writeFileSync(tmpFile, sql);
+	// The SQL we write here contains a password hash, so it goes into a
+	// private (mode 0700), unpredictably-named temp directory rather than a
+	// fixed Date.now()-based filename directly under the shared tmpdir, and
+	// gets removed in `finally` even if execFileSync throws.
+	const tmpDir = mkdtempSync(join(tmpdir(), "momkiddis-d1-"));
+	const tmpFile = join(tmpDir, "statement.sql");
+	writeFileSync(tmpFile, sql, { mode: 0o600 });
 	try {
 		const result = execFileSync(
 			"bunx",
@@ -68,7 +59,7 @@ function d1(sql: string) {
 		);
 		console.log(result);
 	} finally {
-		try { unlinkSync(tmpFile); } catch {}
+		try { rmSync(tmpDir, { recursive: true, force: true }); } catch {}
 	}
 }
 

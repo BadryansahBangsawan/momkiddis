@@ -1,6 +1,7 @@
 import { ORPCError, os } from "@orpc/server";
 import { eq } from "drizzle-orm";
 import { adminMenuSettings } from "@momkiddis/db/schema";
+import type { SessionUser } from "@momkiddis/auth";
 
 import type { Context } from "./context";
 
@@ -27,11 +28,12 @@ const requireAdmin = o.middleware(async ({ context, next }) => {
   if (!context.session?.user) {
     throw new ORPCError("UNAUTHORIZED");
   }
-  const role = (context.session.user as { role?: string }).role;
+  const sessionUser = context.session.user as SessionUser;
+  const role = sessionUser.role;
   if (role !== "admin" && role !== "superadmin") {
     throw new ORPCError("FORBIDDEN", { message: "Hanya admin yang bisa mengakses" });
   }
-  const isActive = (context.session.user as { isActive?: boolean }).isActive;
+  const isActive = sessionUser.isActive;
   if (isActive === false) {
     throw new ORPCError("FORBIDDEN", { message: "Akun tidak aktif" });
   }
@@ -51,11 +53,12 @@ const requireSuperAdmin = o.middleware(async ({ context, next }) => {
   if (!context.session?.user) {
     throw new ORPCError("UNAUTHORIZED");
   }
-  const role = (context.session.user as { role?: string }).role;
+  const sessionUser = context.session.user as SessionUser;
+  const role = sessionUser.role;
   if (role !== "superadmin") {
     throw new ORPCError("FORBIDDEN", { message: "Hanya superadmin yang bisa mengakses" });
   }
-  const isActive = (context.session.user as { isActive?: boolean }).isActive;
+  const isActive = sessionUser.isActive;
   if (isActive === false) {
     throw new ORPCError("FORBIDDEN", { message: "Akun tidak aktif" });
   }

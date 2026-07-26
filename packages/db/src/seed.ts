@@ -6,10 +6,12 @@
  *   - 3 alumni (all featured)
  *   - 5 gallery items
  *
- * Run against local D1 with:
- *   bunx wrangler d1 execute <DB_NAME> --local --file=<generated-sql>
+ * Inserts directly into the local Miniflare-backed D1 database (same access
+ * path as `scripts/seed-local-superadmin.ts`), so it reflects immediately in
+ * the local dev server regardless of any in-memory caching.
  *
- * Or adapt to use a direct Drizzle client for your environment.
+ * Run with: bun run db:seed   (from packages/db, or `turbo -F @momkiddis/db db:seed`)
+ * Optional env: MINIFLARE_D1_DATABASE_ID (defaults to the local alchemy database ID)
  */
 
 export const SEED_TESTIMONIALS = [
@@ -159,3 +161,93 @@ export const SEED_GALLERY_ITEMS = [
 		isPublished: true,
 	},
 ] as const;
+
+// Only run the actual seeding when this file is executed directly (`bun run
+// db:seed`) — importers elsewhere (e.g. tests) can still use the SEED_*
+// constants above as plain data without triggering any DB access.
+if (import.meta.main) {
+	const { default: mf } = await import("miniflare");
+	const { userInfo } = await import("node:os");
+	const path = await import("node:path");
+
+	const DATABASE_ID =
+		process.env.MINIFLARE_D1_DATABASE_ID ?? `momkiddis-database-${userInfo().username}`;
+	const WORKSPACE_ROOT = new URL("../../../", import.meta.url).pathname;
+	const PERSIST_ROOT = path.join(WORKSPACE_ROOT, ".alchemy", "miniflare", "v3");
+
+	console.log("🚀 Connecting to local Miniflare D1...");
+	const miniflare = new mf.Miniflare({
+		script: "",
+		modules: true,
+		defaultPersistRoot: PERSIST_ROOT,
+		d1Persist: true,
+		d1Databases: { DB: DATABASE_ID },
+	});
+
+	await miniflare.ready;
+	const db = await miniflare.getD1Database("DB");
+	const session = db.withSession("first-primary");
+
+	console.log(`🌱 Seeding ${SEED_TESTIMONIALS.length} testimonials...`);
+	await session.batch(
+		SEED_TESTIMONIALS.map((t) =>
+			session
+				.prepare(
+					`INSERT OR REPLACE INTO testimonials
+					 (id, author_name, author_role, author_image, program_slug, content, rating, is_published, is_featured)
+					 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+				)
+				.bind(
+					t.id,
+					t.authorName,
+					t.authorRole,
+					t.authorImage,
+					t.programSlug,
+					t.content,
+					t.rating,
+					t.isPublished ? 1 : 0,
+					t.isFeatured ? 1 : 0,
+				),
+		),
+	);
+
+	console.log(`🌱 Seeding ${SEED_ALUMNI.length} alumni...`);
+	await session.batch(
+		SEED_ALUMNI.map((a) =>
+			session
+				.prepare(
+					`INSERT OR REPLACE INTO alumni
+					 (id, name, photo, batch_label, program_slug, certificate_url, short_story, is_published, is_featured, graduated_at)
+					 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+				)
+				.bind(
+					a.id,
+					a.name,
+					a.photo,
+					a.batchLabel,
+					a.programSlug,
+					a.certificateUrl,
+					a.shortStory,
+					a.isPublished ? 1 : 0,
+					a.isFeatured ? 1 : 0,
+					a.graduatedAt,
+				),
+		),
+	);
+
+	console.log(`🌱 Seeding ${SEED_GALLERY_ITEMS.length} gallery items...`);
+	await session.batch(
+		SEED_GALLERY_ITEMS.map((g) =>
+			session
+				.prepare(
+					`INSERT OR REPLACE INTO gallery_items
+					 (id, image_url, caption, event, taken_at, is_published)
+					 VALUES (?, ?, ?, ?, ?, ?)`,
+				)
+				.bind(g.id, g.imageUrl, g.caption, g.event, g.takenAt, g.isPublished ? 1 : 0),
+		),
+	);
+
+	await miniflare.dispose();
+	console.log("✅ Seed complete.");
+}

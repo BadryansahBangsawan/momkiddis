@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, check } from "drizzle-orm/sqlite-core";
 
 export const resources = sqliteTable(
 	"resources",
@@ -23,5 +23,14 @@ export const resources = sqliteTable(
 	},
 	(table) => [
 		index("resources_category_idx").on(table.category),
+		index("resources_published_idx").on(table.isPublished),
+		check(
+			"resources_category_check",
+			sql`${table.category} IS NULL OR ${table.category} IN ('worksheet', 'flashcard', 'template', 'tips')`,
+		),
+		check(
+			"resources_file_type_check",
+			sql`${table.fileType} IS NULL OR ${table.fileType} IN ('pdf', 'image', 'zip')`,
+		),
 	],
 );

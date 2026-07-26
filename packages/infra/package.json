@@ -2,6 +2,11 @@
   "name": "@momkiddis/infra",
   "private": true,
   "type": "module",
+  "exports": {
+    "./alchemy.run": {
+      "default": "./alchemy.run.ts"
+    }
+  },
   "scripts": {
     "dev": "alchemy dev",
     "deploy": "alchemy deploy",

@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, check } from "drizzle-orm/sqlite-core";
 
 export const contactSubmissions = sqliteTable(
 	"contact_submissions",
@@ -25,5 +25,9 @@ export const contactSubmissions = sqliteTable(
 	(table) => [
 		index("contact_status_idx").on(table.status),
 		index("contact_created_idx").on(table.createdAt),
+		check(
+			"contact_status_check",
+			sql`${table.status} IN ('unread', 'read', 'replied', 'archived')`,
+		),
 	],
 );
