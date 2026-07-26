@@ -15,7 +15,7 @@ const runtimeEnv = typeof process === "undefined" ? {} : process.env;
 // returning `undefined` used to fail deep inside whatever consumed it
 // (e.g. drizzle(env.DB, ...)) with a confusing low-level error instead of a
 // clear one.
-const REQUIRED_STRING_KEYS = ["CORS_ORIGIN", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL"] as const;
+const REQUIRED_STRING_KEYS = ["CORS_ORIGIN", "BETTER_AUTH_SECRET", "BETTER_AUTH_URL", "NVIDIA_API_KEY"] as const;
 
 export const env = new Proxy({} as Env, {
   get(_target, prop) {

@@ -14,6 +14,7 @@ import type { orpc } from "@/utils/orpc";
 
 import SiteHeader from "../components/site-header";
 import SiteFooter from "../components/site-footer";
+import { ChatWidget } from "../components/chat/chat-widget";
 
 import appCss from "../index.css?url";
 export interface RouterAppContext {
@@ -113,6 +114,7 @@ function RootDocument() {
 					</main>
 					<SiteFooter />
 				</div>
+				<ChatWidget />
 				<Toaster richColors />
 				{import.meta.env.DEV && (
 					<>

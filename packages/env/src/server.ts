@@ -15,6 +15,7 @@ const REQUIRED_KEYS = [
   "CORS_ORIGIN",
   "BETTER_AUTH_SECRET",
   "BETTER_AUTH_URL",
+  "NVIDIA_API_KEY",
 ] as const;
 
 export const env = new Proxy(workerEnv, {
