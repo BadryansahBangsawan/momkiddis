@@ -75,7 +75,7 @@ function ContactsPage() {
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.contacts.list.queryOptions({ input: { page: 1, perPage: 20 } }).queryKey,
+			queryKey: orpc.admin.contacts.list.key(),
 		});
 
 	const statusMutation = useMutation({

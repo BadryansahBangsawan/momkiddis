@@ -19,6 +19,11 @@ export const Route = createFileRoute("/admin")({
 			throw redirect({ to: "/" });
 		}
 
+		const isActive = (session.user as { isActive?: boolean })?.isActive;
+		if (isActive === false) {
+			throw redirect({ to: "/admin/login" });
+		}
+
 		const isSuperAdmin = role === "superadmin";
 		return { session, role: role as "admin" | "superadmin", isSuperAdmin };
 	},

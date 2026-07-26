@@ -10,7 +10,8 @@ export const Route = createFileRoute("/admin/login")({
 	beforeLoad: async () => {
 		const { data: session } = await authClient.getSession();
 		const role = (session?.user as { role?: string } | null | undefined)?.role;
-		if (session && (role === "admin" || role === "superadmin")) {
+		const isActive = (session?.user as { isActive?: boolean } | null | undefined)?.isActive;
+		if (session && (role === "admin" || role === "superadmin") && isActive !== false) {
 			throw redirect({ to: "/admin" });
 		}
 	},
@@ -46,6 +47,13 @@ function AdminLoginPage() {
 			if (role !== "admin" && role !== "superadmin") {
 				await authClient.signOut();
 				setError("Akun ini tidak memiliki akses admin");
+				return;
+			}
+
+			const isActive = (session?.user as { isActive?: boolean } | null | undefined)?.isActive;
+			if (isActive === false) {
+				await authClient.signOut();
+				setError("Akun ini telah dinonaktifkan");
 				return;
 			}
 

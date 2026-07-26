@@ -53,8 +53,9 @@ function programToContext(program: (typeof PROGRAM_LIST)[number]): string {
 		.join("\n");
 }
 
-export function buildSystemPrompt(): string {
+export function buildSystemPrompt(waNumber = siteConfig.wa.number): string {
 	const programContext = PROGRAM_LIST.map(programToContext).join("\n\n");
+	const waDisplay = `+${waNumber.replace(/^62/, "62")}`;
 
 	return `Kamu adalah asisten virtual ${siteConfig.name}, lembaga pendidikan untuk ibu, anak, remaja, profesional, serta persiapan English test.
 
@@ -63,7 +64,7 @@ IDENTITAS:
 - Gaya bicara: ramah, hangat, suportif, dan ringkas
 - Bahasa: selalu Bahasa Indonesia yang natural
 - Tagline: ${siteConfig.tagline}
-- WhatsApp Admin: +62822-3025-1104
+- WhatsApp Admin: ${waDisplay}
 - Instagram: ${siteConfig.social.instagram}
 - Jam Operasional: ${siteConfig.operationalHours}
 
@@ -109,5 +110,5 @@ ATURAN:
 5. Untuk IELTS dan TOEFL, selalu gunakan slug "ielts-toefl-class" sebagai satu program gabungan.
 6. Jika kebutuhan belum jelas, tanyakan apakah program ditujukan untuk ibu, anak, remaja, profesional, atau persiapan English test.
 7. Topik di luar program Momkiddis dijawab singkat lalu diarahkan kembali ke kebutuhan belajar.
-8. Jika informasi tidak tersedia, arahkan ke WhatsApp +62822-3025-1104.`;
+8. Jika informasi tidak tersedia, arahkan ke WhatsApp ${waDisplay}.`;
 }

@@ -20,7 +20,7 @@ import { Skeleton } from "@momkiddis/ui/components/skeleton";
 import { ChevronLeft, ChevronRight, Download, Plus, Search } from "lucide-react";
 import { AdminEmptyState } from "./admin-empty-state";
 import { AdminBulkToolbar } from "./admin-bulk-toolbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface FilterConfig {
 	key: string;
@@ -83,6 +83,10 @@ export function AdminDataTable<T extends { id: string }>({
 	onPageChange,
 }: AdminDataTableProps<T>) {
 	const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+	useEffect(() => {
+		setRowSelection({});
+	}, [data]);
 
 	const selectionColumn: ColumnDef<T> = {
 		id: "select",

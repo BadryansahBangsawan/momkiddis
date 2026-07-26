@@ -91,7 +91,7 @@ function GalleryPage() {
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.gallery.list.queryOptions({ input: { page: 1, perPage: 20 } }).queryKey,
+			queryKey: orpc.admin.gallery.list.key(),
 		});
 
 	const createMutation = useMutation({

@@ -59,7 +59,7 @@ function ResourcesPage() {
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.resources.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
+			queryKey: orpc.admin.resources.list.key(),
 		});
 
 	const toggleMutation = useMutation({

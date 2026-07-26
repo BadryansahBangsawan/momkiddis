@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { orpc } from "@/utils/orpc";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@momkiddis/ui/components/select";
@@ -20,13 +20,17 @@ const ACTION_OPTIONS = [
 	{ label: "Create", value: "create" },
 	{ label: "Update", value: "update" },
 	{ label: "Delete", value: "delete" },
+	{ label: "Publish", value: "publish" },
+	{ label: "Unpublish", value: "unpublish" },
+	{ label: "Bulk Delete", value: "bulk_delete" },
+	{ label: "Role Change", value: "role_change" },
 ];
 
 const ENTITY_OPTIONS = [
 	{ label: "Semua Entitas", value: "" },
 	{ label: "Testimoni", value: "testimonial" },
 	{ label: "Alumni", value: "alumni" },
-	{ label: "Galeri", value: "gallery" },
+	{ label: "Galeri", value: "gallery_item" },
 	{ label: "Event", value: "event" },
 	{ label: "Resource", value: "resource" },
 	{ label: "Promo", value: "promo" },
@@ -109,6 +113,7 @@ function ActivityPage() {
 	const [entityType, setEntityType] = useState("");
 	const [days, setDays] = useState("7");
 	const [page, setPage] = useState(1);
+	const [allItems, setAllItems] = useState<ActivityLog[]>([]);
 	const perPage = 20;
 
 	const query = useQuery(
@@ -123,9 +128,21 @@ function ActivityPage() {
 		}),
 	);
 
-	const items = (query.data as { items: ActivityLog[]; page: number; perPage: number } | undefined)?.items ?? [];
-	const hasMore = items.length === perPage;
-	const groups = groupByDate(items);
+	const latestData = query.data as { items: ActivityLog[]; page: number; perPage: number } | undefined;
+
+	// Accumulate items across pages instead of replacing them when "Muat Lebih Banyak" is clicked.
+	useEffect(() => {
+		if (!latestData) return;
+		setAllItems((prev) => (latestData.page === 1 ? latestData.items : [...prev, ...latestData.items]));
+	}, [latestData]);
+
+	// Reset the accumulated list whenever filters change (a fresh page-1 fetch is on its way).
+	useEffect(() => {
+		setAllItems([]);
+	}, [action, entityType, days]);
+
+	const hasMore = (latestData?.items.length ?? 0) === perPage;
+	const groups = groupByDate(allItems);
 
 	function resetFilters() {
 		setAction("");
@@ -194,7 +211,7 @@ function ActivityPage() {
 						</div>
 					))}
 				</div>
-			) : items.length === 0 ? (
+			) : allItems.length === 0 ? (
 				<div className="flex flex-col items-center justify-center py-16 text-center">
 					<Clock className="mb-3 h-10 w-10 text-muted-foreground/40" />
 					<p className="text-sm font-medium">Tidak ada aktivitas</p>

@@ -51,7 +51,7 @@ function EventsPage() {
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.events.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
+			queryKey: orpc.admin.events.list.key(),
 		});
 
 	const toggleMutation = useMutation({

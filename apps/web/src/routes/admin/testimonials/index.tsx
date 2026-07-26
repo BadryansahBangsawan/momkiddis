@@ -66,7 +66,7 @@ function TestimonialsPage() {
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.testimonials.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
+			queryKey: orpc.admin.testimonials.list.key(),
 		});
 
 	const toggleMutation = useMutation({

@@ -73,7 +73,7 @@ function PromosPage() {
 
 	const invalidate = () =>
 		queryClient.invalidateQueries({
-			queryKey: orpc.admin.promos.list.queryOptions({ input: { page: 1, perPage: 10 } }).queryKey,
+			queryKey: orpc.admin.promos.list.key(),
 		});
 
 	const toggleMutation = useMutation({
