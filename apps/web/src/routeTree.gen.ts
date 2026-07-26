@@ -32,7 +32,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIndexRouteImport } from './routes/programs/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ProgramsSlugRouteImport } from './routes/programs/$slug'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminSiteConfigRouteImport } from './routes/admin/site-config'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
@@ -168,11 +167,6 @@ const ProgramsSlugRoute = ProgramsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ProgramsRouteRoute,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -295,7 +289,6 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/site-config': typeof AdminSiteConfigRoute
   '/admin/users': typeof AdminUsersRoute
-  '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
@@ -338,7 +331,6 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/site-config': typeof AdminSiteConfigRoute
   '/admin/users': typeof AdminUsersRoute
-  '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/programs': typeof ProgramsIndexRoute
@@ -384,7 +376,6 @@ export interface FileRoutesById {
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/site-config': typeof AdminSiteConfigRoute
   '/admin/users': typeof AdminUsersRoute
-  '/api/chat': typeof ApiChatRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/programs/': typeof ProgramsIndexRoute
@@ -431,7 +422,6 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/site-config'
     | '/admin/users'
-    | '/api/chat'
     | '/programs/$slug'
     | '/admin/'
     | '/programs/'
@@ -474,7 +464,6 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/site-config'
     | '/admin/users'
-    | '/api/chat'
     | '/programs/$slug'
     | '/admin'
     | '/programs'
@@ -519,7 +508,6 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/site-config'
     | '/admin/users'
-    | '/api/chat'
     | '/programs/$slug'
     | '/admin/'
     | '/programs/'
@@ -560,7 +548,6 @@ export interface RootRouteChildren {
   SertifikasiRoute: typeof SertifikasiRoute
   SyaratKetentuanRoute: typeof SyaratKetentuanRoute
   TestimoniRoute: typeof TestimoniRoute
-  ApiChatRoute: typeof ApiChatRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
@@ -727,13 +714,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/programs/$slug'
       preLoaderRoute: typeof ProgramsSlugRouteImport
       parentRoute: typeof ProgramsRouteRoute
-    }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
       id: '/admin/users'
@@ -952,7 +932,6 @@ const rootRouteChildren: RootRouteChildren = {
   SertifikasiRoute: SertifikasiRoute,
   SyaratKetentuanRoute: SyaratKetentuanRoute,
   TestimoniRoute: TestimoniRoute,
-  ApiChatRoute: ApiChatRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
 }
