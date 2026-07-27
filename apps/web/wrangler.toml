@@ -24,7 +24,7 @@ run_worker_first = ["/*", "!/assets/*", "!/gallery-foto/*", "!/program/*", "!/ro
 CORS_ORIGIN = "https://momkiddis.com"
 BETTER_AUTH_URL = "https://momkiddis.com"
 
-# NVIDIA_API_KEY dan BETTER_AUTH_SECRET sudah di-set sebagai Worker Secrets
+# AI_API_KEY dan BETTER_AUTH_SECRET sudah di-set sebagai Worker Secrets
 
 [[d1_databases]]
 binding = "DB"
