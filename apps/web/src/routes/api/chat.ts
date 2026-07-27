@@ -4,7 +4,7 @@ import { env } from "@momkiddis/env/server";
 import { z } from "zod";
 
 const API_URL = "https://9router.badry.engineer/v1/chat/completions";
-const MODEL = "bot";
+const MODEL = "momkiddis";
 const MAX_BODY_BYTES = 16 * 1024;
 const CHAT_TIMEOUT_MS = 30_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
