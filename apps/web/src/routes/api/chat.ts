@@ -3,7 +3,8 @@ import { buildSystemPrompt, chatToolsOpenAI } from "@/lib/chat-system-prompt";
 import { env } from "@momkiddis/env/server";
 import { z } from "zod";
 
-const NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
+const API_URL = "https://9router.badry.engineer/v1/chat/completions";
+const MODEL = "bot";
 const MAX_BODY_BYTES = 16 * 1024;
 const CHAT_TIMEOUT_MS = 30_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -61,7 +62,7 @@ async function handleChat({ request }: { request: Request }) {
 		return new Response("Invalid chat payload", { status: 400 });
 	}
 
-	const apiKey = (env.NVIDIA_API_KEY as string | undefined) ?? process.env.NVIDIA_API_KEY;
+	const apiKey = (env.AI_API_KEY as string | undefined) ?? process.env.AI_API_KEY;
 	if (!apiKey) {
 		return new Response("AI service not configured", { status: 503 });
 	}
@@ -70,7 +71,7 @@ async function handleChat({ request }: { request: Request }) {
 	const stream = new ReadableStream({
 		async start(controller) {
 			try {
-				const res = await fetch(NVIDIA_URL, {
+				const res = await fetch(API_URL, {
 					method: "POST",
 					signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
 					headers: {
@@ -78,7 +79,7 @@ async function handleChat({ request }: { request: Request }) {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						model: "meta/llama-3.1-8b-instruct",
+						model: MODEL,
 						max_tokens: 1024,
 						stream: true,
 						messages: [
@@ -95,7 +96,7 @@ async function handleChat({ request }: { request: Request }) {
 
 				if (!res.ok) {
 					const errText = await res.text();
-					console.error("[chat] NVIDIA error:", res.status, errText);
+					console.error("[chat] API error:", res.status, errText);
 					throw new Error("AI service temporarily unavailable");
 				}
 
@@ -119,7 +120,6 @@ async function handleChat({ request }: { request: Request }) {
 						if (!line.startsWith("data: ")) continue;
 						const data = line.slice(6).trim();
 						if (data === "[DONE]") {
-							// Flush any pending tool call
 							if (currentToolName && currentToolJson) {
 								try {
 									const parsed = JSON.parse(currentToolJson);
@@ -145,7 +145,6 @@ async function handleChat({ request }: { request: Request }) {
 							const delta = chunk.choices?.[0]?.delta;
 							if (!delta) continue;
 
-							// Text content
 							if (delta.content) {
 								controller.enqueue(
 									encoder.encode(
@@ -154,11 +153,9 @@ async function handleChat({ request }: { request: Request }) {
 								);
 							}
 
-							// Tool calls
 							if (delta.tool_calls) {
 								for (const tc of delta.tool_calls) {
 									if (tc.function?.name) {
-										// New tool call starting — flush previous if any
 										if (currentToolName && currentToolJson) {
 											try {
 												const parsed = JSON.parse(currentToolJson);
@@ -179,7 +176,6 @@ async function handleChat({ request }: { request: Request }) {
 								}
 							}
 
-							// Finish reason
 							if (chunk.choices?.[0]?.finish_reason === "tool_calls") {
 								if (currentToolName && currentToolJson) {
 									try {
