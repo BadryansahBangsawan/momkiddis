@@ -22,6 +22,16 @@ First, install the dependencies:
 bun install
 ```
 
+## Environment Variables
+
+Copy the example env file before running locally:
+
+```bash
+cp .env.example .env
+```
+
+Set at minimum `BETTER_AUTH_SECRET` (any random string) and your Cloudflare account credentials for Alchemy to provision D1. The `DATABASE_URL` is only used by Drizzle CLI tooling, not the runtime.
+
 ## Database Setup
 
 This project uses Cloudflare D1 (SQLite) with Drizzle ORM.
