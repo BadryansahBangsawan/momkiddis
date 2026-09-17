@@ -109,3 +109,10 @@ momkiddis/
 - `bun run dev:web`: Start only the web application
 - `bun run check-types`: Check TypeScript types across all apps
 - `bun run db:generate`: Generate database client/types
+
+## Contributing
+
+1. Fork the repo and create a branch from `main`.
+2. Run `bun install` to install all workspace dependencies.
+3. Make your changes and run `bun run check-types` to verify TypeScript is happy.
+4. Open a pull request describing what you changed and why.
