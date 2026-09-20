@@ -112,6 +112,7 @@ momkiddis/
 - `bun run check-types`: Check TypeScript types across all apps
 - `bun run db:generate`: Generate database client/types
 - `bun run db:seed`: Seed local/dev database fixtures via the `@momkiddis/db` workspace package
+- `bun run deploy`: Publish via Alchemy; run `bun run check-types` first so Cloudflare deploys do not fail on type errors that `dev` can hide
 
 ## Contributing
 
